@@ -1,4 +1,7 @@
+//  React or core framework imports
 import { useState } from 'react';
+
+// Components
 import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';

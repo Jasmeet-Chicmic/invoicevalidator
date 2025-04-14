@@ -1,17 +1,18 @@
 // hooks/useNotification.ts
-import { useSnackbar, VariantType } from 'notistack';
+import { toast, ToastOptions, TypeOptions } from 'react-toastify';
 import { firstLetterUpperCase } from '../Shared/functions';
 
 type NotifyOptions = {
-  variant?: VariantType; // "default" | "error" | "success" | "warning" | "info"
+  type?: TypeOptions; // "info" | "success" | "warning" | "error" | "default"
+  options?: ToastOptions;
 };
 
 const useNotification = () => {
-  const { enqueueSnackbar } = useSnackbar();
-
-  const notify = (message: string, options?: NotifyOptions) => {
-    enqueueSnackbar(firstLetterUpperCase(message), {
-      variant: options?.variant || 'default',
+  const notify = (message: string, notifyOptions?: NotifyOptions) => {
+    const { type = 'default', options } = notifyOptions || {};
+    toast(firstLetterUpperCase(message), {
+      type,
+      ...options,
     });
   };
 

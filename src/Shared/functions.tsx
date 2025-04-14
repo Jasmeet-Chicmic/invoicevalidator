@@ -8,3 +8,6 @@ export const firstLetterUpperCase = (message: string) => {
   }
   return '';
 };
+
+export const isValidFileType = (newFile: File) =>
+  newFile.type.startsWith('image/') || newFile.type === 'application/pdf';

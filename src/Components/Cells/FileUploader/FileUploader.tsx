@@ -1,9 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+//  React or core framework imports
 import React, { useRef } from 'react';
-import './FileUploader.scss';
+// Components
 import useNotification from '../../../Hooks/useNotification';
 import { MESSAGES } from '../../../Shared/Constants';
+import { isValidFileType } from '../../../Shared/functions';
+// Styles
+import './FileUploader.scss';
 
 type Props = {
   onUpload: (file: File) => void;
@@ -23,12 +27,9 @@ const FileUploader: React.FC<Props> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const notify = useNotification();
 
-  const isValidFileType = (newFile: File) =>
-    newFile.type.startsWith('image/') || newFile.type === 'application/pdf';
-
   const handleFile = (selectedFile: File) => {
     if (!isValidFileType(selectedFile)) {
-      notify(MESSAGES.NOTIFICATION.FILE_TYPE_NOT_ALLOWED, { variant: 'error' });
+      notify(MESSAGES.NOTIFICATION.FILE_TYPE_NOT_ALLOWED);
       return;
     }
 

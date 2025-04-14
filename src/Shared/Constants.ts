@@ -40,4 +40,8 @@ const MESSAGES = {
     MESSAGE: 'Click or drag and drop a PDF or image here',
   },
 };
-export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, MESSAGES };
+const SNACKBAR_CONFIG = {
+  MAX_SNACK: 3,
+  AUTOHIDE_DURATION: 3000,
+};
+export { SNACKBAR_CONFIG, ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, MESSAGES };

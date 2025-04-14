@@ -1,14 +1,15 @@
 import React from 'react';
 
-type Props = {
+type FilePreviewerProps = {
   fileUrl: string;
   file: File;
 };
 
-const FilePreviewer: React.FC<Props> = ({ fileUrl, file }) => {
+const FilePreviewer: React.FC<FilePreviewerProps> = ({ fileUrl, file }) => {
+  const isImage = file.type.startsWith('image/');
   return (
     <div>
-      {file.type.startsWith('image/') ? (
+      {isImage ? (
         <img
           src={fileUrl}
           alt="Preview"
