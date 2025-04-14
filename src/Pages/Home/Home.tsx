@@ -1,18 +1,59 @@
-import FileUploader from "../../Components/Cells/FileUploader"
+import { useState } from 'react';
+import FileUploader from '../../Components/Cells/FileUploader';
+import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
+import FilePreviewer from '../../Components/Atoms/FilePreviewer';
 
 
 const Home = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleUpload = (file: File) => {
+    setLoading(true);
+    setFile(file);
+
+    setTimeout(() => {
+      const simulatedUrl = URL.createObjectURL(file);
+      setFileUrl(simulatedUrl);
+      setLoading(false);
+    }, 2000);
+  };
+
+  const handleRemove = () => {
+    setFile(null);
+    setFileUrl(null);
+  };
+
+  const handleBack = () => {
+    handleRemove();
+  };
+
   return (
     <div>
-        <div>
-           <FileUploader onUpload={(file)=>{
-            console.log("on upload",file);
-            
-           }}></FileUploader>
-        </div>
-        <div> submit</div>
+      {!fileUrl ? (
+        <FileUploader
+          onUpload={handleUpload}
+          file={file}
+          fileUrl={fileUrl}
+          loading={loading}
+          onRemove={handleRemove}
+        />
+      ) : (
+        <PreviewWrapper
+          onBack={handleBack}
+          left={<FilePreviewer file={file!} fileUrl={fileUrl} />}
+          right={
+            <div>
+              <h3>Metadata</h3>
+              <input placeholder="Title" />
+              <input placeholder="Description" />
+            </div>
+          }
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
