@@ -29,7 +29,7 @@ function Home() {
   };
 
   return (
-    <div>
+    <div className="file-uploadbx">
       {!fileUrl ? (
         <FileUploader
           onUpload={handleUpload}
@@ -43,7 +43,7 @@ function Home() {
           onBack={handleBack}
           left={<FilePreviewer file={file!} fileUrl={fileUrl} />}
           right={
-            <div>
+            <div className="right-side">
               <h3>Metadata</h3>
               <input placeholder="Title" />
               <input placeholder="Description" />
