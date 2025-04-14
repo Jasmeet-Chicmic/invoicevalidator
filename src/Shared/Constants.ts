@@ -34,11 +34,10 @@ const ROUTES_CONFIG = {
 
 const MESSAGES = {
   NOTIFICATION: {
-    FILE_TYPE_NOT_ALLOWED: "File type not allowed",
-
+    FILE_TYPE_NOT_ALLOWED: 'File type not allowed',
   },
   FILE_UPLOADER: {
-    MESSAGE: "Click or drag and drop a PDF or image here"
-  }
-}
+    MESSAGE: 'Click or drag and drop a PDF or image here',
+  },
+};
 export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, MESSAGES };

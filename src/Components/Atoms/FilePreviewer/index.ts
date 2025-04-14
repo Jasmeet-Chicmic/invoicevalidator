@@ -1,1 +1,1 @@
-export { default } from "./FilePreviewer"
+export { default } from './FilePreviewer';

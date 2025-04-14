@@ -1,4 +1,3 @@
-
 import './PreviewWrapper.scss';
 
 type Props = {
@@ -10,7 +9,9 @@ type Props = {
 const PreviewWrapper: React.FC<Props> = ({ onBack, left, right }) => {
   return (
     <div className="two-pane-wrapper">
-      <button className="back-btn" onClick={onBack}>← Back</button>
+      <button type="button" className="back-btn" onClick={onBack}>
+        ← Back
+      </button>
       <div className="panes">
         <div className="left-pane">{left}</div>
         <div className="right-pane">{right}</div>

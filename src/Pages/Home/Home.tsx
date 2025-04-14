@@ -3,18 +3,17 @@ import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
 
-
-const Home = () => {
+function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleUpload = (file: File) => {
+  const handleUpload = (newFile: File) => {
     setLoading(true);
-    setFile(file);
+    setFile(newFile);
 
     setTimeout(() => {
-      const simulatedUrl = URL.createObjectURL(file);
+      const simulatedUrl = URL.createObjectURL(newFile);
       setFileUrl(simulatedUrl);
       setLoading(false);
     }, 2000);
@@ -54,6 +53,6 @@ const Home = () => {
       )}
     </div>
   );
-};
+}
 
 export default Home;

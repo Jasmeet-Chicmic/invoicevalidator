@@ -8,6 +8,7 @@ export default function LocaleSwitcher() {
     <div className="...">
       <div className="...">
         <select
+          title="Language"
           value={i18n.resolvedLanguage}
           onChange={(e) => i18n.changeLanguage(e.target.value)}
         >

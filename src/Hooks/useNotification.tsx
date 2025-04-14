@@ -10,8 +10,9 @@ const useNotification = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const notify = (message: string, options?: NotifyOptions) => {
-    
-    enqueueSnackbar(firstLetterUpperCase(message), { variant: options?.variant || 'default' });
+    enqueueSnackbar(firstLetterUpperCase(message), {
+      variant: options?.variant || 'default',
+    });
   };
 
   return notify;

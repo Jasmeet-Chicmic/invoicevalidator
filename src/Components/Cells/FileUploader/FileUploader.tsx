@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useRef } from 'react';
 import './FileUploader.scss';
 import useNotification from '../../../Hooks/useNotification';
@@ -16,13 +18,13 @@ const FileUploader: React.FC<Props> = ({
   fileUrl,
   file,
   loading,
-  onRemove
+  onRemove,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const notify = useNotification();
 
-  const isValidFileType = (file: File) =>
-    file.type.startsWith('image/') || file.type === 'application/pdf';
+  const isValidFileType = (newFile: File) =>
+    newFile.type.startsWith('image/') || newFile.type === 'application/pdf';
 
   const handleFile = (selectedFile: File) => {
     if (!isValidFileType(selectedFile)) {
@@ -54,30 +56,28 @@ const FileUploader: React.FC<Props> = ({
 
   return (
     <div className="file-uploader">
-      {loading ? (
+      {loading && (
         <div className="loader-box">
           <p>Uploading...</p>
           <div className="spinner" />
         </div>
-      ) : file && fileUrl ? (
+      )}
+      {!loading && file && fileUrl && (
         <div className="preview-box">
           {file.type.startsWith('image/') ? (
             <img src={fileUrl} alt="Preview" className="preview-image" />
           ) : (
             <div className="pdf-preview">
-              <iframe
-                src={fileUrl}
-                title="PDF Preview"
-                className="pdf-frame"
-              />
+              <iframe src={fileUrl} title="PDF Preview" className="pdf-frame" />
               <p>{file.name}</p>
             </div>
           )}
-          <button className="remove-btn" onClick={onRemove}>
+          <button type="button" className="remove-btn" onClick={onRemove}>
             Remove
           </button>
         </div>
-      ) : (
+      )}
+      {!loading && (!file || !fileUrl) && (
         <div
           className="dropzone"
           onClick={handleClick}
@@ -88,7 +88,6 @@ const FileUploader: React.FC<Props> = ({
           <span>📁</span>
         </div>
       )}
-
       <input
         type="file"
         accept=".pdf,image/*"
