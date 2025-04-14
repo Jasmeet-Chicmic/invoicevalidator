@@ -11,7 +11,7 @@ import './App.css';
 import ErrorFallback from './Components/CustomComponents/ErrorFallback';
 import './I18n/config';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../src/Assets/SCSS/main.scss";
+import './Assets/SCSS/main.scss';
 
 const baseName = import.meta.env.VITE_BASE_NAME;
 
