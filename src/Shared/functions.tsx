@@ -1,3 +1,5 @@
+import { ExtractedData } from '../Services/Api/Constants';
+
 // eslint-disable-next-line import/prefer-default-export
 export const firstLetterUpperCase = (message: string) => {
   if (message && message.length > 0) {
@@ -17,3 +19,8 @@ export const formatCamelCase = (text: string): string => {
     .replace(/([A-Z])/g, ' $1') // insert space before capital letters
     .replace(/^./, (str) => str.toUpperCase()); // capitalize the first letter
 };
+
+export const areAllFieldsApproved = (data: ExtractedData): boolean =>
+  Object.values(data).every((section) =>
+    Object.values(section).every((field) => field.approved)
+  );

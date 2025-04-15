@@ -1,31 +1,25 @@
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { formatCamelCase } from '../../../Shared/functions';
 import ExtractedField from '../../Atoms/ExtractedField';
 import FieldWrapper from '../../Cells/FieldWrapper';
 import useNotification from '../../../Hooks/useNotification';
-import { MESSAGES, ROUTES } from '../../../Shared/Constants';
+import { MESSAGES } from '../../../Shared/Constants';
+import { ExtractedData } from '../../../Services/Api/Constants';
 
-type Field = {
-  value: string | null;
-  confidenceScore: number;
-  approved: boolean;
+type ExtractedFieldsProps = {
+  setData: React.Dispatch<React.SetStateAction<ExtractedData | null>>;
+  data: ExtractedData | null;
+  oldStateRef: React.MutableRefObject<ExtractedData | null>;
 };
 
-type SectionData = {
-  [key: string]: Field;
-};
-
-type ExtractedData = {
-  [sectionKey: string]: SectionData;
-};
-
-const ExtractedFields = () => {
-  const [data, setData] = useState<ExtractedData | null>(null);
+const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
+  setData,
+  data,
+  oldStateRef,
+}) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const oldStateRef = useRef<ExtractedData | null>(null);
+
   const notify = useNotification();
-  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -77,10 +71,11 @@ const ExtractedFields = () => {
         },
       };
       setData(fetchedData);
+      // eslint-disable-next-line no-param-reassign
       oldStateRef.current = JSON.parse(JSON.stringify(fetchedData));
       setLoading(false);
     }, 1000);
-  }, []);
+  }, [oldStateRef, setData]);
 
   const handleChange = (
     sectionKey: string,
@@ -146,6 +141,10 @@ const ExtractedFields = () => {
         },
       }));
       if (oldStateRef.current) {
+        // eslint-disable-next-line no-param-reassign
+        oldStateRef.current[sectionKey][fieldKey].approved = value;
+
+        // eslint-disable-next-line no-param-reassign
         oldStateRef.current[sectionKey][fieldKey].value = newFieldValue;
       }
     } catch (error) {
@@ -153,51 +152,40 @@ const ExtractedFields = () => {
     }
   };
 
-  const handleSave = () => {
-    oldStateRef.current = JSON.parse(JSON.stringify(data));
-    notify(MESSAGES.NOTIFICATION.SAVED);
-    navigate(ROUTES.LISTING);
-  };
-
   if (loading || !data) return <div>Loading extracted fields...</div>;
 
   return (
-    <>
-      <div>
-        {Object.entries(data).map(([sectionKey, fields]) => (
-          <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
-            {Object.entries(fields).map(([fieldKey, fieldValue]) => {
-              const isApproved = fieldValue.approved;
-              const disableApprove = isApproved;
-              const buttonText = isApproved
-                ? MESSAGES.NOTIFICATION.APPROVED
-                : MESSAGES.NOTIFICATION.APPROVE;
+    <div>
+      {Object.entries(data).map(([sectionKey, fields]) => (
+        <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
+          {Object.entries(fields).map(([fieldKey, fieldValue]) => {
+            const isApproved = fieldValue.approved;
+            const disableApprove = isApproved;
+            const buttonText = isApproved
+              ? MESSAGES.NOTIFICATION.APPROVED
+              : MESSAGES.NOTIFICATION.APPROVE;
 
-              return (
-                <ExtractedField
-                  key={fieldKey}
-                  title={formatCamelCase(fieldKey)}
-                  placeholder={`Enter ${formatCamelCase(fieldKey)}`}
-                  value={fieldValue.value || ''}
-                  confidenceScore={fieldValue.confidenceScore}
-                  onChange={(e) =>
-                    handleChange(sectionKey, fieldKey, e.target.value)
-                  }
-                  onApproveClick={(value: boolean, newFieldValue) =>
-                    handleOnApprove(sectionKey, fieldKey, value, newFieldValue)
-                  }
-                  disableApprove={disableApprove}
-                  approveButtonText={buttonText}
-                />
-              );
-            })}
-          </FieldWrapper>
-        ))}
-      </div>
-      <button onClick={handleSave} type="button">
-        Save
-      </button>
-    </>
+            return (
+              <ExtractedField
+                key={fieldKey}
+                title={formatCamelCase(fieldKey)}
+                placeholder={`Enter ${formatCamelCase(fieldKey)}`}
+                value={fieldValue.value || ''}
+                confidenceScore={fieldValue.confidenceScore}
+                onChange={(e) =>
+                  handleChange(sectionKey, fieldKey, e.target.value)
+                }
+                onApproveClick={(value: boolean, newFieldValue) =>
+                  handleOnApprove(sectionKey, fieldKey, value, newFieldValue)
+                }
+                disableApprove={disableApprove}
+                approveButtonText={buttonText}
+              />
+            );
+          })}
+        </FieldWrapper>
+      ))}
+    </div>
   );
 };
 

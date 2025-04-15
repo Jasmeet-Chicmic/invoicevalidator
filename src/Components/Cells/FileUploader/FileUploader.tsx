@@ -9,7 +9,7 @@ import { isValidFileType } from '../../../Shared/functions';
 // Styles
 import './FileUploader.scss';
 
-type Props = {
+type FileUploaderProps = {
   onUpload: (file: File) => void;
   fileUrl: string | null;
   file: File | null;
@@ -17,7 +17,7 @@ type Props = {
   onRemove: () => void;
 };
 
-const FileUploader: React.FC<Props> = ({
+const FileUploader: React.FC<FileUploaderProps> = ({
   onUpload,
   fileUrl,
   file,

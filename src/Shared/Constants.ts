@@ -64,8 +64,14 @@ const MODAL_MESSAGES = {
   CANCLE_INVOICE_CONFIRMATION: 'Are you sure you want to cancel this invoice?',
 };
 
+const BUTTON_TEXT = {
+  SAVE: 'Save',
+  DRAFT: 'Draft',
+};
+
 export {
   SNACKBAR_CONFIG,
+  BUTTON_TEXT,
   ROUTES,
   WILDCARD_ROUTES,
   ROUTES_CONFIG,

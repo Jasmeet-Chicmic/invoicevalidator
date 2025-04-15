@@ -1,24 +1,43 @@
 //  React or core framework imports
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Components
 import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
 import { useFileUploadMutation } from '../../Services/Api/module/fileApi';
-import { API_BASE_URL, FileUploadResponse } from '../../Services/Api/Constants';
+import {
+  API_BASE_URL,
+  ExtractedData,
+  FileUploadResponse,
+} from '../../Services/Api/Constants';
 import ExtractedFields from '../../Components/Molecules/ExtractedFields';
 import CommonModal from '../../Components/Molecules/CommonModal';
 import useNotification from '../../Hooks/useNotification';
-import { MESSAGES, MODAL_MESSAGES } from '../../Shared/Constants';
+
+// constants
+import { BUTTON_TEXT, MESSAGES, MODAL_MESSAGES } from '../../Shared/Constants';
+import { areAllFieldsApproved } from '../../Shared/functions';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitBtnText, setSubmitBtnText] = useState(BUTTON_TEXT.DRAFT);
+  const [extractedData, setExtractedData] = useState<ExtractedData | null>(
+    null
+  );
+  const oldStateRef = useRef<ExtractedData | null>(null);
   const [uploadFile] = useFileUploadMutation();
   const notify = useNotification();
+  useEffect(() => {
+    if (extractedData && areAllFieldsApproved(extractedData)) {
+      setSubmitBtnText(BUTTON_TEXT.SAVE);
+    } else {
+      setSubmitBtnText(BUTTON_TEXT.DRAFT);
+    }
+  }, [extractedData]);
   const handleUpload = async (newFile: File) => {
     setLoading(true);
     setFile(newFile);
@@ -45,6 +64,11 @@ function Home() {
   const handleBack = () => {
     setConfirmationModal(true);
   };
+  const handleSave = () => {
+    oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
+    notify(MESSAGES.NOTIFICATION.SAVED);
+    // navigate(ROUTES.LISTING);
+  };
 
   return (
     <div className="file-uploadbx">
@@ -57,16 +81,27 @@ function Home() {
           onRemove={handleRemove}
         />
       ) : (
-        <PreviewWrapper
-          onBack={handleBack}
-          left={
-            <FilePreviewer
-              isImage={file!.type.startsWith('image/')}
-              fileUrl={fileUrl}
-            />
-          }
-          right={<ExtractedFields />}
-        />
+        <>
+          <PreviewWrapper
+            onBack={handleBack}
+            left={
+              <FilePreviewer
+                isImage={file!.type.startsWith('image/')}
+                fileUrl={fileUrl}
+              />
+            }
+            right={
+              <ExtractedFields
+                data={extractedData}
+                setData={setExtractedData}
+                oldStateRef={oldStateRef}
+              />
+            }
+          />
+          <button onClick={handleSave} type="button">
+            {submitBtnText}
+          </button>
+        </>
       )}
       <CommonModal
         isOpen={confirmationModal}

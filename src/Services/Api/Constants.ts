@@ -23,3 +23,17 @@ export interface FileUploadResponse {
 export interface OnApproveRequest {
   [key: string]: string;
 }
+
+type Field = {
+  value: string | null;
+  confidenceScore: number;
+  approved: boolean;
+};
+
+type SectionData = {
+  [key: string]: Field;
+};
+
+export type ExtractedData = {
+  [sectionKey: string]: SectionData;
+};
