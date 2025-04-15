@@ -5,21 +5,19 @@ import './PublicLayout.scss';
 
 function PublicLayout({ children }: AppLayoutProps): ReactNode {
   return (
-    <>
-      <div className="wrapper">
+    <main className="PublicLayout">
         <div className="header">
           <Navbar />
         </div>
-      </div>
 
       <div className="content">
         <div className="upload-page">
-          <div className="upload-box">{children}</div>
+         {children}
         </div>
       </div>
 
       {/* <Footer /> */}
-    </>
+    </main>
   );
 }
 

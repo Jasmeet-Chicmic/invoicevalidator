@@ -27,7 +27,7 @@ const ExtractedFields = () => {
   };
 
   return (
-    <div>
+    <>
       {Object.entries(data).map(([sectionKey, fields]) => (
         <FieldWrapper key={sectionKey} title={sectionKey}>
           {Object.entries(fields).map(([fieldKey, fieldValue]) => (
@@ -42,7 +42,7 @@ const ExtractedFields = () => {
           ))}
         </FieldWrapper>
       ))}
-    </div>
+    </>
   );
 };
 

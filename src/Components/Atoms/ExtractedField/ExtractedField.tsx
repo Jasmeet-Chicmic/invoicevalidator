@@ -31,7 +31,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
         onChange={onChange}
         className="extracted-field__input"
       />
-      <div>{confidenceScore}</div>
+      <span>{confidenceScore}</span>
     </div>
   );
 };
