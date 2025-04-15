@@ -1,0 +1,18 @@
+.field-wrapper {
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background-color: #fff;
+  
+    &__title {
+      margin-bottom: 12px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  
+    &__content {
+      // Content styling (optional)
+    }
+  }
+  

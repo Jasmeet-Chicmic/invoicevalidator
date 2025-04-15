@@ -13,3 +13,7 @@ export const HTTPS_METHODS = {
 export interface FileUploadRequest {
   file: FormData;
 }
+export interface FileUploadResponse {
+  message: string;
+  file_path: string;
+}

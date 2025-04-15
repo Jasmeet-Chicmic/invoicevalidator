@@ -6,6 +6,8 @@ import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
 import { useFileUploadMutation } from '../../Services/Api/module/fileApi';
+import { API_BASE_URL, FileUploadResponse } from '../../Services/Api/Constants';
+import ExtractedFields from '../../Components/Molecules/ExtractedFields';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -14,22 +16,18 @@ function Home() {
   const [uploadFile] = useFileUploadMutation();
 
   const handleUpload = async (newFile: File) => {
+    setLoading(true);
+    setFile(newFile);
     const formData = new FormData();
     try {
       formData.append('file', newFile);
-      const response = await uploadFile(formData).unwrap();
-      console.log('response', response);
+      const fileUploadResponse: FileUploadResponse =
+        await uploadFile(formData).unwrap();
+      setFileUrl(API_BASE_URL + fileUploadResponse.file_path);
+      setLoading(false);
     } catch (error) {
       console.log('Error uploading file', error);
     }
-    setLoading(true);
-    setFile(newFile);
-
-    setTimeout(() => {
-      const simulatedUrl = URL.createObjectURL(newFile);
-      setFileUrl(simulatedUrl);
-      setLoading(false);
-    }, 2000);
   };
 
   const handleRemove = () => {
@@ -55,13 +53,7 @@ function Home() {
         <PreviewWrapper
           onBack={handleBack}
           left={<FilePreviewer file={file!} fileUrl={fileUrl} />}
-          right={
-            <div className="right-side">
-              <h3>Metadata</h3>
-              <input placeholder="Title" />
-              <input placeholder="Description" />
-            </div>
-          }
+          right={<ExtractedFields />}
         />
       )}
     </div>
