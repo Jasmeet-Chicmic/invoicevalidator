@@ -8,13 +8,17 @@ import FilePreviewer from '../../Components/Atoms/FilePreviewer';
 import { useFileUploadMutation } from '../../Services/Api/module/fileApi';
 import { API_BASE_URL, FileUploadResponse } from '../../Services/Api/Constants';
 import ExtractedFields from '../../Components/Molecules/ExtractedFields';
+import CommonModal from '../../Components/Molecules/CommonModal';
+import useNotification from '../../Hooks/useNotification';
+import { MESSAGES } from '../../Shared/Constants';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [confirmationModal, setConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [uploadFile] = useFileUploadMutation();
-
+  const notify = useNotification();
   const handleUpload = async (newFile: File) => {
     setLoading(true);
     setFile(newFile);
@@ -26,6 +30,10 @@ function Home() {
       setFileUrl(API_BASE_URL + fileUploadResponse.file_path);
       setLoading(false);
     } catch (error) {
+      notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
+      setFile(null);
+      setFileUrl(null);
+      setLoading(false);
       console.log('Error uploading file', error);
     }
   };
@@ -36,7 +44,7 @@ function Home() {
   };
 
   const handleBack = () => {
-    handleRemove();
+    setConfirmationModal(true);
   };
 
   return (
@@ -52,10 +60,26 @@ function Home() {
       ) : (
         <PreviewWrapper
           onBack={handleBack}
-          left={<FilePreviewer file={file!} fileUrl={fileUrl} />}
+          left={
+            <FilePreviewer
+              isImage={file!.type.startsWith('image/')}
+              fileUrl={fileUrl}
+            />
+          }
           right={<ExtractedFields />}
         />
       )}
+      <CommonModal
+        isOpen={confirmationModal}
+        onRequestClose={() => setConfirmationModal(false)}
+        onOk={() => {
+          handleRemove();
+          setConfirmationModal(false);
+        }}
+        message="Are you sure you want to continue?"
+        okText="Yes"
+        closeText="No"
+      />
     </div>
   );
 }

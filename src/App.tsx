@@ -6,6 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
+import Modal from 'react-modal';
 import { store, persistor } from './Store';
 import RootRouter from './Routes/RootRouter';
 import ErrorFallback from './Components/CustomComponents/ErrorFallback';
@@ -20,7 +21,7 @@ import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 const baseName = import.meta.env.VITE_BASE_NAME;
-
+Modal.setAppElement('#root');
 function App() {
   // const [count, setCount] = useState<number>(0);
   return (

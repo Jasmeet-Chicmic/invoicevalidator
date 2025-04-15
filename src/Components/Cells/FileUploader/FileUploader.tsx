@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 //  React or core framework imports
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 // Components
 import useNotification from '../../../Hooks/useNotification';
 import { MESSAGES } from '../../../Shared/Constants';
@@ -55,6 +55,10 @@ const FileUploader: React.FC<Props> = ({
     inputRef.current?.click();
   };
 
+  const isDropzone = useMemo(
+    () => !loading && (!file || !fileUrl),
+    [loading, file, fileUrl]
+  );
   return (
     <div className="file-uploader">
       {loading && (
@@ -78,7 +82,7 @@ const FileUploader: React.FC<Props> = ({
           </button>
         </div>
       )}
-      {!loading && (!file || !fileUrl) && (
+      {isDropzone && (
         <div
           className="dropzone"
           onClick={handleClick}

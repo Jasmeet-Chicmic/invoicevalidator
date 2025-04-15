@@ -37,6 +37,7 @@ const MESSAGES = {
     FILE_TYPE_NOT_ALLOWED: 'File type not allowed',
     SOMETHING_WENT_WRONG: 'Something went wrong',
     APPROVED: 'Approved',
+    APPROVE: 'Approve',
     SAVED: 'Saved',
   },
   FILE_UPLOADER: {

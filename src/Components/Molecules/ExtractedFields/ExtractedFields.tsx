@@ -153,40 +153,44 @@ const ExtractedFields = () => {
 
   const handleSave = () => {
     oldStateRef.current = JSON.parse(JSON.stringify(data));
-    notify(MESSAGES.NOTIFICATION.SAVED || 'Changes saved successfully!');
+    notify(MESSAGES.NOTIFICATION.SAVED);
   };
 
   if (loading || !data) return <div>Loading extracted fields...</div>;
 
   return (
     <>
-      {Object.entries(data).map(([sectionKey, fields]) => (
-        <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
-          {Object.entries(fields).map(([fieldKey, fieldValue]) => {
-            const isApproved = fieldValue.approved;
-            const disableApprove = isApproved;
-            const buttonText = isApproved ? 'Approved' : 'Approve';
+      <div>
+        {Object.entries(data).map(([sectionKey, fields]) => (
+          <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
+            {Object.entries(fields).map(([fieldKey, fieldValue]) => {
+              const isApproved = fieldValue.approved;
+              const disableApprove = isApproved;
+              const buttonText = isApproved
+                ? MESSAGES.NOTIFICATION.APPROVED
+                : MESSAGES.NOTIFICATION.APPROVE;
 
-            return (
-              <ExtractedField
-                key={fieldKey}
-                title={formatCamelCase(fieldKey)}
-                placeholder={`Enter ${formatCamelCase(fieldKey)}`}
-                value={fieldValue.value || ''}
-                confidenceScore={fieldValue.confidenceScore}
-                onChange={(e) =>
-                  handleChange(sectionKey, fieldKey, e.target.value)
-                }
-                onApproveClick={(value: boolean, newFieldValue) =>
-                  handleOnApprove(sectionKey, fieldKey, value, newFieldValue)
-                }
-                disableApprove={disableApprove}
-                approveButtonText={buttonText}
-              />
-            );
-          })}
-        </FieldWrapper>
-      ))}
+              return (
+                <ExtractedField
+                  key={fieldKey}
+                  title={formatCamelCase(fieldKey)}
+                  placeholder={`Enter ${formatCamelCase(fieldKey)}`}
+                  value={fieldValue.value || ''}
+                  confidenceScore={fieldValue.confidenceScore}
+                  onChange={(e) =>
+                    handleChange(sectionKey, fieldKey, e.target.value)
+                  }
+                  onApproveClick={(value: boolean, newFieldValue) =>
+                    handleOnApprove(sectionKey, fieldKey, value, newFieldValue)
+                  }
+                  disableApprove={disableApprove}
+                  approveButtonText={buttonText}
+                />
+              );
+            })}
+          </FieldWrapper>
+        ))}
+      </div>
       <button onClick={handleSave} type="button">
         Save
       </button>

@@ -1,12 +1,11 @@
 import React from 'react';
 
 type FilePreviewerProps = {
+  isImage: boolean;
   fileUrl: string;
-  file: File;
 };
 
-const FilePreviewer: React.FC<FilePreviewerProps> = ({ fileUrl, file }) => {
-  const isImage = file.type.startsWith('image/');
+const FilePreviewer: React.FC<FilePreviewerProps> = ({ fileUrl, isImage }) => {
   return (
     <div>
       {isImage ? (
