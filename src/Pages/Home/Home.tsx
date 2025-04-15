@@ -5,13 +5,23 @@ import { useState } from 'react';
 import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
+import { useFileUploadMutation } from '../../Services/Api/module/fileApi';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const handleUpload = (newFile: File) => {
+  const [uploadFile] = useFileUploadMutation();
+ 
+  const handleUpload = async (newFile: File) => {
+    const formData = new FormData();
+    try {
+      formData.append('file', newFile);
+      const response = await uploadFile(formData).unwrap();
+      console.log('response', response);
+    } catch (error) {
+      console.log('Error uploading file', error);
+    }
     setLoading(true);
     setFile(newFile);
 
