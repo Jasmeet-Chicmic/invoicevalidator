@@ -3,9 +3,11 @@ export { STRING };
 
 const ROUTES = {
   HOMEPAGE: '/',
+  LISTING: '/listing',
   LOGIN: '/login',
   REGISTER: '/register',
   ABOUT: '/about-us',
+  INVOICES: '/invoices',
 };
 
 const WILDCARD_ROUTES = {
@@ -16,7 +18,11 @@ const WILDCARD_ROUTES = {
 const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
-    title: 'Master Plan',
+    title: 'home',
+  },
+  LISTING: {
+    path: ROUTES.LISTING,
+    title: 'listing',
   },
   LOGIN: {
     path: ROUTES.LOGIN,
@@ -29,6 +35,10 @@ const ROUTES_CONFIG = {
   ABOUT: {
     path: ROUTES.ABOUT,
     title: 'About us',
+  },
+  INVOICES: {
+    path: ROUTES.INVOICES,
+    title: 'Invoices',
   },
 };
 

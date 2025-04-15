@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { formatCamelCase } from '../../../Shared/functions';
 import ExtractedField from '../../Atoms/ExtractedField';
 import FieldWrapper from '../../Cells/FieldWrapper';
 import useNotification from '../../../Hooks/useNotification';
-import { MESSAGES } from '../../../Shared/Constants';
+import { MESSAGES, ROUTES } from '../../../Shared/Constants';
 
 type Field = {
   value: string | null;
@@ -22,8 +23,9 @@ type ExtractedData = {
 const ExtractedFields = () => {
   const [data, setData] = useState<ExtractedData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const notify = useNotification();
   const oldStateRef = useRef<ExtractedData | null>(null);
+  const notify = useNotification();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -154,6 +156,7 @@ const ExtractedFields = () => {
   const handleSave = () => {
     oldStateRef.current = JSON.parse(JSON.stringify(data));
     notify(MESSAGES.NOTIFICATION.SAVED);
+    navigate(ROUTES.LISTING);
   };
 
   if (loading || !data) return <div>Loading extracted fields...</div>;

@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/Constants';
 import { CustomRouter } from './RootRoutes';
+import InvoiceListPage from '../Pages/InvoiceListPage';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -13,6 +14,11 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: '/wishlist',
     element: 'Your wishlist here',
     title: 'Dashboard',
+  },
+  {
+    path: '/invoices',
+    element: <InvoiceListPage />,
+    title: 'Invoices',
   },
   {
     path: '*',

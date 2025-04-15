@@ -34,7 +34,6 @@ function Home() {
       setFile(null);
       setFileUrl(null);
       setLoading(false);
-      console.log('Error uploading file', error);
     }
   };
 

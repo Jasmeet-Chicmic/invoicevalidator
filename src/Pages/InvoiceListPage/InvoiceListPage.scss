@@ -1,0 +1,28 @@
+.invoice-list-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--background-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__container {
+    width: 100%;
+    max-width: 1200px;
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .invoice-list-page {
+    background-color: var(--background-dark);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .invoice-list-page {
+    padding: 1rem;
+  }
+} 

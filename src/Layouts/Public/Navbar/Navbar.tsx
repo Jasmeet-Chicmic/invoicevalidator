@@ -4,12 +4,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 
 import './navbar.scss';
+import { ROUTES } from '../../../Shared/Constants';
 
 function NavbarComponent() {
   return (
     <Navbar expand="lg" className="">
       <Container fluid>
-        <Navbar.Brand href="#home">BookeepAI</Navbar.Brand>
+        <Navbar.Brand href={ROUTES.HOMEPAGE}>BookeepAI</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto nav-links">
