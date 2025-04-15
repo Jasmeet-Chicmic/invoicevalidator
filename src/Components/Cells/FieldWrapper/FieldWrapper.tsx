@@ -1,5 +1,8 @@
+// Third-party libraries
 import React, { ReactNode } from 'react';
+// Styles
 import './FieldWrapper.scss';
+// Utils
 import { formatCamelCase } from '../../../Shared/functions';
 
 type FieldWrapperProps = {

@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import './CommonModal.scss';
 
 type CommonModalProps = {
   isOpen: boolean;
@@ -8,24 +9,6 @@ type CommonModalProps = {
   message: string;
   okText?: string;
   closeText?: string;
-};
-
-const customStyles: Modal.Styles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    transform: 'translate(-50%, -50%)',
-    padding: '2rem',
-    borderRadius: '8px',
-    width: '90%',
-    maxWidth: '400px',
-    textAlign: 'center',
-  },
-  overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
 };
 
 const CommonModal: React.FC<CommonModalProps> = ({
@@ -40,22 +23,20 @@ const CommonModal: React.FC<CommonModalProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      style={customStyles}
+      className="common-modal__content"
+      overlayClassName="common-modal__overlay"
       ariaHideApp={false}
     >
       <p>{message}</p>
-      <div
-        style={{
-          marginTop: '1.5rem',
-          display: 'flex',
-          gap: '1rem',
-          justifyContent: 'center',
-        }}
-      >
-        <button onClick={onRequestClose} type="button">
+      <div className="common-modal__footer">
+        <button
+          className="common-modal__button"
+          onClick={onRequestClose}
+          type="button"
+        >
           {closeText}
         </button>
-        <button onClick={onOk} type="button">
+        <button className="common-modal__button" onClick={onOk} type="button">
           {okText}
         </button>
       </div>

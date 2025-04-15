@@ -1,4 +1,6 @@
+// Third-party libraries
 import React from 'react';
+// Styles
 import './PreviewWrapper.scss';
 
 type PreviewWrapperProps = {

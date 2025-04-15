@@ -24,3 +24,7 @@ export const areAllFieldsApproved = (data: ExtractedData): boolean =>
   Object.values(data).every((section) =>
     Object.values(section).every((field) => field.approved)
   );
+
+export const replaceToLowerCase = (text: string): string => {
+  return text.replace(/\s+/g, '-').toLowerCase();
+};

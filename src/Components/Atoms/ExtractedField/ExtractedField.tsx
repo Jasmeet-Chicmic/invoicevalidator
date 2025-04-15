@@ -1,7 +1,10 @@
+// Third-party libraries
 import React, { useMemo } from 'react';
-import './ExtractedField.scss';
-import { formatCamelCase } from '../../../Shared/functions';
+// constants
+import { formatCamelCase, replaceToLowerCase } from '../../../Shared/functions';
 import { CONFIDENCE_CONFIG } from '../../../Shared/Constants';
+// styles
+import './ExtractedField.scss';
 
 type ExtractedFieldProps = {
   title: string;
@@ -20,7 +23,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   placeholder,
   value,
   onChange,
-  id = `input-${title.replace(/\s+/g, '-').toLowerCase()}`,
+  id = `input-${replaceToLowerCase(title)}`,
   confidenceScore,
   onApproveClick,
   disableApprove,
