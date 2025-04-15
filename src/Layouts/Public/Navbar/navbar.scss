@@ -24,3 +24,12 @@
 //   height: 100%;
 //   padding: 20px 0 0 0;
 // }
+.headerWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.headerWrapper .navbar-collapse{
+    flex-grow: inherit;
+}
