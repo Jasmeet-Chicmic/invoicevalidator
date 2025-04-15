@@ -68,8 +68,13 @@ const BUTTON_TEXT = {
   SAVE: 'Save',
   DRAFT: 'Draft',
 };
+const CONFIDENCE_CONFIG = {
+  DANGER: 50,
+  WARNING: 70,
+};
 
 export {
+  CONFIDENCE_CONFIG,
   SNACKBAR_CONFIG,
   BUTTON_TEXT,
   ROUTES,

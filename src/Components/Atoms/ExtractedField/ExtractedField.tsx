@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './ExtractedField.scss';
 import { formatCamelCase } from '../../../Shared/functions';
+import { CONFIDENCE_CONFIG } from '../../../Shared/Constants';
 
 type ExtractedFieldProps = {
   title: string;
@@ -25,8 +26,18 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   disableApprove,
   approveButtonText,
 }) => {
+  const borderColor = useMemo(() => {
+    if (confidenceScore < CONFIDENCE_CONFIG.DANGER) {
+      return 'border-danger';
+    }
+    if (confidenceScore < CONFIDENCE_CONFIG.WARNING) {
+      return 'border-warning';
+    }
+    return 'border-success';
+  }, [confidenceScore]);
+
   return (
-    <div className="extracted-field">
+    <div className={`extracted-field `}>
       <label className="extracted-field__title" htmlFor={id}>
         {formatCamelCase(title)}
       </label>
@@ -38,7 +49,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            className="extracted-field__input"
+            className={`extracted-field__input ${borderColor}`}
           />
           <span className="scoreField">{confidenceScore}</span>
         </div>

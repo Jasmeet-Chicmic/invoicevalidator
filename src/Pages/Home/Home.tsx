@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Components
+import { useNavigate } from 'react-router-dom';
 import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
@@ -16,7 +17,12 @@ import CommonModal from '../../Components/Molecules/CommonModal';
 import useNotification from '../../Hooks/useNotification';
 
 // constants
-import { BUTTON_TEXT, MESSAGES, MODAL_MESSAGES } from '../../Shared/Constants';
+import {
+  BUTTON_TEXT,
+  MESSAGES,
+  MODAL_MESSAGES,
+  ROUTES,
+} from '../../Shared/Constants';
 import { areAllFieldsApproved } from '../../Shared/functions';
 
 function Home() {
@@ -31,6 +37,7 @@ function Home() {
   const oldStateRef = useRef<ExtractedData | null>(null);
   const [uploadFile] = useFileUploadMutation();
   const notify = useNotification();
+  const navigate = useNavigate();
   useEffect(() => {
     if (extractedData && areAllFieldsApproved(extractedData)) {
       setSubmitBtnText(BUTTON_TEXT.SAVE);
@@ -67,7 +74,7 @@ function Home() {
   const handleSave = () => {
     oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
     notify(MESSAGES.NOTIFICATION.SAVED);
-    // navigate(ROUTES.LISTING);
+    navigate(ROUTES.LISTING);
   };
 
   return (
