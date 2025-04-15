@@ -33,8 +33,8 @@ const CommonModal: React.FC<CommonModalProps> = ({
   onRequestClose,
   onOk,
   message,
-  okText = 'OK',
-  closeText = 'Close',
+  okText = 'Yes',
+  closeText = 'No',
 }) => {
   return (
     <Modal

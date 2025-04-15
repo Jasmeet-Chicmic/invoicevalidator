@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './InvoiceList.scss';
+import CommonModal from '../CommonModal';
+import { MODAL_MESSAGES } from '../../../Shared/Constants';
 
 export interface Invoice {
   id: string;
@@ -55,7 +57,10 @@ const dummyInvoices: Invoice[] = [
 
 const InvoiceList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>(dummyInvoices);
-
+  const [confirmationModal, setConfirmationModal] = useState({
+    isOpen: false,
+    data: { invoiceId: '' },
+  });
   const formatCurrency = (amount: number): string =>
     new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -68,7 +73,10 @@ const InvoiceList: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
-    setInvoices((prev) => prev.filter((invoice) => invoice.id !== id));
+    setConfirmationModal({
+      isOpen: true,
+      data: { invoiceId: id },
+    });
   };
 
   const getStatusClass = (status: string): string =>
@@ -160,6 +168,21 @@ const InvoiceList: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <CommonModal
+        isOpen={confirmationModal.isOpen}
+        onRequestClose={() =>
+          setConfirmationModal({ ...confirmationModal, isOpen: false })
+        }
+        onOk={() => {
+          setConfirmationModal({ ...confirmationModal, isOpen: false });
+          setInvoices((prev) =>
+            prev.filter(
+              (invoice) => invoice.id !== confirmationModal.data.invoiceId
+            )
+          );
+        }}
+        message={MODAL_MESSAGES.DELETE_CONFIRMATION}
+      />
     </div>
   );
 };

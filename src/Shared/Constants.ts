@@ -58,4 +58,17 @@ const SNACKBAR_CONFIG = {
   MAX_SNACK: 3,
   AUTOHIDE_DURATION: 3000,
 };
-export { SNACKBAR_CONFIG, ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, MESSAGES };
+
+const MODAL_MESSAGES = {
+  DELETE_CONFIRMATION: 'Are you sure you want to delete?',
+  CANCLE_INVOICE_CONFIRMATION: 'Are you sure you want to cancel this invoice?',
+};
+
+export {
+  SNACKBAR_CONFIG,
+  ROUTES,
+  WILDCARD_ROUTES,
+  ROUTES_CONFIG,
+  MESSAGES,
+  MODAL_MESSAGES,
+};

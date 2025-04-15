@@ -10,7 +10,7 @@ import { API_BASE_URL, FileUploadResponse } from '../../Services/Api/Constants';
 import ExtractedFields from '../../Components/Molecules/ExtractedFields';
 import CommonModal from '../../Components/Molecules/CommonModal';
 import useNotification from '../../Hooks/useNotification';
-import { MESSAGES } from '../../Shared/Constants';
+import { MESSAGES, MODAL_MESSAGES } from '../../Shared/Constants';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -75,9 +75,7 @@ function Home() {
           handleRemove();
           setConfirmationModal(false);
         }}
-        message="Are you sure you want to continue?"
-        okText="Yes"
-        closeText="No"
+        message={MODAL_MESSAGES.CANCLE_INVOICE_CONFIRMATION}
       />
     </div>
   );
