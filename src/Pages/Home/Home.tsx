@@ -12,7 +12,7 @@ function Home() {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [uploadFile] = useFileUploadMutation();
- 
+
   const handleUpload = async (newFile: File) => {
     const formData = new FormData();
     try {
@@ -42,7 +42,7 @@ function Home() {
   };
 
   return (
-    <div>
+    <div className="file-uploadbx">
       {!fileUrl ? (
         <FileUploader
           onUpload={handleUpload}
@@ -56,7 +56,7 @@ function Home() {
           onBack={handleBack}
           left={<FilePreviewer file={file!} fileUrl={fileUrl} />}
           right={
-            <div>
+            <div className="right-side">
               <h3>Metadata</h3>
               <input placeholder="Title" />
               <input placeholder="Description" />

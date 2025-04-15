@@ -12,6 +12,8 @@ import ErrorFallback from './Components/CustomComponents/ErrorFallback';
 
 // Constants
 import './I18n/config';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Assets/SCSS/main.scss';
 
 // Styles
 import './App.css';

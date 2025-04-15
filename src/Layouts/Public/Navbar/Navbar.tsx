@@ -1,19 +1,33 @@
-import './navbar.scss';
-import { Link } from 'react-router-dom';
-import { ROUTES } from '../../../Shared/Constants';
-import LocaleSwitcher from '../../../Components/CustomComponents/LocalSwitcher';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
 
-export function Navbar() {
+import './navbar.scss';
+
+function NavbarComponent() {
   return (
-    <header className="header d-flex" id="header">
-      <Link to={ROUTES.HOMEPAGE}>Home page</Link>
-      <Link to={ROUTES.LOGIN}>Login</Link>
-      <div>
-        {' '}
-        <LocaleSwitcher />
-      </div>
-    </header>
+    <Navbar expand="lg" className="">
+      <Container fluid>
+        <Navbar.Brand href="#home">BookeepAI</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto nav-links">
+            <Nav.Link href="#home" className="active">
+              Home
+            </Nav.Link>
+            <Nav.Link href="#link">About us</Nav.Link>
+            <Nav.Link href="#link">How it Works?</Nav.Link>
+          </Nav>
+          <div className="sidebtns">
+            <Button className="bookademo ms-3" variant="primary">
+              Book a Demo
+            </Button>
+          </div>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavbarComponent;
