@@ -7,7 +7,7 @@ type ExtractedFieldProps = {
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onApproveClick: (isApproved: boolean) => void;
+  onApproveClick: (isApproved: boolean, value: string) => void;
   id?: string;
   confidenceScore: number;
   disableApprove: boolean;
@@ -46,7 +46,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
           className="extracted-field__approve-btn"
           type="button"
           onClick={() => {
-            onApproveClick(true); // Approve the field on button click
+            if (value) onApproveClick(true, value); // Approve the field on button click
           }}
           disabled={disableApprove}
         >

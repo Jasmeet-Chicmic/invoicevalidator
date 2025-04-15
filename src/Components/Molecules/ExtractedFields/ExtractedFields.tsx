@@ -86,6 +86,32 @@ const ExtractedFields = () => {
     newValue: string
   ) => {
     if (!data) return;
+    if (
+      oldStateRef.current &&
+      oldStateRef.current[sectionKey][fieldKey].value !== newValue
+    ) {
+      setData((prevData) => ({
+        ...prevData!,
+        [sectionKey]: {
+          ...prevData![sectionKey],
+          [fieldKey]: {
+            ...prevData![sectionKey][fieldKey],
+            approved: false, // Only update `approved` status here
+          },
+        },
+      }));
+    } else {
+      setData((prevData) => ({
+        ...prevData!,
+        [sectionKey]: {
+          ...prevData![sectionKey],
+          [fieldKey]: {
+            ...prevData![sectionKey][fieldKey],
+            approved: true, // Only update `approved` status here
+          },
+        },
+      }));
+    }
 
     setData((prevData) => ({
       ...prevData!,
@@ -102,7 +128,8 @@ const ExtractedFields = () => {
   const handleOnApprove = async (
     sectionKey: string,
     fieldKey: string,
-    value: boolean
+    value: boolean,
+    newFieldValue: string
   ) => {
     try {
       notify(MESSAGES.NOTIFICATION.APPROVED);
@@ -116,6 +143,9 @@ const ExtractedFields = () => {
           },
         },
       }));
+      if (oldStateRef.current) {
+        oldStateRef.current[sectionKey][fieldKey].value = newFieldValue;
+      }
     } catch (error) {
       notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
     }
@@ -147,8 +177,8 @@ const ExtractedFields = () => {
                 onChange={(e) =>
                   handleChange(sectionKey, fieldKey, e.target.value)
                 }
-                onApproveClick={(value: boolean) =>
-                  handleOnApprove(sectionKey, fieldKey, value)
+                onApproveClick={(value: boolean, newFieldValue) =>
+                  handleOnApprove(sectionKey, fieldKey, value, newFieldValue)
                 }
                 disableApprove={disableApprove}
                 approveButtonText={buttonText}
