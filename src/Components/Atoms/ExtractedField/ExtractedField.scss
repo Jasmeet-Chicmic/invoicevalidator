@@ -22,6 +22,9 @@
         border-color: #007bff;
       }
     }
+    &__approve-btn{
+      min-width: 120px;
+    }
   }
 
     .form-group {
@@ -43,3 +46,6 @@
   .gap-2{
     gap: 20px;
   }
+    .buttonWrap {
+      background: #e6e6e6;
+    }

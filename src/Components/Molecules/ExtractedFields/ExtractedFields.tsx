@@ -194,9 +194,11 @@ const ExtractedFields = () => {
           </FieldWrapper>
         ))}
       </div>
-      <button onClick={handleSave} type="button">
-        Save
-      </button>
+      <div className="p-3 buttonWrap text-end">
+        <button onClick={handleSave} type="button" className='btn btn-primary px-4'>
+          Save
+        </button>
+      </div>
     </>
   );
 };

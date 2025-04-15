@@ -11,21 +11,23 @@ function NavbarComponent() {
   return (
     <Navbar expand="lg" className="">
       <Container fluid>
-        <Navbar.Brand href={ROUTES.LISTING}>BookeepAI</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <div className="sidebtns">
-            <Button
-              className="bookademo ms-3"
-              variant="primary"
-              onClick={() => {
-                navigate(ROUTES.HOMEPAGE);
-              }}
-            >
-              Upload Invoice
-            </Button>
-          </div>
-        </Navbar.Collapse>
+        <div className="headerWrapper">
+          <Navbar.Brand href={ROUTES.LISTING}>BookeepAI</Navbar.Brand>
+          {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+          <Navbar.Collapse id="basic-navbar-nav">
+            <div className="sidebtns">
+              <Button
+                className="bookademo ms-3"
+                variant="primary"
+                onClick={() => {
+                  navigate(ROUTES.HOMEPAGE);
+                }}
+              >
+                Upload Invoice
+              </Button>
+            </div>
+          </Navbar.Collapse>
+        </div>
       </Container>
     </Navbar>
   );
