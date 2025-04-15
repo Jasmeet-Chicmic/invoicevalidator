@@ -168,6 +168,9 @@ const InvoiceList: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <button type="button" className="invoice-list__export-button">
+        Export
+      </button>
       <CommonModal
         isOpen={confirmationModal.isOpen}
         onRequestClose={() =>

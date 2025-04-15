@@ -59,7 +59,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
           onClick={() => {
             if (value) onApproveClick(true, value); // Approve the field on button click
           }}
-          disabled={disableApprove}
+          disabled={disableApprove || !value}
         >
           {approveButtonText}
         </button>
