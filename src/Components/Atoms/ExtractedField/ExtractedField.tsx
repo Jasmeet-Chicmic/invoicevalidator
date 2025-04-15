@@ -1,5 +1,6 @@
 import React from 'react';
 import './ExtractedField.scss';
+import { formatCamelCase } from '../../../Shared/functions';
 
 type ExtractedFieldProps = {
   title: string;
@@ -21,7 +22,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   return (
     <div className="extracted-field">
       <label className="extracted-field__title" htmlFor={id}>
-        {title}
+        {formatCamelCase(title)}
       </label>
       <input
         id={id}
@@ -32,6 +33,9 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
         className="extracted-field__input"
       />
       <div>{confidenceScore}</div>
+      <button className="extracted-field__approve-btn" type="button">
+        Approve
+      </button>
     </div>
   );
 };

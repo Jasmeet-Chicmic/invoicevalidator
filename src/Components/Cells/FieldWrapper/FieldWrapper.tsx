@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import './FieldWrapper.scss';
+import { formatCamelCase } from '../../../Shared/functions';
 
 type FieldWrapperProps = {
   title: string;
@@ -9,7 +10,7 @@ type FieldWrapperProps = {
 const FieldWrapper: React.FC<FieldWrapperProps> = ({ title, children }) => {
   return (
     <div className="field-wrapper">
-      <h3 className="field-wrapper__title">{title}</h3>
+      <h3 className="field-wrapper__title">{formatCamelCase(title)}</h3>
       <div className="field-wrapper__content">{children}</div>
     </div>
   );
