@@ -24,18 +24,22 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
       <label className="extracted-field__title" htmlFor={id}>
         {formatCamelCase(title)}
       </label>
-      <input
-        id={id}
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        className="extracted-field__input"
-      />
-      <span>{confidenceScore}</span>
-      <button className="extracted-field__approve-btn" type="button">
-        Approve
-      </button>
+      <div className="d-flex gap-2">
+        <div className="form-group flex-1">
+          <input
+            id={id}
+            type="text"
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            className="extracted-field__input"
+          />
+          <span className="scoreField">{confidenceScore}</span>
+        </div>
+        <button className="extracted-field__approve-btn" type="button">
+          Approve
+        </button>
+      </div>
     </div>
   );
 };

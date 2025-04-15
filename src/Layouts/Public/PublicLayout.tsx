@@ -6,14 +6,12 @@ import './PublicLayout.scss';
 function PublicLayout({ children }: AppLayoutProps): ReactNode {
   return (
     <main className="PublicLayout">
-        <div className="header">
-          <Navbar />
-        </div>
+      <div className="header">
+        <Navbar />
+      </div>
 
       <div className="content">
-        <div className="upload-page">
-         {children}
-        </div>
+        <div className="upload-page">{children}</div>
       </div>
 
       {/* <Footer /> */}
