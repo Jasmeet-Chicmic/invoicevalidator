@@ -35,6 +35,9 @@ const ROUTES_CONFIG = {
 const MESSAGES = {
   NOTIFICATION: {
     FILE_TYPE_NOT_ALLOWED: 'File type not allowed',
+    SOMETHING_WENT_WRONG: 'Something went wrong',
+    APPROVED: 'Approved',
+    SAVED: 'Saved',
   },
   FILE_UPLOADER: {
     MESSAGE: 'Click or drag and drop a PDF or image here',

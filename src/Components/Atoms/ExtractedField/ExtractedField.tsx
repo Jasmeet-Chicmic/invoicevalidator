@@ -7,8 +7,11 @@ type ExtractedFieldProps = {
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onApproveClick: (isApproved: boolean) => void;
   id?: string;
   confidenceScore: number;
+  disableApprove: boolean;
+  approveButtonText?: string;
 };
 
 const ExtractedField: React.FC<ExtractedFieldProps> = ({
@@ -18,6 +21,9 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   onChange,
   id = `input-${title.replace(/\s+/g, '-').toLowerCase()}`,
   confidenceScore,
+  onApproveClick,
+  disableApprove,
+  approveButtonText,
 }) => {
   return (
     <div className="extracted-field">
@@ -33,8 +39,15 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
         className="extracted-field__input"
       />
       <span>{confidenceScore}</span>
-      <button className="extracted-field__approve-btn" type="button">
-        Approve
+      <button
+        className="extracted-field__approve-btn"
+        type="button"
+        onClick={() => {
+          onApproveClick(true); // Approve the field on button click
+        }}
+        disabled={disableApprove}
+      >
+        {approveButtonText}
       </button>
     </div>
   );

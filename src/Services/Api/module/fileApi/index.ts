@@ -1,5 +1,9 @@
 import api from '../../api';
-import { API_END_POINTS, HTTPS_METHODS } from '../../Constants';
+import {
+  API_END_POINTS,
+  HTTPS_METHODS,
+  OnApproveRequest,
+} from '../../Constants';
 
 export const fileApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,7 +14,14 @@ export const fileApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    onApprove: builder.mutation({
+      query: (data: OnApproveRequest) => ({
+        url: API_END_POINTS.ON_APPROVE,
+        method: HTTPS_METHODS.PATCH,
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useFileUploadMutation } = fileApi;
+export const { useFileUploadMutation, useOnApproveMutation } = fileApi;

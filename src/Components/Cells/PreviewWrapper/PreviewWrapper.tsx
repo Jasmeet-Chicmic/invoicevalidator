@@ -10,7 +10,7 @@ type Props = {
 const PreviewWrapper: React.FC<Props> = ({ onBack, left, right }) => {
   return (
     <div className="two-pane-wrapper">
-      <div className='container'>
+      <div className="container">
         <div className="paneWrapper py-5">
           <button type="button" className="back-btn" onClick={onBack}>
             ← Back
