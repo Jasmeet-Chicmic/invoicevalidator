@@ -1,5 +1,5 @@
 import React from 'react';
-import './FilePreviewer.css';
+import './FilePreviewer.scss';
 
 type FilePreviewerProps = {
   isImage: boolean;
