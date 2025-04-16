@@ -101,7 +101,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   if (loading || !data) return <div>Loading extracted fields...</div>;
 
   return (
-    <div>
+    <div className='extracted-data'>
       {Object.entries(data).map(([sectionKey, fields]) => (
         <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
           {Object.entries(fields).map(([fieldKey, fieldValue]) => {

@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import './navbar.scss';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
+import IMAGES from '../../../Shared/Images';
 
 function NavbarComponent() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function NavbarComponent() {
                   navigate(ROUTES.HOMEPAGE);
                 }}
               >
-                <span className='btn-icon'></span>Upload
+                <span className='btn-icon me-2'><img src={IMAGES.addIcon} /></span>Upload
               </Button>
             </div>
           </Navbar.Collapse>

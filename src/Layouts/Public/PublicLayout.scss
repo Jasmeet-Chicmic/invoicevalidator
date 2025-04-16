@@ -32,13 +32,43 @@ body,
                     color: $blue-color;
                     font-weight: $font-regular;
                     font-size: 16px;
-                    border-radius: 12px;
+                    border-radius: 8px;
+                    &:hover{
+                        background: $blue-color;
+                        color: $white-color;
+                        border-color: $blue-color;
+                        img{
+                            filter: brightness(0%) contrast(100) invert(1);
+                        }
+                    }
                 }
+                .btn-icon{
+                    width: 12px;
+                    height: 12px;
+                    display: inline-block;
+                }
+
             }
         }
     }
 }
 
+.page-title{
+    width: 100%;
+    text-align: center;
+    h1{
+        font-size: 30px;
+        font-weight: $font-medium;
+        color: $black-color-900;
+        margin-bottom: 16px;
+    }
+}
+
+.file-uploader{
+    border-radius: 16px;
+    background: $blue-color;
+    padding: 10px;
+}
 
 .file-uploadbx,
 .upload-page {

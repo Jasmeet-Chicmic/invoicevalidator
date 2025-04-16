@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
 import './InvoiceList.scss';
 import CommonModal from '../CommonModal';
+import IMAGES from '../../../Shared/Images';
 
 export interface Invoice {
   id: string;
@@ -147,13 +148,10 @@ const InvoiceList: React.FC = () => {
             </button>
           ))}
         </div>
-
-        <button type="button" className="btn-primary">
-          Export to Tally
-        </button>
-        <button type="button" className="btn-primary">
-          Download JSON
-        </button>
+        <div className='download-btns'>
+          <button type="button" className="btn-primary exporttotelly"><span className='btn-icon'><img src={IMAGES.exportIcon} /></span>Export to Tally</button>
+          <button type="button" className="btn-primary downloadjson"><span className='btn-icon'><img src={IMAGES.downloadIcon} /></span>Download JSON</button>
+        </div>
       </div>
 
       <div className="invoice-list__table-container">
@@ -188,7 +186,7 @@ const InvoiceList: React.FC = () => {
                       onClick={() => handleEdit(invoice.id)}
                       aria-label={`Edit invoice ${invoice.invoiceNo}`}
                     >
-                      ✏️
+                      <img src={IMAGES.editIcon} />
                     </button>
                     <button
                       type="button"
@@ -196,7 +194,23 @@ const InvoiceList: React.FC = () => {
                       onClick={() => handleDelete(invoice.id)}
                       aria-label={`Delete invoice ${invoice.invoiceNo}`}
                     >
-                      🗑️
+                      <img src={IMAGES.deleteIcon} />
+                    </button>
+                    <button
+                      type="button"
+                      className="invoice-list__action-button invoice-list__action-button--export"
+                      onClick={() => handleDelete(invoice.id)}
+                      aria-label={`Export to Telly ${invoice.invoiceNo}`}
+                    >
+                      <img src={IMAGES.exportIcon} />
+                    </button>
+
+                    <button
+                      type="button"
+                      className="invoice-list__action-button invoice-list__action-button--download"
+                      aria-label={`Download JSON ${invoice.invoiceNo}`}
+                    >
+                      <img src={IMAGES.downloadIcon} />
                     </button>
                   </td>
                 </tr>
@@ -214,8 +228,8 @@ const InvoiceList: React.FC = () => {
 
       {filteredInvoices.length > ITEMS_PER_PAGE && (
         <ReactPaginate
-          previousLabel="← Previous"
-          nextLabel="Next →"
+          previousLabel="Prev"
+          nextLabel="Next"
           pageCount={pageCount}
           onPageChange={handlePageChange}
           containerClassName="pagination"

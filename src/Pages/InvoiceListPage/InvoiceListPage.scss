@@ -1,15 +1,21 @@
+@import "../../Assets/SCSS/main";
+
 .invoice-list-page {
   width: 100%;
   min-height: 100vh;
   padding: 2rem;
-  background-color: var(--background-light);
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   &__container {
     width: 100%;
-    max-width: 1200px;
+    // max-width: 1200px;
+    background: $white-color;
+    border-radius: 15px;
+    border: 1px solid $grey-color-300;
+    box-shadow: $shadow1;
   }
 
   &__header {

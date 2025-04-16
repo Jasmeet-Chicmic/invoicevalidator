@@ -154,13 +154,18 @@ function Home() {
   return (
     <div className="file-uploadbx">
       {!fileUrl ? (
-        <FileUploader
-          onUpload={handleUpload}
-          file={file}
-          fileUrl={fileUrl}
-          loading={loading}
-          onRemove={handleRemove}
-        />
+        <div>
+          <div className="page-title">
+            <h1>Upload File</h1>
+          </div>
+          <FileUploader
+            onUpload={handleUpload}
+            file={file}
+            fileUrl={fileUrl}
+            loading={loading}
+            onRemove={handleRemove}
+          />
+        </div>
       ) : (
         <>
           <PreviewWrapper
