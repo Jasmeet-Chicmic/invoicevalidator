@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { formatCamelCase } from '../../../Shared/functions';
 import ExtractedField from '../../Atoms/ExtractedField';
 import FieldWrapper from '../../Cells/FieldWrapper';
@@ -10,72 +9,16 @@ type ExtractedFieldsProps = {
   setData: React.Dispatch<React.SetStateAction<ExtractedData | null>>;
   data: ExtractedData | null;
   oldStateRef: React.MutableRefObject<ExtractedData | null>;
+  loading: boolean;
 };
 
 const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   setData,
   data,
   oldStateRef,
+  loading,
 }) => {
-  const [loading, setLoading] = useState<boolean>(true);
-
   const notify = useNotification();
-
-  useEffect(() => {
-    setTimeout(() => {
-      const fetchedData: ExtractedData = {
-        invoiceDetails: {
-          invoiceNo: { value: 'INV-123', confidenceScore: 85, approved: false },
-          date: { value: '2024-04-01', confidenceScore: 90, approved: true },
-          modeOfPayment: {
-            value: 'Credit Card',
-            confidenceScore: 75,
-            approved: false,
-          },
-        },
-        supplierDetails: {
-          name: { value: 'ABC Pvt Ltd', confidenceScore: 95, approved: true },
-          address: { value: '123 Street', confidenceScore: 80, approved: true },
-          contact: { value: '9876543210', confidenceScore: 70, approved: true },
-          gstin: {
-            value: '22AAAAA0000A1Z5',
-            confidenceScore: 85,
-            approved: true,
-          },
-          stateName: {
-            value: 'Karnataka',
-            confidenceScore: 88,
-            approved: true,
-          },
-          code: { value: 'KA01', confidenceScore: 60, approved: true },
-          email: {
-            value: 'abc@example.com',
-            confidenceScore: 92,
-            approved: true,
-          },
-        },
-        buyerDetails: {
-          name: { value: 'XYZ Traders', confidenceScore: 93, approved: true },
-          address: { value: '456 Avenue', confidenceScore: 78, approved: true },
-          gstin: {
-            value: '29BBBBB1111B2Z6',
-            confidenceScore: 82,
-            approved: true,
-          },
-          stateName: {
-            value: 'Maharashtra',
-            confidenceScore: 87,
-            approved: true,
-          },
-          code: { value: 'MH02', confidenceScore: 65, approved: true },
-        },
-      };
-      setData(fetchedData);
-      // eslint-disable-next-line no-param-reassign
-      oldStateRef.current = JSON.parse(JSON.stringify(fetchedData));
-      setLoading(false);
-    }, 1000);
-  }, [oldStateRef, setData]);
 
   const handleChange = (
     sectionKey: string,
@@ -97,7 +40,10 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           },
         },
       }));
-    } else {
+    } else if (
+      oldStateRef.current &&
+      oldStateRef.current[sectionKey][fieldKey].approved
+    ) {
       setData((prevData) => ({
         ...prevData!,
         [sectionKey]: {

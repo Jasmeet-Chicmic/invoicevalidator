@@ -1,7 +1,12 @@
+// Library
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+// Constants
+import { MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
+// Styles
 import './InvoiceList.scss';
+// Custom Components
 import CommonModal from '../CommonModal';
-import { MODAL_MESSAGES } from '../../../Shared/Constants';
 
 export interface Invoice {
   id: string;
@@ -61,6 +66,7 @@ const InvoiceList: React.FC = () => {
     isOpen: false,
     data: { invoiceId: '' },
   });
+  const navigate = useNavigate();
   const formatCurrency = (amount: number): string =>
     new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -70,6 +76,7 @@ const InvoiceList: React.FC = () => {
 
   const handleEdit = (id: string) => {
     id.concat('edit');
+    navigate(ROUTES.EDIT);
   };
 
   const handleDelete = (id: string) => {
