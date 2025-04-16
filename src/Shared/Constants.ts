@@ -4,6 +4,7 @@ export { STRING };
 const ROUTES = {
   HOMEPAGE: '/',
   LISTING: '/listing',
+  EDIT: '/edit',
   LOGIN: '/login',
   REGISTER: '/register',
   ABOUT: '/about-us',
@@ -23,6 +24,10 @@ const ROUTES_CONFIG = {
   LISTING: {
     path: ROUTES.LISTING,
     title: 'listing',
+  },
+  EDIT: {
+    path: ROUTES.EDIT,
+    title: 'Edit',
   },
   LOGIN: {
     path: ROUTES.LOGIN,
@@ -62,6 +67,7 @@ const SNACKBAR_CONFIG = {
 const MODAL_MESSAGES = {
   DELETE_CONFIRMATION: 'Are you sure you want to delete?',
   CANCLE_INVOICE_CONFIRMATION: 'Are you sure you want to cancel this invoice?',
+  EDIT_INVOICE_CONFIRMATION: 'Are you sure you want to discard changes?',
 };
 
 const BUTTON_TEXT = {
@@ -72,8 +78,13 @@ const CONFIDENCE_CONFIG = {
   DANGER: 50,
   WARNING: 70,
 };
+const FILE_TYPES = {
+  IMAGE: 'image',
+  PDF: 'pdf',
+};
 
 export {
+  FILE_TYPES,
   CONFIDENCE_CONFIG,
   SNACKBAR_CONFIG,
   BUTTON_TEXT,
