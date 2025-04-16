@@ -112,7 +112,7 @@ const EditPage = () => {
         left={
           <FilePreviewer
             isImage
-            fileUrl={'https://via.placeholder.com/150x150'}
+            fileUrl="https://via.placeholder.com/150x150"
           />
         }
         right={

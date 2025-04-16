@@ -6,11 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
-import { useFileUploadMutation } from '../../Services/Api/module/fileApi';
+import {
+  useFileUploadMutation,
+  useLazyGetInvoiceQuery,
+} from '../../Services/Api/module/fileApi';
 import {
   API_BASE_URL,
   ExtractedData,
   FileUploadResponse,
+  GetInvoiceRequest,
 } from '../../Services/Api/Constants';
 import ExtractedFields from '../../Components/Molecules/ExtractedFields';
 import CommonModal from '../../Components/Molecules/CommonModal';
@@ -37,6 +41,7 @@ function Home() {
   );
   const oldStateRef = useRef<ExtractedData | null>(null);
   const [uploadFile] = useFileUploadMutation();
+  const [getInvoice] = useLazyGetInvoiceQuery();
   const notify = useNotification();
   const navigate = useNavigate();
   useEffect(() => {
@@ -46,6 +51,14 @@ function Home() {
       setSubmitBtnText(BUTTON_TEXT.DRAFT);
     }
   }, [extractedData]);
+  const fetchImageData = async (filePath: string, invoiceId: string) => {
+    const getInvoicePayload: GetInvoiceRequest = {
+      filePath,
+      invoiceId,
+    };
+
+    await getInvoice(getInvoicePayload).unwrap();
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -109,8 +122,12 @@ function Home() {
       formData.append('file', newFile);
       const fileUploadResponse: FileUploadResponse =
         await uploadFile(formData).unwrap();
-      setFileUrl(API_BASE_URL + fileUploadResponse.file_path);
+      setFileUrl(API_BASE_URL + fileUploadResponse.data.filePath);
       setLoading(false);
+      fetchImageData(
+        fileUploadResponse.data.filePath,
+        fileUploadResponse.data.invoiceId
+      );
     } catch (error) {
       notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
       setFile(null);

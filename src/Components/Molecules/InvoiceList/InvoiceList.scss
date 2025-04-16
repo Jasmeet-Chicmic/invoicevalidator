@@ -1,3 +1,31 @@
+
+
+.invoice-list__filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-right: auto;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+
+  &.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
 .invoice-list {
   width: 100%;
   padding: 1.5rem;
@@ -210,3 +238,32 @@
     }
   }
 } 
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  list-style: none;
+  gap: 0.5rem;
+
+  li {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background-color: var(--background-light);
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+
+    &.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    &:hover:not(.active) {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
