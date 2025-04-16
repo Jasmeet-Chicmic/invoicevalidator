@@ -1,5 +1,5 @@
 // Third-party libraries
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 // constants
 import { formatCamelCase, replaceToLowerCase } from '../../../Shared/functions';
 import { CONFIDENCE_CONFIG } from '../../../Shared/Constants';
@@ -39,6 +39,12 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
     return 'border-success';
   }, [confidenceScore]);
 
+  const confidenceScoreText = useCallback(
+    (newConfidenceScore: number) => {
+      return newConfidenceScore * CONFIDENCE_CONFIG.CONFIDENCE_MULTIPLIER;
+    },
+    []
+  );
   return (
     <div className={`extracted-field `}>
       <label className="extracted-field__title" htmlFor={id}>
@@ -54,7 +60,9 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
             onChange={onChange}
             className={`extracted-field__input ${borderColor}`}
           />
-          <span className="scoreField">{confidenceScore}</span>
+          <span className="scoreField">
+            {confidenceScoreText(confidenceScore)}
+          </span>
         </div>
         <button
           className="extracted-field__approve-btn"

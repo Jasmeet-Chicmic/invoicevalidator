@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
-export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
+export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL_LOCAL;
 export const API_END_POINTS = {
   FILE_UPLOAD: '/bookkeep/invoice/upload/',
   ON_APPROVE: '/bookkeep/invoice/on-approve/',
@@ -34,6 +34,8 @@ export interface GetInvoiceRequest {
   invoiceId: string;
 }
 
+
+
 type Field = {
   value: string | null;
   confidenceScore: number;
@@ -47,3 +49,12 @@ type SectionData = {
 export type ExtractedData = {
   [sectionKey: string]: SectionData;
 };
+
+export interface ExtractedDataResponse {
+  id: number;
+  media_url: string;
+  file_url: string | null;
+  uploaded_on: string; // ISO format string
+  is_approved: boolean;
+  invoice_details: ExtractedData;
+}
