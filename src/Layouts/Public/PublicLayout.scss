@@ -8,16 +8,32 @@ body,
 
 .header {
     width: 100%;
+    background: $white-color;
+    box-shadow: $shadow1;
 
     .navbar {
         background: none;
         padding: 15px;
-        box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.4);
-
+        
         .navbar-brand {
-            color: $blue-color;
+            color: $black-color;
+            font-weight: $font-medium;
             span{
-                color: $black-color;
+                color: $blue-color;
+                margin-left: 3px;
+            }
+        }
+        .sidebtns{
+            .btn{
+                &.bookademo {
+                    border: 1.5px solid currentColor;
+                    padding: 10px 26px;
+                    background: $none;
+                    color: $blue-color;
+                    font-weight: $font-regular;
+                    font-size: 16px;
+                    border-radius: 12px;
+                }
             }
         }
     }

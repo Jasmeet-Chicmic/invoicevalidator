@@ -25,7 +25,7 @@ function NavbarComponent() {
                   navigate(ROUTES.HOMEPAGE);
                 }}
               >
-                Upload Invoice
+                <span className='btn-icon'></span>Upload
               </Button>
             </div>
           </Navbar.Collapse>
