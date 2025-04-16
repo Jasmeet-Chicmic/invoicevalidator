@@ -41,6 +41,19 @@ const ROUTES_CONFIG = {
     title: 'Invoices',
   },
 };
+const MODAL_MESSAGES = {
+  DELETE_CONFIRMATION: 'Are you sure you want to delete?',
+  CANCLE_INVOICE_CONFIRMATION: 'Are you sure you want to cancel this invoice?',
+};
+
+const BUTTON_TEXT = {
+  SAVE: 'Save',
+  DRAFT: 'Draft',
+};
+const CONFIDENCE_CONFIG = {
+  DANGER: 50,
+  WARNING: 70,
+};
 
 const MESSAGES = {
   NOTIFICATION: {
@@ -59,27 +72,23 @@ const SNACKBAR_CONFIG = {
   AUTOHIDE_DURATION: 3000,
 };
 
-const MODAL_MESSAGES = {
-  DELETE_CONFIRMATION: 'Are you sure you want to delete?',
-  CANCLE_INVOICE_CONFIRMATION: 'Are you sure you want to cancel this invoice?',
-};
-
-const BUTTON_TEXT = {
-  SAVE: 'Save',
-  DRAFT: 'Draft',
-};
-const CONFIDENCE_CONFIG = {
-  DANGER: 50,
-  WARNING: 70,
+const INPUT = {
+  INPUT_TYPE: {
+    FILE: 'file',
+  },
+  INPUT_REGEX: {
+    FILE: '.pdf,image/*',
+  },
 };
 
 export {
-  CONFIDENCE_CONFIG,
   SNACKBAR_CONFIG,
-  BUTTON_TEXT,
   ROUTES,
   WILDCARD_ROUTES,
   ROUTES_CONFIG,
   MESSAGES,
+  INPUT,
   MODAL_MESSAGES,
+  BUTTON_TEXT,
+  CONFIDENCE_CONFIG,
 };
