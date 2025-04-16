@@ -1,4 +1,5 @@
 import React from 'react';
+import './FilePreviewer.css';
 
 type FilePreviewerProps = {
   fileUrl: string;
@@ -10,13 +11,13 @@ const FilePreviewer: React.FC<FilePreviewerProps> = ({ fileUrl, file }) => {
   return (
     <div>
       {isImage ? (
-        <img
-          src={fileUrl}
-          alt="Preview"
-          style={{ width: '100%', maxHeight: '400px' }}
-        />
+        <img src={fileUrl} alt="Preview" className="file-previewer-image" />
       ) : (
-        <iframe src={fileUrl} width="100%" height="400px" title="PDF Preview" />
+        <iframe
+          src={fileUrl}
+          className="file-previewer-pdf"
+          title="PDF Preview"
+        />
       )}
     </div>
   );

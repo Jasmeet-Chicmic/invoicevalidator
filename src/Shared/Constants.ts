@@ -44,4 +44,21 @@ const SNACKBAR_CONFIG = {
   MAX_SNACK: 3,
   AUTOHIDE_DURATION: 3000,
 };
-export { SNACKBAR_CONFIG, ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, MESSAGES };
+
+const INPUT = {
+  INPUT_TYPE: {
+    FILE: 'file',
+  },
+  INPUT_REGEX: {
+    FILE: '.pdf,image/*',
+  },
+};
+
+export {
+  SNACKBAR_CONFIG,
+  ROUTES,
+  WILDCARD_ROUTES,
+  ROUTES_CONFIG,
+  MESSAGES,
+  INPUT,
+};

@@ -4,7 +4,7 @@
 import React, { useRef } from 'react';
 // Components
 import useNotification from '../../../Hooks/useNotification';
-import { MESSAGES } from '../../../Shared/Constants';
+import { INPUT, MESSAGES } from '../../../Shared/Constants';
 import { isValidFileType } from '../../../Shared/functions';
 // Styles
 import './FileUploader.scss';
@@ -90,8 +90,8 @@ const FileUploader: React.FC<Props> = ({
         </div>
       )}
       <input
-        type="file"
-        accept=".pdf,image/*"
+        type={INPUT.INPUT_TYPE.FILE}
+        accept={INPUT.INPUT_REGEX.FILE}
         ref={inputRef}
         onChange={handleFileChange}
         hidden
