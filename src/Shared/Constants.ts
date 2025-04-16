@@ -80,6 +80,16 @@ const INPUT = {
     FILE: '.pdf,image/*',
   },
 };
+type ButtonType = 'button' | 'submit' | 'reset';
+ const BUTTON = {
+  BUTTON_TYPE: {
+    button: 'button' as ButtonType,
+    submit: 'submit' as ButtonType,
+    reset: 'reset' as ButtonType,
+  },
+};
+
+
 
 export {
   SNACKBAR_CONFIG,
@@ -91,4 +101,5 @@ export {
   MODAL_MESSAGES,
   BUTTON_TEXT,
   CONFIDENCE_CONFIG,
+  BUTTON,
 };

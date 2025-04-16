@@ -1,10 +1,16 @@
+// Library
 import { useEffect, useState } from 'react';
+// Utils
 import { formatCamelCase } from '../../../Shared/functions';
+// Components
 import ExtractedField from '../../Atoms/ExtractedField';
 import FieldWrapper from '../../Cells/FieldWrapper';
+// Hooks
 import useNotification from '../../../Hooks/useNotification';
+// Constants 
 import { MESSAGES } from '../../../Shared/Constants';
 import { ExtractedData } from '../../../Services/Api/Constants';
+import { ExtracetedDummyData } from './helpers/constants';
 
 type ExtractedFieldsProps = {
   setData: React.Dispatch<React.SetStateAction<ExtractedData | null>>;
@@ -20,107 +26,63 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
 
   const notify = useNotification();
-
+  const dummyApiTime =  1000;
   useEffect(() => {
     setTimeout(() => {
-      const fetchedData: ExtractedData = {
-        invoiceDetails: {
-          invoiceNo: { value: 'INV-123', confidenceScore: 85, approved: false },
-          date: { value: '2024-04-01', confidenceScore: 90, approved: true },
-          modeOfPayment: {
-            value: 'Credit Card',
-            confidenceScore: 75,
-            approved: false,
-          },
-        },
-        supplierDetails: {
-          name: { value: 'ABC Pvt Ltd', confidenceScore: 95, approved: true },
-          address: { value: '123 Street', confidenceScore: 80, approved: true },
-          contact: { value: '9876543210', confidenceScore: 70, approved: true },
-          gstin: {
-            value: '22AAAAA0000A1Z5',
-            confidenceScore: 85,
-            approved: true,
-          },
-          stateName: {
-            value: 'Karnataka',
-            confidenceScore: 88,
-            approved: true,
-          },
-          code: { value: 'KA01', confidenceScore: 60, approved: true },
-          email: {
-            value: 'abc@example.com',
-            confidenceScore: 92,
-            approved: true,
-          },
-        },
-        buyerDetails: {
-          name: { value: 'XYZ Traders', confidenceScore: 93, approved: true },
-          address: { value: '456 Avenue', confidenceScore: 78, approved: true },
-          gstin: {
-            value: '29BBBBB1111B2Z6',
-            confidenceScore: 82,
-            approved: true,
-          },
-          stateName: {
-            value: 'Maharashtra',
-            confidenceScore: 87,
-            approved: true,
-          },
-          code: { value: 'MH02', confidenceScore: 65, approved: true },
-        },
-      };
+      const fetchedData: ExtractedData =ExtracetedDummyData
       setData(fetchedData);
-      // eslint-disable-next-line no-param-reassign
       oldStateRef.current = JSON.parse(JSON.stringify(fetchedData));
       setLoading(false);
-    }, 1000);
+    }, dummyApiTime);
   }, [oldStateRef, setData]);
 
+  type FieldUpdate = {
+    value?: string;
+    approved?: boolean;
+  };
+  
+  const updateFieldState = (
+    prevData: typeof data,
+    sectionKey: string,
+    fieldKey: string,
+    updates: FieldUpdate
+  ) => {
+    return {
+      ...prevData!,
+      [sectionKey]: {
+        ...prevData![sectionKey],
+        [fieldKey]: {
+          ...prevData![sectionKey][fieldKey],
+          ...updates,
+        },
+      },
+    };
+  };
+  
   const handleChange = (
     sectionKey: string,
     fieldKey: string,
     newValue: string
   ) => {
     if (!data) return;
-    if (
+  
+    const isValueChanged =
       oldStateRef.current &&
-      oldStateRef.current[sectionKey][fieldKey].value !== newValue
-    ) {
-      setData((prevData) => ({
-        ...prevData!,
-        [sectionKey]: {
-          ...prevData![sectionKey],
-          [fieldKey]: {
-            ...prevData![sectionKey][fieldKey],
-            approved: false, // Only update `approved` status here
-          },
-        },
-      }));
-    } else {
-      setData((prevData) => ({
-        ...prevData!,
-        [sectionKey]: {
-          ...prevData![sectionKey],
-          [fieldKey]: {
-            ...prevData![sectionKey][fieldKey],
-            approved: true, // Only update `approved` status here
-          },
-        },
-      }));
-    }
-
-    setData((prevData) => ({
-      ...prevData!,
-      [sectionKey]: {
-        ...prevData![sectionKey],
-        [fieldKey]: {
-          ...prevData![sectionKey][fieldKey],
-          value: newValue, // Do NOT touch `approved` here
-        },
-      },
-    }));
+      oldStateRef.current[sectionKey][fieldKey].value !== newValue;
+  
+    setData((prevData) =>
+      updateFieldState(prevData, sectionKey, fieldKey, {
+        approved: !isValueChanged ? true : false,
+      })
+    );
+  
+    setData((prevData) =>
+      updateFieldState(prevData, sectionKey, fieldKey, {
+        value: newValue,
+      })
+    );
   };
+  
 
   const handleOnApprove = async (
     sectionKey: string,
@@ -130,27 +92,22 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   ) => {
     try {
       notify(MESSAGES.NOTIFICATION.APPROVED);
-      setData((prevData) => ({
-        ...prevData!,
-        [sectionKey]: {
-          ...prevData![sectionKey],
-          [fieldKey]: {
-            ...prevData![sectionKey][fieldKey],
-            approved: value, // Only update `approved` status here
-          },
-        },
-      }));
+  
+      setData((prevData) =>
+        updateFieldState(prevData, sectionKey, fieldKey, {
+          approved: value,
+        })
+      );
+  
       if (oldStateRef.current) {
-        // eslint-disable-next-line no-param-reassign
         oldStateRef.current[sectionKey][fieldKey].approved = value;
-
-        // eslint-disable-next-line no-param-reassign
         oldStateRef.current[sectionKey][fieldKey].value = newFieldValue;
       }
     } catch (error) {
       notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
     }
   };
+  
 
   if (loading || !data) return <div>Loading extracted fields...</div>;
 
