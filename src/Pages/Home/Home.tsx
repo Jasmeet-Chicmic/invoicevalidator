@@ -53,11 +53,11 @@ function Home() {
       filePath,
       invoiceId,
     };
-    console.log('getInvoicePayload', getInvoicePayload);
+    
     const extractedDataApi: ExtractedData =
       await getInvoice(getInvoicePayload).unwrap();
 
-    console.log('extractedData', extractedDataApi);
+   
   };
 
   useEffect(() => {

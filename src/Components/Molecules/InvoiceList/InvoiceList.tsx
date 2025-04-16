@@ -1,11 +1,7 @@
-// Library
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// Constants
 import { MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
-// Styles
 import './InvoiceList.scss';
-// Custom Components
 import CommonModal from '../CommonModal';
 
 export interface Invoice {
@@ -62,11 +58,14 @@ const dummyInvoices: Invoice[] = [
 
 const InvoiceList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>(dummyInvoices);
+  const [filterStatus, setFilterStatus] = useState<'All' | 'Approved' | 'Pending'>('All');
   const [confirmationModal, setConfirmationModal] = useState({
     isOpen: false,
     data: { invoiceId: '' },
   });
+
   const navigate = useNavigate();
+
   const formatCurrency = (amount: number): string =>
     new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -75,8 +74,8 @@ const InvoiceList: React.FC = () => {
     }).format(amount);
 
   const handleEdit = (id: string) => {
-    id.concat('edit');
-    navigate(ROUTES.EDIT);
+    id.concat("tets")
+    navigate(ROUTES.EDIT); // Add ID to route if needed
   };
 
   const handleDelete = (id: string) => {
@@ -89,15 +88,44 @@ const InvoiceList: React.FC = () => {
   const getStatusClass = (status: string): string =>
     `status-badge status-${status.toLowerCase()}`;
 
+  const filteredInvoices = invoices.filter((invoice) =>
+    filterStatus === 'All' ? true : invoice.status === filterStatus
+  );
+
   return (
     <div className="invoice-list">
       <div className="invoice-list__header">
         <h1 className="invoice-list__title">Invoices</h1>
+
+        <div className="invoice-list__filters">
+          <button
+            className={`filter-btn ${filterStatus === 'Approved' ? 'active' : ''}`}
+            onClick={() => setFilterStatus('Approved')}
+            type={"button"}
+          >
+            Approved
+          </button>
+          <button
+            className={`filter-btn ${filterStatus === 'Pending' ? 'active' : ''}`}
+            onClick={() => setFilterStatus('Pending')}
+            type='button'
+          >
+            Pending
+          </button>
+          <button
+            className={`filter-btn ${filterStatus === 'All' ? 'active' : ''}`}
+            onClick={() => setFilterStatus('All')}
+            type='button'
+          >
+            All
+          </button>
+        </div>
+
         <button type="button" className="btn-primary">
           Export to Tally
         </button>
         <button type="button" className="btn-primary">
-        Download JSON
+          Download JSON
         </button>
       </div>
 
@@ -114,73 +142,49 @@ const InvoiceList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {invoices.map((invoice) => (
-              <tr key={invoice.id}>
-                <td>{invoice.invoiceNo}</td>
-                <td>{invoice.vendor}</td>
-                <td>{formatCurrency(invoice.amount)}</td>
-                <td>{invoice.date}</td>
-                <td>
-                  <span className={getStatusClass(invoice.status)}>
-                    {invoice.status}
-                  </span>
-                </td>
-                <td className="invoice-list__actions">
-                  <button
-                    type="button"
-                    aria-label={`Edit invoice ${invoice.invoiceNo}`}
-                    className="invoice-list__action-button invoice-list__action-button--edit"
-                    onClick={() => handleEdit(invoice.id)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
+            {filteredInvoices.length > 0 ? (
+              filteredInvoices.map((invoice) => (
+                <tr key={invoice.id}>
+                  <td>{invoice.invoiceNo}</td>
+                  <td>{invoice.vendor}</td>
+                  <td>{formatCurrency(invoice.amount)}</td>
+                  <td>{invoice.date}</td>
+                  <td>
+                    <span className={getStatusClass(invoice.status)}>
+                      {invoice.status}
+                    </span>
+                  </td>
+                  <td className="invoice-list__actions">
+                    <button
+                      type="button"
+                      className="invoice-list__action-button invoice-list__action-button--edit"
+                      onClick={() => handleEdit(invoice.id)}
+                      aria-label={`Edit invoice ${invoice.invoiceNo}`}
                     >
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    aria-label={`Delete invoice ${invoice.invoiceNo}`}
-                    className="invoice-list__action-button invoice-list__action-button--delete"
-                    onClick={() => handleDelete(invoice.id)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
+                      ✏️
+                    </button>
+                    <button
+                      type="button"
+                      className="invoice-list__action-button invoice-list__action-button--delete"
+                      onClick={() => handleDelete(invoice.id)}
+                      aria-label={`Delete invoice ${invoice.invoiceNo}`}
                     >
-                      <polyline points="3 6 5 6 21 6" />
-                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                      <line x1="10" y1="11" x2="10" y2="17" />
-                      <line x1="14" y1="11" x2="14" y2="17" />
-                    </svg>
-                  </button>
+                      🗑️
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} style={{ textAlign: 'center' }}>
+                  No invoices found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
-      <button type="button" className="invoice-list__export-button">
-        Export
-      </button>
+
       <CommonModal
         isOpen={confirmationModal.isOpen}
         onRequestClose={() =>
