@@ -4,6 +4,7 @@ export const API_END_POINTS = {
   FILE_UPLOAD: '/bookkeep/invoice/upload/',
   ON_APPROVE: '/bookkeep/invoice/on-approve/',
   INVOICE_DATA: '/bookkeep/invoice/display',
+  ALL_INVOICES: 'bookkeep/invoice/list/all/'
 };
 export const HTTPS_METHODS = {
   GET: 'GET',

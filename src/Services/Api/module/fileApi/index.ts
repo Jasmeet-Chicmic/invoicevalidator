@@ -29,6 +29,12 @@ export const fileApi = api.injectEndpoints({
         params: data,
       }),
     }),
+    getAllInvoice: builder.query({
+      query: () => ({
+        url: API_END_POINTS.ALL_INVOICES,
+        method: HTTPS_METHODS.GET,
+      }),
+    }),
   }),
 });
 
@@ -36,4 +42,5 @@ export const {
   useFileUploadMutation,
   useOnApproveMutation,
   useLazyGetInvoiceQuery,
+  useGetAllInvoiceQuery
 } = fileApi;
