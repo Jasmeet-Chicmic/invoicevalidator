@@ -6,7 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
-import { useFileUploadMutation, useLazyGetInvoiceQuery } from '../../Services/Api/module/fileApi';
+import {
+  useFileUploadMutation,
+  useLazyGetInvoiceQuery,
+} from '../../Services/Api/module/fileApi';
 import {
   API_BASE_URL,
   ExtractedData,
@@ -53,11 +56,8 @@ function Home() {
       filePath,
       invoiceId,
     };
-    
-    const extractedDataApi: ExtractedData =
-      await getInvoice(getInvoicePayload).unwrap();
 
-   
+    await getInvoice(getInvoicePayload).unwrap();
   };
 
   useEffect(() => {

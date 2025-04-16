@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 import { MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
 import './InvoiceList.scss';
@@ -54,11 +55,30 @@ const dummyInvoices: Invoice[] = [
     date: '03/04/2025',
     status: 'Approved',
   },
+  {
+    id: 'inv-006',
+    invoiceNo: 'INV-34929',
+    vendor: 'Aqua Inc.',
+    amount: 75200,
+    date: '04/04/2025',
+    status: 'Pending',
+  },
+  {
+    id: 'inv-007',
+    invoiceNo: 'INV-34930',
+    vendor: 'Ocean Group',
+    amount: 43200,
+    date: '05/04/2025',
+    status: 'Approved',
+  },
 ];
 
+const ITEMS_PER_PAGE = 5;
+type FilterStateType = 'All' | 'Approved' | 'Pending';
 const InvoiceList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>(dummyInvoices);
-  const [filterStatus, setFilterStatus] = useState<'All' | 'Approved' | 'Pending'>('All');
+  const [filterStatus, setFilterStatus] = useState<FilterStateType>('All');
+  const [currentPage, setCurrentPage] = useState(0);
   const [confirmationModal, setConfirmationModal] = useState({
     isOpen: false,
     data: { invoiceId: '' },
@@ -74,8 +94,8 @@ const InvoiceList: React.FC = () => {
     }).format(amount);
 
   const handleEdit = (id: string) => {
-    id.concat("tets")
-    navigate(ROUTES.EDIT); // Add ID to route if needed
+    id.concat('test');
+    navigate(ROUTES.EDIT); // Update with `ROUTES.EDIT + id` if needed
   };
 
   const handleDelete = (id: string) => {
@@ -88,9 +108,24 @@ const InvoiceList: React.FC = () => {
   const getStatusClass = (status: string): string =>
     `status-badge status-${status.toLowerCase()}`;
 
+  // Filtered and Paginated Data
   const filteredInvoices = invoices.filter((invoice) =>
     filterStatus === 'All' ? true : invoice.status === filterStatus
   );
+
+  const pageCount = Math.ceil(filteredInvoices.length / ITEMS_PER_PAGE);
+
+  const paginatedInvoices = filteredInvoices.slice(
+    currentPage * ITEMS_PER_PAGE,
+    (currentPage + 1) * ITEMS_PER_PAGE
+  );
+
+  const handlePageChange = (selectedItem: { selected: number }) => {
+    setCurrentPage(selectedItem.selected);
+
+    // For backend pagination, call API here with selected page
+    // fetchInvoicesFromServer({ page: selectedItem.selected, filter: filterStatus })
+  };
 
   return (
     <div className="invoice-list">
@@ -98,27 +133,19 @@ const InvoiceList: React.FC = () => {
         <h1 className="invoice-list__title">Invoices</h1>
 
         <div className="invoice-list__filters">
-          <button
-            className={`filter-btn ${filterStatus === 'Approved' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('Approved')}
-            type={"button"}
-          >
-            Approved
-          </button>
-          <button
-            className={`filter-btn ${filterStatus === 'Pending' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('Pending')}
-            type='button'
-          >
-            Pending
-          </button>
-          <button
-            className={`filter-btn ${filterStatus === 'All' ? 'active' : ''}`}
-            onClick={() => setFilterStatus('All')}
-            type='button'
-          >
-            All
-          </button>
+          {['Approved', 'Pending', 'All'].map((status) => (
+            <button
+              key={status}
+              className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
+              onClick={() => {
+                setFilterStatus(status as FilterStateType);
+                setCurrentPage(0);
+              }}
+              type="button"
+            >
+              {status}
+            </button>
+          ))}
         </div>
 
         <button type="button" className="btn-primary">
@@ -142,8 +169,8 @@ const InvoiceList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredInvoices.length > 0 ? (
-              filteredInvoices.map((invoice) => (
+            {paginatedInvoices.length > 0 ? (
+              paginatedInvoices.map((invoice) => (
                 <tr key={invoice.id}>
                   <td>{invoice.invoiceNo}</td>
                   <td>{invoice.vendor}</td>
@@ -184,6 +211,20 @@ const InvoiceList: React.FC = () => {
           </tbody>
         </table>
       </div>
+
+      {filteredInvoices.length > ITEMS_PER_PAGE && (
+        <ReactPaginate
+          previousLabel="← Previous"
+          nextLabel="Next →"
+          pageCount={pageCount}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          activeClassName="active"
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={1}
+          forcePage={currentPage}
+        />
+      )}
 
       <CommonModal
         isOpen={confirmationModal.isOpen}
