@@ -3,6 +3,7 @@ export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
 export const API_END_POINTS = {
   FILE_UPLOAD: '/bookkeep/invoice/upload/',
   ON_APPROVE: '/bookkeep/invoice/on-approve/',
+  INVOICE_DATA: '/bookkeep/invoice/display',
 };
 export const HTTPS_METHODS = {
   GET: 'GET',
@@ -15,13 +16,22 @@ export const HTTPS_METHODS = {
 export interface FileUploadRequest {
   file: FormData;
 }
+interface FileUploadData {
+  filePath: string;
+  invoiceId: string;
+}
 export interface FileUploadResponse {
   message: string;
-  file_path: string;
+  data: FileUploadData;
 }
 
 export interface OnApproveRequest {
   [key: string]: string;
+}
+
+export interface GetInvoiceRequest {
+  filePath: string;
+  invoiceId: string;
 }
 
 type Field = {

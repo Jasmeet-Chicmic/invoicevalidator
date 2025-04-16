@@ -93,8 +93,11 @@ const InvoiceList: React.FC = () => {
     <div className="invoice-list">
       <div className="invoice-list__header">
         <h1 className="invoice-list__title">Invoices</h1>
-        <button type="button" className="invoice-list__add-button">
-          Add New Invoice
+        <button type="button" className="btn-primary">
+          Export to Tally
+        </button>
+        <button type="button" className="btn-primary">
+        Download JSON
         </button>
       </div>
 

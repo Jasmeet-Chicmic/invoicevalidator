@@ -1,6 +1,7 @@
 import api from '../../api';
 import {
   API_END_POINTS,
+  GetInvoiceRequest,
   HTTPS_METHODS,
   OnApproveRequest,
 } from '../../Constants';
@@ -21,7 +22,18 @@ export const fileApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    getInvoice: builder.query({
+      query: (data: GetInvoiceRequest) => ({
+        url: API_END_POINTS.INVOICE_DATA,
+        method: HTTPS_METHODS.GET,
+        params: data,
+      }),
+    }),
   }),
 });
 
-export const { useFileUploadMutation, useOnApproveMutation } = fileApi;
+export const {
+  useFileUploadMutation,
+  useOnApproveMutation,
+  useLazyGetInvoiceQuery,
+} = fileApi;
