@@ -32,4 +32,33 @@ const ROUTES_CONFIG = {
   },
 };
 
-export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG };
+const MESSAGES = {
+  NOTIFICATION: {
+    FILE_TYPE_NOT_ALLOWED: 'File type not allowed',
+  },
+  FILE_UPLOADER: {
+    MESSAGE: 'Click or drag and drop a PDF or image here',
+  },
+};
+const SNACKBAR_CONFIG = {
+  MAX_SNACK: 3,
+  AUTOHIDE_DURATION: 3000,
+};
+
+const INPUT = {
+  INPUT_TYPE: {
+    FILE: 'file',
+  },
+  INPUT_REGEX: {
+    FILE: '.pdf,image/*',
+  },
+};
+
+export {
+  SNACKBAR_CONFIG,
+  ROUTES,
+  WILDCARD_ROUTES,
+  ROUTES_CONFIG,
+  MESSAGES,
+  INPUT,
+};

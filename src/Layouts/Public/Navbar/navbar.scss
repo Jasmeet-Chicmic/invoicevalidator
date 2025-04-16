@@ -1,5 +1,26 @@
-.header {
-  padding-left: 30px;
-  gap: 30px;
-  background-color: antiquewhite;
+@import "../../../Assets/SCSS/main";
+
+.nav-links {
+  a {
+    margin: 0 10px;
+    color: $grey-color;
+    font-size: 16px;
+
+    &.active {
+      color: $black-color;
+    }
+  }
+
+  .bookademo {
+    background: $blue-color;
+    color: $white-color;
+    border: $none;
+    padding: 15px 30px;
+  }
 }
+
+// .upload-page {
+//   width: 100%;
+//   height: 100%;
+//   padding: 20px 0 0 0;
+// }

@@ -28,6 +28,7 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     'simple-import-sort/imports': 'off',
     'simple-import-sort/exports': 'off',
+    'react/function-component-definition': 'off',
     'jsx-a11y/anchor-is-valid': [
       'error',
       {
