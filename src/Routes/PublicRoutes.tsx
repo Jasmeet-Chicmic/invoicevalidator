@@ -4,7 +4,6 @@ import { CustomRouter } from './RootRoutes';
 import Home from '../Pages/Home';
 import InvoiceListPage from '../Pages/InvoiceListPage';
 
-// eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
     path: ROUTES_CONFIG.HOMEPAGE.path,

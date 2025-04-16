@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 //  React or core framework imports
 import React, { useMemo, useRef } from 'react';
 // Components
@@ -82,7 +80,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           </button>
         </div>
       )}
-      {isDropzone && (
+      {isDropzone ? (
         <div
           className="dropzone"
           onClick={handleClick}
@@ -92,7 +90,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           <p>{MESSAGES.FILE_UPLOADER.MESSAGE}</p>
           <span>📁</span>
         </div>
-      )}
+      ) : null}
       <input
         type={INPUT.INPUT_TYPE.FILE}
         accept={INPUT.INPUT_REGEX.FILE}

@@ -66,6 +66,7 @@ function Home() {
   const handleRemove = () => {
     setFile(null);
     setFileUrl(null);
+    setConfirmationModal(false);
   };
 
   const handleBack = () => {
@@ -77,6 +78,9 @@ function Home() {
     navigate(ROUTES.LISTING);
   };
 
+  const onCloseModal = () => {
+  setConfirmationModal(false);
+}
   return (
     <div className="file-uploadbx">
       {!fileUrl ? (
@@ -112,11 +116,8 @@ function Home() {
       )}
       <CommonModal
         isOpen={confirmationModal}
-        onRequestClose={() => setConfirmationModal(false)}
-        onOk={() => {
-          handleRemove();
-          setConfirmationModal(false);
-        }}
+        onRequestClose={onCloseModal}
+        onOk={handleRemove}
         message={MODAL_MESSAGES.CANCLE_INVOICE_CONFIRMATION}
       />
     </div>
