@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './TextLoader.scss';
 import { MessageConfig, messages } from './helpers/constants';
 
-const TextLoader: React.FC = () => {
+type TextLoaderProps = {
+  showText?: boolean;
+};
+
+const TextLoader: React.FC<TextLoaderProps> = ({ showText = true }) => {
   const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
@@ -16,7 +20,9 @@ const TextLoader: React.FC = () => {
   return (
     <div className="text-loader">
       <div className="text-loader__spinner" />
-      <p className="text-loader__message">{messages[messageIndex]}</p>
+      {showText && (
+        <p className="text-loader__message">{messages[messageIndex]}</p>
+      )}
     </div>
   );
 };

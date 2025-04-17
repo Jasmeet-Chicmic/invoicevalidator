@@ -3,12 +3,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 
 import './navbar.scss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
 import IMAGES from '../../../Shared/Images';
 
 function NavbarComponent() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const showUpload = location.pathname === ROUTES.LISTING;
   return (
     <Navbar expand="lg" className="">
       <Container fluid>
@@ -34,20 +36,22 @@ function NavbarComponent() {
             </div>
           </Navbar.Collapse> */}
 
-          <div className="sidebtns">
-            <Button
-              className="bookademo ms-3"
-              variant="primary"
-              onClick={() => {
-                navigate(ROUTES.HOMEPAGE);
-              }}
-            >
-              <span className="btn-icon me-2">
-                <img src={IMAGES.addIcon} alt="add-icon" />
-              </span>
-              Upload
-            </Button>
-          </div>
+          {showUpload && (
+            <div className="sidebtns">
+              <Button
+                className="bookademo ms-3"
+                variant="primary"
+                onClick={() => {
+                  navigate(ROUTES.HOMEPAGE);
+                }}
+              >
+                <span className="btn-icon me-2">
+                  <img src={IMAGES.addIcon} alt="add-icon" />
+                </span>
+                Upload
+              </Button>
+            </div>
+          )}
         </div>
       </Container>
     </Navbar>

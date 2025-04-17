@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
-export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL_LOCAL;
+export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
 export const API_END_POINTS = {
   FILE_UPLOAD: '/bookkeep/invoice/upload/',
   ON_APPROVE: '/bookkeep/invoice/on-approve/',

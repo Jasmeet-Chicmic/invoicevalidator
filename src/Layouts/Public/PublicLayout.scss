@@ -113,3 +113,16 @@ body,
     width: 100%;
     height: 100%;
 }
+
+.upload-page{
+    .file-uploader{
+        .text-loader{
+            position: relative;
+            height: 197px;
+            &__spinner{
+                border-top-color: $white-color !important;
+                border-color: rgba($black-color, 0.3);
+            }
+        }
+    }
+}
