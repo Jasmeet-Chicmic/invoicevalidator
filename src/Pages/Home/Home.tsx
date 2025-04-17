@@ -25,6 +25,7 @@ import useNotification from '../../Hooks/useNotification';
 // constants
 import {
   BUTTON_TEXT,
+  INVOICE_STATUS,
   MESSAGES,
   MODAL_MESSAGES,
   ROUTES,
@@ -36,7 +37,7 @@ function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [confirmationModal, setConfirmationModal] = useState(false);
-  const [submitBtnText, setSubmitBtnText] = useState(BUTTON_TEXT.DRAFT);
+  const [statusText, setStatusText] = useState({buttonText:BUTTON_TEXT.DRAFT,status:INVOICE_STATUS.PENDING});
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
@@ -47,10 +48,13 @@ function Home() {
   const notify = useNotification();
   const navigate = useNavigate();
   useEffect(() => {
+    console.log("All fields are approved",extractedData);
     if (extractedData && areAllFieldsApproved(extractedData)) {
-      setSubmitBtnText(BUTTON_TEXT.SAVE);
+     
+      
+      setStatusText({buttonText:BUTTON_TEXT.SAVE,status:INVOICE_STATUS.APPROVED});
     } else {
-      setSubmitBtnText(BUTTON_TEXT.DRAFT);
+      setStatusText({buttonText:BUTTON_TEXT.DRAFT,status:INVOICE_STATUS.PENDING});
     }
   }, [extractedData]);
   const fetchImageData = async (
@@ -74,7 +78,7 @@ function Home() {
     } catch (catchError) {
       const error = catchError as unknown as CommonErrorResponse;
       console.log('error', error);
-      notify(error.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
+      notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
     }
   };
 
@@ -216,9 +220,9 @@ function Home() {
                   </div>
                 </div>
                 <div className="fields-bottom-section">
-                  <h3>Status: <span>Approved</span></h3>
+                  <h3>Status: <span>{statusText.status}</span></h3>
                   <button onClick={handleSave} className='draft-save-btn ms-auto' type="button">
-                    <span><img src={IMAGES.saveIcon} /></span>{submitBtnText}
+                    <span><img src={IMAGES.saveIcon} /></span>{statusText.buttonText}
                   </button>
                 </div>
               </div>

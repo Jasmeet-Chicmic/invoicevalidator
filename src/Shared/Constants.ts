@@ -70,6 +70,10 @@ const MODAL_MESSAGES = {
   EDIT_INVOICE_CONFIRMATION: 'Are you sure you want to discard changes?',
 };
 
+const INVOICE_STATUS = {
+  APPROVED: 'Approved',
+  PENDING: 'Pending',
+}
 const BUTTON_TEXT = {
   SAVE: 'Save',
   DRAFT: 'Draft',
@@ -110,5 +114,6 @@ export {
   MESSAGES,
   MODAL_MESSAGES,
   INPUT,
-  BUTTON
+  BUTTON,
+  INVOICE_STATUS
 };

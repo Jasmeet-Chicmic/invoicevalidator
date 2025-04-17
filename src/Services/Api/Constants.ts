@@ -59,6 +59,10 @@ export interface ExtractedDataResponse {
   data: ExtractedData;
 }
 
-export interface CommonErrorResponse {
+export interface ErrorData {
   message: string;
+}
+export interface CommonErrorResponse {
+  status: number;
+  data: ErrorData;
 }
