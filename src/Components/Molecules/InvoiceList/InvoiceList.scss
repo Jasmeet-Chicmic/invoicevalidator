@@ -9,6 +9,9 @@
   background: $white-color;
   border: 1px solid $grey-color-300;
   gap: 5px;
+  @media screen and (max-width:768px) {
+    margin-left: 0px;
+  }
   .filter-btn{
 
   }
@@ -19,6 +22,10 @@
   display: flex;
   gap: 10px;
 
+  @media screen and (max-width:768px) {
+    margin: 0px;
+  }
+
   .btn-primary {
     background: $blue-color;
     color: $white-color;
@@ -27,6 +34,10 @@
     border-radius: 5px;
     display: flex;
     gap: 8px;
+
+    @media screen and (max-width:768px) {
+      padding: 7px 10px;
+    }
 
     .btn-icon {
       width: 16px;
@@ -84,6 +95,10 @@ button {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    @media screen and (max-width:768px) {
+      flex-direction: column;
+      align-content: center;
+    }
   }
 
   &__title {
@@ -297,6 +312,7 @@ button {
       th,
       td {
         padding: 0.75rem 0.5rem;
+        font-size: 12px;
       }
     }
   }
@@ -334,6 +350,9 @@ button {
       transition: all 0.2s ease;
       line-height: 24px;
       display: block;
+      @media screen and (max-width:768px){
+        padding:0.2rem 0.8rem;
+      }
     }
 
     &:hover:not(.active) {
