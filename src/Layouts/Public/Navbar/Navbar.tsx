@@ -17,7 +17,7 @@ function NavbarComponent() {
             Bookeep<span>AI</span>
           </Navbar.Brand>
           {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-          <Navbar.Collapse id="basic-navbar-nav">
+          {/* <Navbar.Collapse id="basic-navbar-nav">
             <div className="sidebtns">
               <Button
                 className="bookademo ms-3"
@@ -32,7 +32,22 @@ function NavbarComponent() {
                 Upload
               </Button>
             </div>
-          </Navbar.Collapse>
+          </Navbar.Collapse> */}
+
+          <div className="sidebtns">
+            <Button
+              className="bookademo ms-3"
+              variant="primary"
+              onClick={() => {
+                navigate(ROUTES.HOMEPAGE);
+              }}
+            >
+              <span className="btn-icon me-2">
+                <img src={IMAGES.addIcon} alt="add-icon" />
+              </span>
+              Upload
+            </Button>
+          </div>
         </div>
       </Container>
     </Navbar>

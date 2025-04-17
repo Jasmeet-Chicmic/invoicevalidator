@@ -20,6 +20,10 @@ body,
         .navbar-brand {
             color: $black-color;
             font-weight: $font-medium;
+            @media screen and (max-width:768px) {
+                font-size: 14px;
+                margin: 0px;
+            }
             span{
                 color: $blue-color;
                 margin-left: 3px;
@@ -35,6 +39,12 @@ body,
                     font-weight: $font-regular;
                     font-size: 16px;
                     border-radius: 8px;
+
+                    @media screen and (max-width:768px) {
+                        padding: 5px 15px;
+                        font-size: 14px;
+                    }
+
                     &:hover{
                         background: $blue-color;
                         color: $white-color;
@@ -67,6 +77,9 @@ body,
         font-weight: $font-medium;
         color: $black-color-900;
         margin-bottom: 16px;
+        @media screen and (max-width:768px) {
+            font-size: 20px;
+        }
     }
 }
 

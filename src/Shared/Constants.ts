@@ -75,8 +75,8 @@ const INVOICE_STATUS = {
   PENDING: 'Pending',
 };
 const BUTTON_TEXT = {
-  SAVE: 'Save',
-  DRAFT: 'Draft',
+  SAVE: 'Save Data',
+  DRAFT: 'Save as Draft',
 };
 const CONFIDENCE_CONFIG = {
   DANGER: 0.5,
