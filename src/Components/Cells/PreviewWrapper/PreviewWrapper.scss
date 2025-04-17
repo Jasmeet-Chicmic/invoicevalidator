@@ -1,5 +1,8 @@
 @import "../../../Assets/SCSS/main";
 
+
+$section-gapping:22px 30px;
+
 .two-pane-wrapper {
   .back-btn {
     // background-color: $white-color;
@@ -50,6 +53,11 @@
           background: $black-color-700;
           border-radius: 10px;
           height: calc(100% - 40px);
+          overflow: hidden;
+          img{
+            height: 100%;
+            max-height: unset !important;
+          }
         }
 
       }
@@ -65,9 +73,33 @@
 
     .right-pane {
       flex: 1;
+      min-width: 472px;
       background: $white-color;
-      height: 100%;
+      height: calc(100vh - 78px);
       position: relative;
+      box-shadow: -4px 0px 10px rgb(0 0 0 / 1%);
+
+      .extracted-filedsbx {
+        height: calc(100% - 160px);
+        overflow: auto;
+        margin-top: 68px;
+
+        .field-wrapper{
+          background: transparent;
+          margin: 0px;
+          &__title{
+            background: none;
+            margin: 0px;
+            font-size: 16px;
+            font-weight: $font-medium;
+            padding:30px 30px 11px 30px;
+          }
+          &__content{
+            padding: 30px;
+          }
+        }
+
+      }
 
 
       .loading-text {
@@ -86,20 +118,44 @@
           position: absolute;
           top: 0px;
           left: 0px;
-          padding: 10px;
+          padding: $section-gapping;
           background: $white-color;
-          box-shadow: 0 5px 10px rgba($black-color-700, 0.05);
+          border-bottom: 1px solid $grey-color-300;
           width: 100%;
+          h2{
+            font-size: 22px;
+            font-weight: $font-medium;
+            color: $black-color-900;
+            margin: 0px;
+          }
       }
 
       .fields-bottom-section {
         position: absolute;
         bottom: 0px;
         left: 0px;
-        padding: 10px;
+        padding: $section-gapping;
         background: $white-color;
-        box-shadow: 0 -5px 10px rgba($black-color-700, 0.05);
+        border-top: 1px solid $grey-color-300;
         width: 100%;
+
+        h3{
+          font-size: 14px;
+          font-weight: $font-bold;
+          color: $black-color;
+          display: inline-flex;
+          span{
+            font-weight: $font-medium;
+            color: $green-color-900;
+          }
+        }
+
+        button{
+          &.btn{
+            
+          }
+        }
+        
       }
 
     }
