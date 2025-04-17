@@ -311,22 +311,35 @@ button {
   gap: 0.5rem;
 
   li {
-    padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    cursor: pointer;
-    background-color: var(--background-light);
-    border: 1px solid var(--border-color);
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-
+    overflow: hidden;
+    
     &.active {
-      background-color: var(--primary-color);
-      color: white;
-      border-color: var(--primary-color);
+      a{
+        background-color: var(--primary-color);
+        color: $white-color !important;
+        border-color: var(--primary-color);
+        &:hover{
+          color: $white-color !important;
+        }
+      }
+    }
+
+    a{
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      background-color: var(--background-light);
+      border: 1px solid var(--border-color);
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      line-height: 24px;
+      display: block;
     }
 
     &:hover:not(.active) {
-      background-color: rgba(0, 0, 0, 0.05);
+      a{
+        background-color: rgba(0, 0, 0, 0.05);
+      }
     }
   }
 }

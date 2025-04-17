@@ -30,6 +30,7 @@ import {
   ROUTES,
 } from '../../Shared/Constants';
 import { areAllFieldsApproved, checkFileType } from '../../Shared/functions';
+import IMAGES from '../../Shared/Images';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -216,8 +217,8 @@ function Home() {
                 </div>
                 <div className="fields-bottom-section">
                   <h3>Status: <span>Approved</span></h3>
-                  <button onClick={handleSave} className='draft-save-btn' type="button">
-                    {submitBtnText}
+                  <button onClick={handleSave} className='draft-save-btn ms-auto' type="button">
+                    <span><img src={IMAGES.saveIcon} /></span>{submitBtnText}
                   </button>
                 </div>
               </div>
