@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ExtractedData } from '../../Services/Api/Constants';
 import {
   BUTTON_TEXT,
+  INVOICE_STATUS,
   MESSAGES,
   MODAL_MESSAGES,
   ROUTES,
@@ -18,22 +19,32 @@ import CommonModal from '../../Components/Molecules/CommonModal';
 import useNotification from '../../Hooks/useNotification';
 // Utils
 import { areAllFieldsApproved } from '../../Shared/functions';
+import IMAGES from '../../Shared/Images';
 
 const EditPage = () => {
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
   const [extractedFieldLoading, setExtractedFieldLoading] = useState(true);
-  const [submitBtnText, setSubmitBtnText] = useState(BUTTON_TEXT.DRAFT);
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const [statusText, setStatusText] = useState({
+    buttonText: BUTTON_TEXT.DRAFT,
+    status: INVOICE_STATUS.PENDING,
+  });
   const oldStateRef = useRef<ExtractedData | null>(null);
   const navigate = useNavigate();
   const notify = useNotification();
   useEffect(() => {
     if (extractedData && areAllFieldsApproved(extractedData)) {
-      setSubmitBtnText(BUTTON_TEXT.SAVE);
+      setStatusText({
+        buttonText: BUTTON_TEXT.SAVE,
+        status: INVOICE_STATUS.APPROVED,
+      });
     } else {
-      setSubmitBtnText(BUTTON_TEXT.DRAFT);
+      setStatusText({
+        buttonText: BUTTON_TEXT.DRAFT,
+        status: INVOICE_STATUS.PENDING,
+      });
     }
   }, [extractedData]);
   useEffect(() => {
@@ -106,27 +117,50 @@ const EditPage = () => {
     handleDiscard();
   };
   return (
-    <div>
+    <div className="invoice_preview">
       <PreviewWrapper
         onBack={handleBack}
         left={
-          <FilePreviewer
-            isImage
-            fileUrl="https://via.placeholder.com/150x150"
-          />
+          <div className="file-previewbx">
+            <FilePreviewer
+              isImage
+              fileUrl="https://via.placeholder.com/150x150"
+            />
+          </div>
         }
         right={
-          <ExtractedFields
-            data={extractedData}
-            setData={setExtractedData}
-            oldStateRef={oldStateRef}
-            loading={extractedFieldLoading}
-          />
+          <div className="extracted-filedsbx">
+            <div className="fields-top-section">
+              <h2>File Fields</h2>
+            </div>
+            <div className="fields-data">
+              <div className="fields">
+                <ExtractedFields
+                  data={extractedData}
+                  setData={setExtractedData}
+                  oldStateRef={oldStateRef}
+                  loading={extractedFieldLoading}
+                />
+              </div>
+            </div>
+            <div className="fields-bottom-section">
+              <h3>
+                Status: <span>{statusText.status}</span>
+              </h3>
+              <button
+                onClick={handleSave}
+                className="draft-save-btn ms-auto"
+                type="button"
+              >
+                <span>
+                  <img src={IMAGES.saveIcon} alt="save-icon" />
+                </span>
+                {statusText.buttonText}
+              </button>
+            </div>
+          </div>
         }
-      />
-      <button onClick={handleSave} type="button">
-        {submitBtnText}
-      </button>
+      /> 
       <CommonModal
         isOpen={confirmationModal}
         onRequestClose={() => setConfirmationModal(false)}
