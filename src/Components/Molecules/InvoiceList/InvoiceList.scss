@@ -3,7 +3,7 @@
 
 .invoice-list__filters {
   display: flex;
-  padding: 5px;
+  padding: 4px 5px;
   border-radius: 5px;
   margin-left: auto;
   background: $white-color;
@@ -22,8 +22,8 @@
   .btn-primary {
     background: $blue-color;
     color: $white-color;
-    padding: 6px 20px;
-    font-size: 14px;
+    padding: 7px 20px;
+    font-size: 12px;
     border-radius: 5px;
     display: flex;
     gap: 8px;
@@ -45,9 +45,9 @@ button {
   
   &.filter-btn {
     background: transparent;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: $font-regular;
-    color: $grey-color;
+    color: $grey-color-500;
 
     &.active {
       background-color: $blue-color;
@@ -132,7 +132,7 @@ button {
     
     th,
     td {
-      padding: 0.8rem 1rem;
+      padding: 0.6rem 1rem;
       text-align: left;
       font-size: 13px;
       border-bottom: 1px solid $grey-color-300;
@@ -140,14 +140,24 @@ button {
 
     th {
       background-color: $blue-color;
+      padding: 1rem 1rem;
       color: $white-color;
       font-weight: 600;
+      font-size: 16px;
+      font-weight: $font-bold;
       white-space: nowrap;
     }
 
     tbody {
       tr {
         transition: background-color 0.2s ease;
+
+        &:nth-child(even){
+          td{
+            background-color: $grey-color-200;
+            border-bottom: 1px solid $grey-color-300;
+          }
+        }
 
         &:hover {
           background-color: rgba(0, 0, 0, 0.02);

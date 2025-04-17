@@ -174,7 +174,7 @@ function Home() {
           />
         </div>
       ) : (
-        <>
+        <div className="invoice_preview">
           <PreviewWrapper
             onBack={handleBack}
             left={
@@ -195,7 +195,7 @@ function Home() {
           <button onClick={handleSave} type="button">
             {submitBtnText}
           </button>
-        </>
+        </div>
       )}
       <CommonModal
         isOpen={confirmationModal}
