@@ -145,7 +145,7 @@ const EditPage = () => {
             </div>
             <div className="fields-bottom-section">
               <h3>
-                Status: <span>{statusText.status}</span>
+                Status: <span className={`${statusText.status}`}>{statusText.status}</span>
               </h3>
               <button
                 onClick={handleSave}
