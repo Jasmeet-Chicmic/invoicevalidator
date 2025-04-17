@@ -48,6 +48,13 @@
     justify-content: center;
     font-size: 0px;
     border-radius: 3px;
+    &:hover{
+      border: none;
+    }
+    &:disabled {
+      background: $grey-color-300;
+      pointer-events: none;
+    }
   }
 }
 
