@@ -63,278 +63,278 @@ function Home() {
     }
   }, [extractedData]);
 
-  // const dummyData = {
-  //   id: 288,
-  //   mediaUrl: '/media/esi.jpg',
-  //   fileUrl: null,
-  //   uploadedOn: '2025-04-17T07:11:21.431369Z',
-  //   approved: false,
-  //   data: {
-  //     invoiceDetails: {
-  //       invoiceNo: {
-  //         value: '3131',
-  //         confidenceScore: 0.666,
-  //         approved: false,
-  //       },
-  //       ewayBillNo: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       date: {
-  //         value: '31.07.2024',
-  //         confidenceScore: 0.6606,
-  //         approved: false,
-  //       },
-  //       ackNo: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       ackDate: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       modeOfPayment: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //     },
-  //     supplierDetails: {
-  //       name: {
-  //         value: 'Ekonkar Consultancy Services',
-  //         confidenceScore: 0.9688,
-  //         approved: false,
-  //       },
-  //       address: {
-  //         value:
-  //           'B-1309, Golden City, Near Sidhu Dairy, Sector-4, Kharar, SAS NAGAR, MOHALI PB-140301',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       contact: {
-  //         value: '9814085656, 9814585656',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       companyPan: {
-  //         value: 'BEVPS9909C',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       gstin: {
-  //         value: '03BEVPS9909C1Z1',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       stateName: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       code: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       email: {
-  //         value: 'jassalbs1309@gmail.com, baljitjasal@gmail.com',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //     },
-  //     buyerDetails: {
-  //       name: {
-  //         value: 'CHICMIC TECHNOLOGIES LLP',
-  //         confidenceScore: 0.918,
-  //         approved: false,
-  //       },
-  //       address: {
-  //         value: 'F-273, INDL. AREA, PHASE-8, MOHALI-PB',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       gstin: {
-  //         value: '03AARFC2070M1ZC',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       stateName: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       code: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //     },
-  //     consigneeDetails: {
-  //       name: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       address: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       gstin: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       stateName: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       code: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //     },
-  //     items: {
-  //       description: {
-  //         value:
-  //           'Legal and Professional Charges\nServices charges of EPF , ESIC and LWF',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       hsnCode: {
-  //         value: '9982',
-  //         confidenceScore: 0.4631,
-  //         approved: false,
-  //       },
-  //       quantity: {
-  //         value: '1',
-  //         confidenceScore: 0.3643,
-  //         approved: false,
-  //       },
-  //       unit: {
-  //         value: 'Months',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       rate: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //       discount: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       amount: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //     },
-  //     charges: {
-  //       subtotal: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //       discount: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       shipping: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       total: {
-  //         value: '10620.00',
-  //         confidenceScore: 0.6895,
-  //         approved: false,
-  //       },
-  //     },
-  //     taxDetails: {
-  //       taxableValue: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //       cgstRate: {
-  //         value: '9%',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       cgstAmount: {
-  //         value: '810',
-  //         confidenceScore: 0.6338,
-  //         approved: false,
-  //       },
-  //       sgstRate: {
-  //         value: '9%',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       sgstAmount: {
-  //         value: '810',
-  //         confidenceScore: 0.6338,
-  //         approved: false,
-  //       },
-  //       igstRate: {
-  //         value: '18%',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       igstAmount: {
-  //         value: '1620',
-  //         confidenceScore: 0.5928,
-  //         approved: false,
-  //       },
-  //       totalTaxAmount: {
-  //         value: '1620',
-  //         confidenceScore: 0.5928,
-  //         approved: false,
-  //       },
-  //       taxAmountInWords: {
-  //         value: 'Ten Thousand Six Hundred and Twenty Only',
-  //         confidenceScore: 0.9951,
-  //         approved: false,
-  //       },
-  //     },
-  //     companyBankDetails: {
-  //       accountHolderName: {
-  //         value: 'Ekonkar Consultancy Services',
-  //         confidenceScore: 0.9688,
-  //         approved: false,
-  //       },
-  //       bankName: {
-  //         value: 'HDFC Bank Ltd',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       accountNo: {
-  //         value: '50200026672561',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       branchIfsc: {
-  //         value: 'HDFC0002322',
-  //         confidenceScore: 0.6836,
-  //         approved: false,
-  //       },
-  //       swiftCode: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //     },
-  //   },
-  // };
+  const dummyData = {
+    id: 288,
+    mediaUrl: '/media/esi.jpg',
+    fileUrl: null,
+    uploadedOn: '2025-04-17T07:11:21.431369Z',
+    approved: false,
+    data: {
+      invoiceDetails: {
+        invoiceNo: {
+          value: '3131',
+          confidenceScore: 0.666,
+          approved: false,
+        },
+        ewayBillNo: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        date: {
+          value: '31.07.2024',
+          confidenceScore: 0.6606,
+          approved: false,
+        },
+        ackNo: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        ackDate: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        modeOfPayment: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+      },
+      supplierDetails: {
+        name: {
+          value: 'Ekonkar Consultancy Services',
+          confidenceScore: 0.9688,
+          approved: false,
+        },
+        address: {
+          value:
+            'B-1309, Golden City, Near Sidhu Dairy, Sector-4, Kharar, SAS NAGAR, MOHALI PB-140301',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        contact: {
+          value: '9814085656, 9814585656',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        companyPan: {
+          value: 'BEVPS9909C',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        gstin: {
+          value: '03BEVPS9909C1Z1',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        stateName: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        code: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        email: {
+          value: 'jassalbs1309@gmail.com, baljitjasal@gmail.com',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+      },
+      buyerDetails: {
+        name: {
+          value: 'CHICMIC TECHNOLOGIES LLP',
+          confidenceScore: 0.918,
+          approved: false,
+        },
+        address: {
+          value: 'F-273, INDL. AREA, PHASE-8, MOHALI-PB',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        gstin: {
+          value: '03AARFC2070M1ZC',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        stateName: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        code: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+      },
+      consigneeDetails: {
+        name: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        address: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        gstin: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        stateName: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        code: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+      },
+      items: {
+        description: {
+          value:
+            'Legal and Professional Charges\nServices charges of EPF , ESIC and LWF',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        hsnCode: {
+          value: '9982',
+          confidenceScore: 0.4631,
+          approved: false,
+        },
+        quantity: {
+          value: '1',
+          confidenceScore: 0.3643,
+          approved: false,
+        },
+        unit: {
+          value: 'Months',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        rate: {
+          value: '9000',
+          confidenceScore: 0.7344,
+          approved: false,
+        },
+        discount: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        amount: {
+          value: '9000',
+          confidenceScore: 0.7344,
+          approved: false,
+        },
+      },
+      charges: {
+        subtotal: {
+          value: '9000',
+          confidenceScore: 0.7344,
+          approved: false,
+        },
+        discount: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        shipping: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+        total: {
+          value: '10620.00',
+          confidenceScore: 0.6895,
+          approved: false,
+        },
+      },
+      taxDetails: {
+        taxableValue: {
+          value: '9000',
+          confidenceScore: 0.7344,
+          approved: false,
+        },
+        cgstRate: {
+          value: '9%',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        cgstAmount: {
+          value: '810',
+          confidenceScore: 0.6338,
+          approved: false,
+        },
+        sgstRate: {
+          value: '9%',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        sgstAmount: {
+          value: '810',
+          confidenceScore: 0.6338,
+          approved: false,
+        },
+        igstRate: {
+          value: '18%',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        igstAmount: {
+          value: '1620',
+          confidenceScore: 0.5928,
+          approved: false,
+        },
+        totalTaxAmount: {
+          value: '1620',
+          confidenceScore: 0.5928,
+          approved: false,
+        },
+        taxAmountInWords: {
+          value: 'Ten Thousand Six Hundred and Twenty Only',
+          confidenceScore: 0.9951,
+          approved: false,
+        },
+      },
+      companyBankDetails: {
+        accountHolderName: {
+          value: 'Ekonkar Consultancy Services',
+          confidenceScore: 0.9688,
+          approved: false,
+        },
+        bankName: {
+          value: 'HDFC Bank Ltd',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        accountNo: {
+          value: '50200026672561',
+          confidenceScore: 1.0,
+          approved: false,
+        },
+        branchIfsc: {
+          value: 'HDFC0002322',
+          confidenceScore: 0.6836,
+          approved: false,
+        },
+        swiftCode: {
+          value: null,
+          confidenceScore: 0.0,
+          approved: false,
+        },
+      },
+    },
+  };
   const fetchImageData = async (
     filePath: string,
     invoiceId: string,
@@ -345,13 +345,15 @@ function Home() {
       invoiceId,
       fileType,
     };
+    setExtractedData(dummyData.data);
+    oldStateRef.current = JSON.parse(JSON.stringify(dummyData.data));
     try {
       const extractedDataResponse: ExtractedDataResponse =
         await getInvoice(getInvoicePayload).unwrap();
-      setExtractedData(extractedDataResponse.data);
-      oldStateRef.current = JSON.parse(
-        JSON.stringify(extractedDataResponse.data)
-      );
+      // setExtractedData(extractedDataResponse.data);
+      // oldStateRef.current = JSON.parse(
+      //   JSON.stringify(extractedDataResponse.data)
+      // );
     } catch (catchError) {
       const error = catchError as unknown as CommonErrorResponse;
       notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
