@@ -12,6 +12,7 @@ import {
 } from '../../Services/Api/module/fileApi';
 import {
   API_BASE_URL,
+  CommonErrorResponse,
   ExtractedData,
   ExtractedDataResponse,
   FileUploadResponse,
@@ -51,20 +52,28 @@ function Home() {
       setSubmitBtnText(BUTTON_TEXT.DRAFT);
     }
   }, [extractedData]);
-  const fetchImageData = async (filePath: string, invoiceId: string) => {
+  const fetchImageData = async (
+    filePath: string,
+    invoiceId: string,
+    fileType: string
+  ) => {
     const getInvoicePayload: GetInvoiceRequest = {
       filePath,
       invoiceId,
+      fileType,
     };
     try {
       const extractedDataResponse: ExtractedDataResponse =
         await getInvoice(getInvoicePayload).unwrap();
-      setExtractedData(extractedDataResponse.invoice_details);
+      console.log('Extracted Data Response: ', extractedDataResponse);
+      setExtractedData(extractedDataResponse.data);
       oldStateRef.current = JSON.parse(
-        JSON.stringify(extractedDataResponse.invoice_details)
+        JSON.stringify(extractedDataResponse.data)
       );
-    } catch (error) {
-      notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
+    } catch (catchError) {
+      const error = catchError as unknown as CommonErrorResponse;
+      console.log('error', error);
+      notify(error.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
     }
   };
 
@@ -134,7 +143,8 @@ function Home() {
 
       fetchImageData(
         fileUploadResponse.data.filePath,
-        fileUploadResponse.data.invoiceId
+        fileUploadResponse.data.invoiceId,
+        checkFileType(newFile)
       );
     } catch (error) {
       notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
