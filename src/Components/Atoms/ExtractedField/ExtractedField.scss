@@ -11,7 +11,7 @@
     font-weight: $font-regular;
     margin-bottom: 0px;
     text-transform: capitalize;
-    color: $black-color;
+    color: $black-color-700;
     position: absolute;
     left: 10px;
     top: -12px;
@@ -21,17 +21,42 @@
   }
 
   &__input {
-    padding: 8px 15px;
+    padding: 8px 45px 8px 15px;
     font-size: 14px;
     border: 1px solid $grey-color-300;
-    border-radius: 6px;
+    border-radius: 8px;
+    // border-radius: 6px;
     outline: none;
     transition: border-color 0.3s;
     width: 100%;
     height: 46px;
+    color: $grey-color-500 !important;
+
+    ::placeholder{
+      color: $grey-color-500 !important;
+    }
+
+    &.score-green{
+      border-color: $green-color-900 !important;
+      &:focus {
+        border-color: rgba($green-color-900, 0.9) !important;
+      }  
+    }
+    &.score-yellow{
+      border-color: $yellow-color-600 !important;
+      &:focus {
+        border-color: rgba($yellow-color-600, 0.9) !important;
+      }  
+    }
+    &.score-red{
+      border-color: $red-color-900 !important;
+      &:focus {
+        border-color: rgba($blue-color-900, 0.9) !important;
+      }  
+    } 
 
     &:focus {
-      border-color: #007bff;
+      // border-color: $blue-color-900;
     }
   }
 
