@@ -198,9 +198,7 @@ function Home() {
             right={
               <div className="extracted-filedsbx">
                 <div className="fields-top-section">
-                  <button onClick={handleSave} className='draft-save-btn' type="button">
-                    {submitBtnText}
-                  </button>
+                  <h2>File Fields</h2>
                 </div>
                 <div className='fields-data'>
                   <div className='fields'>
@@ -213,6 +211,7 @@ function Home() {
                   </div>
                 </div>
                 <div className="fields-bottom-section">
+                  <h3>Status: <span>Approved</span></h3>
                   <button onClick={handleSave} className='draft-save-btn' type="button">
                     {submitBtnText}
                   </button>
