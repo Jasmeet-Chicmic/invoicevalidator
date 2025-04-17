@@ -42,7 +42,11 @@ const CommonModal: React.FC<CommonModalProps> = ({
         >
           {closeText}
         </button>
-        <button className="common-modal__button" onClick={onOk}  type={BUTTON.BUTTON_TYPE.button}>
+        <button
+          className="common-modal__button"
+          onClick={onOk}
+          type={BUTTON.BUTTON_TYPE.button}
+        >
           {okText}
         </button>
       </div>
