@@ -8,26 +8,26 @@ import './ExtractedField.scss';
 
 type ExtractedFieldProps = {
   title: string;
+  onApproveClick: (isApproved: boolean, value: string) => void;
+  confidenceScore: number;
+  disableApprove: boolean;
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onApproveClick: (isApproved: boolean, value: string) => void;
   id?: string;
-  confidenceScore: number;
-  disableApprove: boolean;
   approveButtonText?: string;
 };
 
 const ExtractedField: React.FC<ExtractedFieldProps> = ({
   title,
-  placeholder,
-  value,
-  onChange,
-  id = `input-${replaceToLowerCase(title)}`,
   confidenceScore,
   onApproveClick,
   disableApprove,
-  approveButtonText,
+  placeholder = 'placeholder',
+  value = 'dummy',
+  onChange = () => {},
+  id = `input-${replaceToLowerCase(title)}`,
+  approveButtonText = 'Save',
 }) => {
   const borderColor = useMemo(() => {
     if (confidenceScore < CONFIDENCE_CONFIG.DANGER) {
@@ -38,7 +38,9 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
     }
     return 'border-success';
   }, [confidenceScore]);
-
+  const handleOnApprove = () => {
+    if (value) onApproveClick(true, value);
+  };
   const confidenceScoreText = useCallback((newConfidenceScore: number) => {
     return Math.round(
       newConfidenceScore * CONFIDENCE_CONFIG.CONFIDENCE_MULTIPLIER
@@ -66,9 +68,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
         <button
           className="extracted-field__approve-btn"
           type="button"
-          onClick={() => {
-            if (value) onApproveClick(true, value); // Approve the field on button click
-          }}
+          onClick={handleOnApprove}
           disabled={disableApprove || !value}
         >
           {approveButtonText}

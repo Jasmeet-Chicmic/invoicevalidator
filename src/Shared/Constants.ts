@@ -83,7 +83,22 @@ const FILE_TYPES = {
   IMAGE: 'image',
   PDF: 'pdf',
 };
-
+const INPUT = {
+  INPUT_TYPE: {
+    FILE: 'file',
+  },
+  INPUT_REGEX: {
+    FILE: '.pdf,image/*',
+  },
+};
+type ButtonType = 'button' | 'submit' | 'reset';
+const BUTTON = {
+  BUTTON_TYPE: {
+    button: 'button' as ButtonType,
+    submit: 'submit' as ButtonType,
+    reset: 'reset' as ButtonType,
+  },
+};
 export {
   FILE_TYPES,
   CONFIDENCE_CONFIG,
@@ -94,4 +109,6 @@ export {
   ROUTES_CONFIG,
   MESSAGES,
   MODAL_MESSAGES,
+  INPUT,
+  BUTTON
 };

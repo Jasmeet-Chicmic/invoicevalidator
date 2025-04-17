@@ -41,5 +41,9 @@ module.exports = {
     'no-restricted-exports': ['off'],
     'import/no-extraneous-dependencies': ['off'],
     'react/require-default-props': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'import/prefer-default-export': 'off',
+    'react/button-has-type':"off"
   },
 };

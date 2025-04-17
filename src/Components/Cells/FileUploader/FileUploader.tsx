@@ -1,10 +1,8 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 //  React or core framework imports
 import React, { useMemo, useRef } from 'react';
 // Components
 import useNotification from '../../../Hooks/useNotification';
-import { MESSAGES } from '../../../Shared/Constants';
+import { INPUT, MESSAGES } from '../../../Shared/Constants';
 import { isValidFileType } from '../../../Shared/functions';
 // Styles
 import './FileUploader.scss';
@@ -83,7 +81,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           </button>
         </div>
       )}
-      {isDropzone && (
+      {isDropzone ? (
         <div
           className="dropzone"
           onClick={handleClick}
@@ -95,10 +93,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           </span>
           <p>{MESSAGES.FILE_UPLOADER.MESSAGE}</p>
         </div>
-      )}
+      ) : null}
       <input
-        type="file"
-        accept=".pdf,image/*"
+        type={INPUT.INPUT_TYPE.FILE}
+        accept={INPUT.INPUT_REGEX.FILE}
         ref={inputRef}
         onChange={handleFileChange}
         hidden

@@ -1,6 +1,12 @@
+// Library
 import React from 'react';
 import Modal from 'react-modal';
+
+// Styles
 import './CommonModal.scss';
+// Constants
+import { MODAL_TEXT } from './helpers/Constants';
+import { BUTTON } from '../../../Shared/Constants';
 
 type CommonModalProps = {
   isOpen: boolean;
@@ -16,8 +22,8 @@ const CommonModal: React.FC<CommonModalProps> = ({
   onRequestClose,
   onOk,
   message,
-  okText = 'Yes',
-  closeText = 'No',
+  okText = MODAL_TEXT.CONFIRM_TEXT,
+  closeText = MODAL_TEXT.CLOSE_TEXT,
 }) => {
   return (
     <Modal
@@ -32,11 +38,11 @@ const CommonModal: React.FC<CommonModalProps> = ({
         <button
           className="common-modal__button"
           onClick={onRequestClose}
-          type="button"
+          type={BUTTON.BUTTON_TYPE.button}
         >
           {closeText}
         </button>
-        <button className="common-modal__button" onClick={onOk} type="button">
+        <button className="common-modal__button" onClick={onOk}  type={BUTTON.BUTTON_TYPE.button}>
           {okText}
         </button>
       </div>

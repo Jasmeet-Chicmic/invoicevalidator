@@ -1,7 +1,6 @@
 import { ExtractedData } from '../Services/Api/Constants';
 import { FILE_TYPES } from './Constants';
 
-// eslint-disable-next-line import/prefer-default-export
 export const firstLetterUpperCase = (message: string) => {
   if (message && message.length > 0) {
     return (
