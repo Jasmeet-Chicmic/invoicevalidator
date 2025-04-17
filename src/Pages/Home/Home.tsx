@@ -13,6 +13,7 @@ import {
 import {
   API_BASE_URL,
   ExtractedData,
+  ExtractedDataResponse,
   FileUploadResponse,
   GetInvoiceRequest,
 } from '../../Services/Api/Constants';
@@ -33,15 +34,14 @@ function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [confirmationModal, setConfirmationModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [extractedFieldLoading, setExtractedFieldLoading] = useState(true);
   const [submitBtnText, setSubmitBtnText] = useState(BUTTON_TEXT.DRAFT);
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
   const oldStateRef = useRef<ExtractedData | null>(null);
-  const [uploadFile] = useFileUploadMutation();
-  const [getInvoice] = useLazyGetInvoiceQuery();
+  const [uploadFile, { isLoading: uploadLoading }] = useFileUploadMutation();
+  const [getInvoice, { isLoading: extractedFieldLoading }] =
+    useLazyGetInvoiceQuery();
   const notify = useNotification();
   const navigate = useNavigate();
   useEffect(() => {
@@ -56,66 +56,73 @@ function Home() {
       filePath,
       invoiceId,
     };
-
-    await getInvoice(getInvoicePayload).unwrap();
+    try {
+      const extractedDataResponse: ExtractedDataResponse =
+        await getInvoice(getInvoicePayload).unwrap();
+      setExtractedData(extractedDataResponse.invoice_details);
+      oldStateRef.current = JSON.parse(
+        JSON.stringify(extractedDataResponse.invoice_details)
+      );
+    } catch (error) {
+      notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
+    }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      const fetchedData: ExtractedData = {
-        invoiceDetails: {
-          invoiceNo: { value: 'INV-123', confidenceScore: 85, approved: false },
-          date: { value: '2024-04-01', confidenceScore: 90, approved: true },
-          modeOfPayment: {
-            value: 'Credit Card',
-            confidenceScore: 75,
-            approved: false,
-          },
-        },
-        supplierDetails: {
-          name: { value: 'ABC Pvt Ltd', confidenceScore: 95, approved: true },
-          address: { value: '123 Street', confidenceScore: 80, approved: true },
-          contact: { value: '9876543210', confidenceScore: 70, approved: true },
-          gstin: {
-            value: '22AAAAA0000A1Z5',
-            confidenceScore: 85,
-            approved: true,
-          },
-          stateName: {
-            value: 'Karnataka',
-            confidenceScore: 88,
-            approved: true,
-          },
-          code: { value: 'KA01', confidenceScore: 60, approved: true },
-          email: {
-            value: 'abc@example.com',
-            confidenceScore: 92,
-            approved: true,
-          },
-        },
-        buyerDetails: {
-          name: { value: 'XYZ Traders', confidenceScore: 93, approved: true },
-          address: { value: '456 Avenue', confidenceScore: 78, approved: true },
-          gstin: {
-            value: '29BBBBB1111B2Z6',
-            confidenceScore: 82,
-            approved: true,
-          },
-          stateName: {
-            value: 'Maharashtra',
-            confidenceScore: 87,
-            approved: true,
-          },
-          code: { value: 'MH02', confidenceScore: 65, approved: true },
-        },
-      };
-      setExtractedData(fetchedData);
-      oldStateRef.current = JSON.parse(JSON.stringify(fetchedData));
-      setExtractedFieldLoading(false);
-    }, 1000);
-  }, [oldStateRef, setExtractedData]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     const fetchedData: ExtractedData = {
+  //       invoiceDetails: {
+  //         invoiceNo: { value: 'INV-123', confidenceScore: 85, approved: false },
+  //         date: { value: '2024-04-01', confidenceScore: 90, approved: true },
+  //         modeOfPayment: {
+  //           value: 'Credit Card',
+  //           confidenceScore: 75,
+  //           approved: false,
+  //         },
+  //       },
+  //       supplierDetails: {
+  //         name: { value: 'ABC Pvt Ltd', confidenceScore: 95, approved: true },
+  //         address: { value: '123 Street', confidenceScore: 80, approved: true },
+  //         contact: { value: '9876543210', confidenceScore: 70, approved: true },
+  //         gstin: {
+  //           value: '22AAAAA0000A1Z5',
+  //           confidenceScore: 85,
+  //           approved: true,
+  //         },
+  //         stateName: {
+  //           value: 'Karnataka',
+  //           confidenceScore: 88,
+  //           approved: true,
+  //         },
+  //         code: { value: 'KA01', confidenceScore: 60, approved: true },
+  //         email: {
+  //           value: 'abc@example.com',
+  //           confidenceScore: 92,
+  //           approved: true,
+  //         },
+  //       },
+  //       buyerDetails: {
+  //         name: { value: 'XYZ Traders', confidenceScore: 93, approved: true },
+  //         address: { value: '456 Avenue', confidenceScore: 78, approved: true },
+  //         gstin: {
+  //           value: '29BBBBB1111B2Z6',
+  //           confidenceScore: 82,
+  //           approved: true,
+  //         },
+  //         stateName: {
+  //           value: 'Maharashtra',
+  //           confidenceScore: 87,
+  //           approved: true,
+  //         },
+  //         code: { value: 'MH02', confidenceScore: 65, approved: true },
+  //       },
+  //     };
+  //     setExtractedData(fetchedData);
+  //     oldStateRef.current = JSON.parse(JSON.stringify(fetchedData));
+  //     setExtractedFieldLoading(false);
+  //   }, 1000);
+  // }, [oldStateRef, setExtractedData]);
   const handleUpload = async (newFile: File) => {
-    setLoading(true);
     setFile(newFile);
     const formData = new FormData();
     try {
@@ -123,7 +130,7 @@ function Home() {
       const fileUploadResponse: FileUploadResponse =
         await uploadFile(formData).unwrap();
       setFileUrl(API_BASE_URL + fileUploadResponse.data.filePath);
-      setLoading(false);
+
       fetchImageData(
         fileUploadResponse.data.filePath,
         fileUploadResponse.data.invoiceId
@@ -132,7 +139,6 @@ function Home() {
       notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
       setFile(null);
       setFileUrl(null);
-      setLoading(false);
     }
   };
 
@@ -162,7 +168,7 @@ function Home() {
             onUpload={handleUpload}
             file={file}
             fileUrl={fileUrl}
-            loading={loading}
+            loading={uploadLoading}
             onRemove={handleRemove}
           />
         </div>

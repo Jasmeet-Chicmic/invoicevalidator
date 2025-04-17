@@ -75,8 +75,9 @@ const BUTTON_TEXT = {
   DRAFT: 'Draft',
 };
 const CONFIDENCE_CONFIG = {
-  DANGER: 50,
-  WARNING: 70,
+  DANGER: 0.5,
+  WARNING: 0.7,
+  CONFIDENCE_MULTIPLIER: 100,
 };
 const FILE_TYPES = {
   IMAGE: 'image',

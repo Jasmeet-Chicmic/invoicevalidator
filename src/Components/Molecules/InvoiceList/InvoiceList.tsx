@@ -5,6 +5,7 @@ import { MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
 import './InvoiceList.scss';
 import CommonModal from '../CommonModal';
 import IMAGES from '../../../Shared/Images';
+import { useGetAllInvoiceQuery } from '../../../Services/Api/module/fileApi';
 
 export interface Invoice {
   id: string;
@@ -14,7 +15,10 @@ export interface Invoice {
   date: string;
   status: 'Approved' | 'Pending';
 }
-
+export interface StatusType {
+  APPROVED: 'Approved';
+  PENDING: 'Pending';
+}
 const dummyInvoices: Invoice[] = [
   {
     id: 'inv-001',
@@ -84,7 +88,9 @@ const InvoiceList: React.FC = () => {
     isOpen: false,
     data: { invoiceId: '' },
   });
-
+  const {data:allInvoicesData}=useGetAllInvoiceQuery({});
+  console.log("allInvoicesData",allInvoicesData);
+  
   const navigate = useNavigate();
 
   const formatCurrency = (amount: number): string =>
