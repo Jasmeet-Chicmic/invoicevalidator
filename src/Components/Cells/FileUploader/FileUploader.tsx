@@ -7,6 +7,7 @@ import { isValidFileType } from '../../../Shared/functions';
 // Styles
 import './FileUploader.scss';
 import IMAGES from '../../../Shared/Images';
+import TextLoader from '../../Atoms/TextLoader';
 
 type FileUploaderProps = {
   onUpload: (file: File) => void;
@@ -60,12 +61,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   );
   return (
     <div className="file-uploader">
-      {loading && (
-        <div className="loader-box">
-          <p>Uploading...</p>
-          <div className="spinner" />
-        </div>
-      )}
+      {loading && <TextLoader showText={false} />}
       {!loading && file && fileUrl && (
         <div className="preview-box">
           {file.type.startsWith('image/') ? (
