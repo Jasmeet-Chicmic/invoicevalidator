@@ -5,6 +5,7 @@ export const API_END_POINTS = {
   ON_APPROVE: '/bookkeep/invoice/on-approve/',
   INVOICE_DATA: '/bookkeep/invoice/display',
   ALL_INVOICES: 'bookkeep/invoice/list/all/',
+  DELETE_IMAGE: 'bookkeep/invoice/delete/',
 };
 export const HTTPS_METHODS = {
   GET: 'GET',
@@ -65,4 +66,8 @@ export interface ErrorData {
 export interface CommonErrorResponse {
   status: number;
   data: ErrorData;
+}
+
+export interface DeleteImageRequest {
+  invoiceId: number;
 }

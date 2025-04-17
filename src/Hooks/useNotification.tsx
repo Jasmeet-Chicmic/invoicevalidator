@@ -1,6 +1,7 @@
 // hooks/useNotification.ts
 import { toast, ToastOptions, TypeOptions } from 'react-toastify';
 import { firstLetterUpperCase } from '../Shared/functions';
+import { TOAST_CONFIG } from '../Shared/Constants';
 
 type NotifyOptions = {
   type?: TypeOptions; // "info" | "success" | "warning" | "error" | "default"
@@ -13,6 +14,7 @@ const useNotification = () => {
     toast(firstLetterUpperCase(message), {
       type,
       ...options,
+      autoClose: TOAST_CONFIG.TIME_TO_SHOW,
     });
   };
 

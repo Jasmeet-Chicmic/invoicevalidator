@@ -1,5 +1,9 @@
 const STRING: string = 'Test';
 export { STRING };
+const TOAST_CONFIG = {
+  LIMIT: 3,
+  TIME_TO_SHOW: 1000,
+};
 
 const ROUTES = {
   HOMEPAGE: '/',
@@ -116,4 +120,5 @@ export {
   INPUT,
   BUTTON,
   INVOICE_STATUS,
+  TOAST_CONFIG,
 };

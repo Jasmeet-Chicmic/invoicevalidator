@@ -19,6 +19,7 @@ import './Assets/SCSS/main.scss';
 // Styles
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { TOAST_CONFIG } from './Shared/Constants';
 
 const baseName = import.meta.env.VITE_BASE_NAME;
 Modal.setAppElement('#root');
@@ -27,7 +28,7 @@ function App() {
   return (
     <ErrorBoundary fallback={<ErrorFallback />}>
       <Suspense fallback="...Loading">
-        <ToastContainer />
+        <ToastContainer limit={TOAST_CONFIG.LIMIT} />
         <Provider store={store}>
           <PersistGate persistor={persistor}>
             <HelmetProvider>

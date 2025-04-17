@@ -1,6 +1,7 @@
 import api from '../../api';
 import {
   API_END_POINTS,
+  DeleteImageRequest,
   GetInvoiceRequest,
   HTTPS_METHODS,
   OnApproveRequest,
@@ -12,6 +13,13 @@ export const fileApi = api.injectEndpoints({
       query: (data: FormData) => ({
         url: API_END_POINTS.FILE_UPLOAD,
         method: HTTPS_METHODS.POST,
+        body: data,
+      }),
+    }),
+    deleteFile: builder.mutation({
+      query: (data: DeleteImageRequest) => ({
+        url: API_END_POINTS.DELETE_IMAGE,
+        method: HTTPS_METHODS.DELETE,
         body: data,
       }),
     }),
