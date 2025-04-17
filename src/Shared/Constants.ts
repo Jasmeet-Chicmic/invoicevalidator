@@ -31,11 +31,11 @@ const ROUTES_CONFIG = {
   },
   EDIT: {
     path: ROUTES.EDIT,
-    title: 'Edit',
+    title: 'edit',
   },
   LOGIN: {
     path: ROUTES.LOGIN,
-    title: 'Login',
+    title: 'login',
   },
   REGISTER: {
     path: ROUTES.REGISTER,
