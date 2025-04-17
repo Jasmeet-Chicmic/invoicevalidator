@@ -1,4 +1,5 @@
 import { ExtractedData } from '../Services/Api/Constants';
+import { FILE_TYPES } from './Constants';
 
 // eslint-disable-next-line import/prefer-default-export
 export const firstLetterUpperCase = (message: string) => {
@@ -27,4 +28,11 @@ export const areAllFieldsApproved = (data: ExtractedData): boolean =>
 
 export const replaceToLowerCase = (text: string): string => {
   return text.replace(/\s+/g, '-').toLowerCase();
+};
+
+export const checkFileType = (file: File) => {
+  if (file.type.startsWith('image/')) {
+    return FILE_TYPES.IMAGE;
+  }
+  return FILE_TYPES.PDF;
 };

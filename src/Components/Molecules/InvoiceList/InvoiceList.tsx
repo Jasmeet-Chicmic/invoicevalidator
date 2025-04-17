@@ -88,8 +88,10 @@ const InvoiceList: React.FC = () => {
     isOpen: false,
     data: { invoiceId: '' },
   });
-  useGetAllInvoiceQuery({});
-
+  useGetAllInvoiceQuery<Invoice[]>({});
+  // useEffect(() => {
+  //   setInvoices(allInvoicesData);
+  // }, [allInvoicesData]);
   const navigate = useNavigate();
 
   const formatCurrency = (amount: number): string =>
