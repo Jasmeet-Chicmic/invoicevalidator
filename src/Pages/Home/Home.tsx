@@ -161,7 +161,7 @@ function Home() {
   return (
     <div className="file-uploadbx">
       {!fileUrl ? (
-        <div>
+        <div className="fileupload-page">
           <div className="page-title">
             <h1>Upload File</h1>
           </div>
@@ -178,23 +178,31 @@ function Home() {
           <PreviewWrapper
             onBack={handleBack}
             left={
-              <FilePreviewer
-                isImage={file!.type.startsWith('image/')}
-                fileUrl={fileUrl}
-              />
+              <div className="file-previewbx">
+                <FilePreviewer
+                  isImage={file!.type.startsWith('image/')}
+                  fileUrl={fileUrl}
+                />
+              </div>
             }
             right={
-              <ExtractedFields
-                data={extractedData}
-                setData={setExtractedData}
-                loading={extractedFieldLoading}
-                oldStateRef={oldStateRef}
-              />
+              <div className="extracted-filedsbx">
+                <div className='fields'>
+                  <ExtractedFields
+                    data={extractedData}
+                    setData={setExtractedData}
+                    loading={extractedFieldLoading}
+                    oldStateRef={oldStateRef}
+                  />
+                </div>
+                <div className="bottom-btn">
+                  <button onClick={handleSave} className='draft-save-btn' type="button">
+                    {submitBtnText}
+                  </button>
+                </div>
+              </div>
             }
           />
-          <button onClick={handleSave} type="button">
-            {submitBtnText}
-          </button>
         </div>
       )}
       <CommonModal

@@ -17,7 +17,7 @@ const PreviewWrapper: React.FC<PreviewWrapperProps> = ({
 }) => {
   return (
     <div className="two-pane-wrapper">
-      <div className="container-fluid">
+      <div className="previewbx">
         <div className="paneWrapper">
           <div className="panes">
             <div className="left-pane">

@@ -332,7 +332,9 @@ button {
 }
 
 .pagination{
-  background-color: $none;
+  background: none;
+  margin-bottom: 0px;
+  margin-top: 30px;
   li{
     background: none;
     color: $grey-color;

@@ -7,7 +7,7 @@ type FilePreviewerProps = {
 
 const FilePreviewer: React.FC<FilePreviewerProps> = ({ fileUrl, isImage }) => {
   return (
-    <div>
+    <div className="invoice-preview">
       {isImage ? (
         <img
           src={fileUrl}

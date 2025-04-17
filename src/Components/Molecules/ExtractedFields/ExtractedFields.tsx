@@ -98,7 +98,8 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     }
   };
 
-  if (loading || !data) return <div>Loading extracted fields...</div>;
+  if (loading || !data)
+    return <div className="loading-text">Loading extracted fields...</div>;
 
   return (
     <div className="extracted-data">

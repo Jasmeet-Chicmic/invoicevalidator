@@ -1,42 +1,98 @@
+@import "../../../Assets/SCSS/main";
+
 .two-pane-wrapper {
-    .back-btn {
-      margin-bottom: 1rem;
-      background-color: #eee;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-  
-    .panes {
+  .back-btn {
+    // background-color: $white-color;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .panes {
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+
+    .left-pane {
+      flex: 1.5;
+      flex-direction: column;
+      padding: 0rem 0rem;
+      border-radius: 0px;
       display: flex;
-      gap: 2rem;
-      align-items: flex-start;
-  
-      .left-pane {
-        flex: 1;
-        background: #f8f8f8;
-        padding: 2rem 1rem;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      position: relative;
+
+      .back-btn {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        font-family: $font-ubuntu;
+        padding: 9px 24px;
         border-radius: 8px;
-        min-height: 700px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        font-size: 16px;
+        color: $white-color;
+        font-weight: $font-medium;
+        background: $black-color-700;
       }
-  
-      .right-pane {
-        flex: 1;
-        background: #fff;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.07);
+
+      .file-previewbx {
+        min-width: 500px;
+        height: 600px;
+        background: rgba($blue-color-700, 1);
         border-radius: 10px;
-        max-height: 700px;
-        overflow: auto;
-        input {
-          display: block;
-          width: 100%;
-          padding: 0.5rem;
+        box-shadow: $shadow2;
+
+        .invoice-preview {
+          margin: 20px;
+          background: $black-color-700;
+          border-radius: 10px;
+          height: calc(100% - 40px);
+        }
+
+      }
+
+      .bottom-btn {
+        margin-top: 20px;
+
+        .draft-save-btn {
+          background: $black-color;
         }
       }
     }
+
+    .right-pane {
+      flex: 1;
+      background: $white-color;
+      height: 100%;
+      position: relative;
+
+
+      .loading-text {
+        position: absolute;
+        margin: auto;
+        left: 0px;
+        right: 0px;
+        text-align: center;
+        align-items: center;
+        height: 28px;
+        top: 0px;
+        bottom: 0px;
+      }
+
+    }
   }
-  
+}
+
+.invoice_preview {
+  height: 100%;
+
+  .two-pane-wrapper,
+  .previewbx,
+  .paneWrapper {
+    height: 100%;
+  }
+
+}

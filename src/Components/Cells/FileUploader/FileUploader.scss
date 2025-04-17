@@ -13,8 +13,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 500px;
-    margin: auto;
+    // max-width: 500px;
+    width: 500px;
+    margin: 0 auto;
   
     .dropzone {
       width: 100%;
@@ -92,3 +93,14 @@
     }
   }
   
+
+.fileupload-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
