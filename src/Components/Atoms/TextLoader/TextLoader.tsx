@@ -20,7 +20,9 @@ const TextLoader: React.FC<TextLoaderProps> = ({ showText = true }) => {
   return (
     <div className="text-loader">
       <div className="text-loader__spinner" />
-      {showText && <p className="text-loader__message">{messages[messageIndex]}</p>}
+      {showText && (
+        <p className="text-loader__message">{messages[messageIndex]}</p>
+      )}
     </div>
   );
 };

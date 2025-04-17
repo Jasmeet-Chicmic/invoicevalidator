@@ -145,7 +145,10 @@ const EditPage = () => {
             </div>
             <div className="fields-bottom-section">
               <h3>
-                Status: <span className={`${statusText.status}`}>{statusText.status}</span>
+                Status:{' '}
+                <span className={`${statusText.status}`}>
+                  {statusText.status}
+                </span>
               </h3>
               <button
                 onClick={handleSave}
@@ -160,7 +163,7 @@ const EditPage = () => {
             </div>
           </div>
         }
-      /> 
+      />
       <CommonModal
         isOpen={confirmationModal}
         onRequestClose={() => setConfirmationModal(false)}

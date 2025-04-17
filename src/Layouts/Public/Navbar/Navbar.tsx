@@ -10,7 +10,7 @@ import IMAGES from '../../../Shared/Images';
 function NavbarComponent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const showUpload = location.pathname !== ROUTES.HOMEPAGE;
+  const showUpload = location.pathname === ROUTES.LISTING;
   return (
     <Navbar expand="lg" className="">
       <Container fluid>

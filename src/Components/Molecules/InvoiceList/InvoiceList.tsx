@@ -141,7 +141,7 @@ const InvoiceList: React.FC = () => {
         <h1 className="invoice-list__title">Invoices</h1>
 
         <div className="invoice-list__filters">
-          {['Approved', 'Pending', 'All'].map((status) => (
+          {['All', 'Pending', 'Approved'].map((status) => (
             <button
               key={status}
               className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
