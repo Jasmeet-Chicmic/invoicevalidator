@@ -149,12 +149,18 @@ $section-gapping:22px 30px;
           color: $black-color;
           display: inline-flex;
           margin-bottom: 0px;
-          
+
           span{
             font-weight: $font-medium;
-            color: $green-color-1000;
             margin-left: 5px;
+            &.Approved{
+              color: $green-color-1000;
+            }
+            &.Pending{
+                color: $yellow-color-900;
+            }
           }
+ 
         }
 
         .draft-save-btn{
