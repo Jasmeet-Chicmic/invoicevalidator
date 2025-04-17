@@ -40,7 +40,9 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   }, [confidenceScore]);
 
   const confidenceScoreText = useCallback((newConfidenceScore: number) => {
-    return newConfidenceScore * CONFIDENCE_CONFIG.CONFIDENCE_MULTIPLIER;
+    return Math.round(
+      newConfidenceScore * CONFIDENCE_CONFIG.CONFIDENCE_MULTIPLIER
+    );
   }, []);
   return (
     <div className={`extracted-field `}>
