@@ -73,7 +73,7 @@ $section-gapping:22px 30px;
 
     .right-pane {
       flex: 1;
-      min-width: 472px;
+      max-width: 472px;
       background: $white-color;
       height: calc(100vh - 78px);
       position: relative;
@@ -92,10 +92,10 @@ $section-gapping:22px 30px;
             margin: 0px;
             font-size: 16px;
             font-weight: $font-medium;
-            padding:30px 30px 11px 30px;
+            padding:0px 30px 3px 30px;
           }
           &__content{
-            padding: 30px;
+            padding:11px 30px;
           }
         }
 

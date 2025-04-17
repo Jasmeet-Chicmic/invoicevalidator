@@ -5,6 +5,7 @@ import { formatCamelCase, replaceToLowerCase } from '../../../Shared/functions';
 import { CONFIDENCE_CONFIG } from '../../../Shared/Constants';
 // styles
 import './ExtractedField.scss';
+import IMAGES from '../../../Shared/Images';
 
 type ExtractedFieldProps = {
   title: string;
@@ -71,6 +72,9 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
           onClick={handleOnApprove}
           disabled={disableApprove || !value}
         >
+          <span>
+            <img src={IMAGES.tickIcon} alt="Approve" />
+          </span>
           {approveButtonText}
         </button>
       </div>
