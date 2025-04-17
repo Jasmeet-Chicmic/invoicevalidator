@@ -187,15 +187,22 @@ function Home() {
             }
             right={
               <div className="extracted-filedsbx">
-                <div className='fields'>
-                  <ExtractedFields
-                    data={extractedData}
-                    setData={setExtractedData}
-                    loading={extractedFieldLoading}
-                    oldStateRef={oldStateRef}
-                  />
+                <div className="fields-top-section">
+                  <button onClick={handleSave} className='draft-save-btn' type="button">
+                    {submitBtnText}
+                  </button>
                 </div>
-                <div className="bottom-btn">
+                <div className='fields-data'>
+                  <div className='fields'>
+                    <ExtractedFields
+                      data={extractedData}
+                      setData={setExtractedData}
+                      loading={extractedFieldLoading}
+                      oldStateRef={oldStateRef}
+                    />
+                  </div>
+                </div>
+                <div className="fields-bottom-section">
                   <button onClick={handleSave} className='draft-save-btn' type="button">
                     {submitBtnText}
                   </button>

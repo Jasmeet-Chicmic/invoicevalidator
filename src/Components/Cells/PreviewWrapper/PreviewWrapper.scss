@@ -82,6 +82,26 @@
         bottom: 0px;
       }
 
+      .fields-top-section {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          padding: 10px;
+          background: $white-color;
+          box-shadow: 0 5px 10px rgba($black-color-700, 0.05);
+          width: 100%;
+      }
+
+      .fields-bottom-section {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding: 10px;
+        background: $white-color;
+        box-shadow: 0 -5px 10px rgba($black-color-700, 0.05);
+        width: 100%;
+      }
+
     }
   }
 }
