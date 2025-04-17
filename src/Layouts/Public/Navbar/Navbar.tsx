@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import './navbar.scss';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
+import IMAGES from '../../../Shared/Images';
 
 function NavbarComponent() {
   const navigate = useNavigate();
@@ -12,7 +13,9 @@ function NavbarComponent() {
     <Navbar expand="lg" className="">
       <Container fluid>
         <div className="headerWrapper">
-          <Navbar.Brand href={ROUTES.LISTING}>BookeepAI</Navbar.Brand>
+          <Navbar.Brand href={ROUTES.LISTING}>
+            Bookeep<span>AI</span>
+          </Navbar.Brand>
           {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
           <Navbar.Collapse id="basic-navbar-nav">
             <div className="sidebtns">
@@ -23,7 +26,10 @@ function NavbarComponent() {
                   navigate(ROUTES.HOMEPAGE);
                 }}
               >
-                Upload Invoice
+                <span className="btn-icon me-2">
+                  <img src={IMAGES.addIcon} alt="add-icon" />
+                </span>
+                Upload
               </Button>
             </div>
           </Navbar.Collapse>

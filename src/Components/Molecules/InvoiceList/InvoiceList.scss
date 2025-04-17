@@ -1,37 +1,83 @@
+@import "../../../Assets/SCSS/main";
 
 
 .invoice-list__filters {
   display: flex;
-  gap: 0.5rem;
-  margin-right: auto;
+  padding: 5px;
+  border-radius: 5px;
+  margin-left: auto;
+  background: $white-color;
+  border: 1px solid $grey-color-300;
+  gap: 5px;
+  .filter-btn{
+
+  }
+}
+
+.download-btns {
+  margin-left: 15px;
+  display: flex;
+  gap: 10px;
+
+  .btn-primary {
+    background: $blue-color;
+    color: $white-color;
+    padding: 6px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    display: flex;
+    gap: 8px;
+
+    .btn-icon {
+      width: 16px;
+      display: inline-flex;
+
+      img {
+        filter: brightness(0%) contrast(100) invert(1);
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+
+button {
+  
+  &.filter-btn {
+    background: transparent;
+    font-size: 14px;
+    font-weight: $font-regular;
+    color: $grey-color;
+
+    &.active {
+      background-color: $blue-color;
+    }
+  }
 }
 
 .filter-btn {
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
   cursor: pointer;
-  border-radius: 4px;
   font-weight: 500;
-  transition: background 0.2s, color 0.2s;
+  background: $none;
+  padding: 2px 8px;
+  border-radius: 4px;
 
   &.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
+    background-color: $blue-color;
+    color: $white-color;
+    border-color: $blue-color;
   }
 
   &:hover {
-    background-color: #e0e0e0;
+    background-color: $blue-color-800;
+    color: $white-color;
   }
 }
 
 .invoice-list {
   width: 100%;
-  padding: 1.5rem;
-  background-color: var(--background-light);
+  padding: 30px;
   border-radius: 1rem;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 
   &__header {
     display: flex;
@@ -41,9 +87,9 @@
   }
 
   &__title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 22px;
+    font-weight: $font-medium;
+    color: $black-color-700;
     margin: 0;
   }
 
@@ -75,25 +121,26 @@
   &__table-container {
     width: 100%;
     overflow-x: auto;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    border-radius: 10px;
+    border: 1px solid $grey-color-300;
+    // box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   }
 
   &__table {
     width: 100%;
     border-collapse: collapse;
-    background-color: var(--background-light);
-    font-size: 0.9rem;
-
-    th, td {
-      padding: 1rem;
+    
+    th,
+    td {
+      padding: 0.8rem 1rem;
       text-align: left;
-      border-bottom: 1px solid var(--border-color);
+      font-size: 13px;
+      border-bottom: 1px solid $grey-color-300;
     }
 
     th {
-      background-color: var(--background-dark);
-      color: var(--text-light);
+      background-color: $blue-color;
+      color: $white-color;
       font-weight: 600;
       white-space: nowrap;
     }
@@ -130,36 +177,40 @@
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    background-color: transparent;
+    background-color: $grey-color-300;
+
+    &:hover{
+      background-color: $grey-color-400;
+    }
 
     &--edit {
-      color: var(--primary-color);
-      
-     
-        background-color: rgba(37, 99, 235, 0.1);
+      // color: var(--primary-color);
+
+
+      // background-color: rgba(37, 99, 235, 0.1);
       transform: translateY(-1px);
       color: var(--primary-hover);
-      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
-      border: 1px solid rgba(37, 99, 235, 0.2);
+      // box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+      // border: 1px solid rgba(37, 99, 235, 0.2);
       padding: 0;
       width: 32px;
       height: 32px;
-    
+
     }
 
     &--delete {
       color: var(--error-color);
-      
-     
-        background-color: rgba(239, 68, 68, 0.1);
-        transform: translateY(-1px);
-        color: #dc2626;
-        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
-        border: 1px solid rgba(239, 68, 68, 0.2);
-        padding: 0;
-        width: 32px;
-        height: 32px;
-      
+
+
+      // background-color: rgba(239, 68, 68, 0.1);
+      transform: translateY(-1px);
+      color: #dc2626;
+      // box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+      // border: 1px solid rgba(239, 68, 68, 0.2);
+      padding: 0;
+      width: 32px;
+      height: 32px;
+
     }
 
     &:focus {
@@ -232,12 +283,14 @@
     }
 
     &__table {
-      th, td {
+
+      th,
+      td {
         padding: 0.75rem 0.5rem;
       }
     }
   }
-} 
+}
 
 
 .pagination {
@@ -264,6 +317,23 @@
 
     &:hover:not(.active) {
       background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+.pagination{
+  background-color: $none;
+  li{
+    background: none;
+    color: $grey-color;
+    a{
+      color: $grey-color;
+    }
+    &.active{
+      background: $blue-color;
+      a{
+        color: $white-color;
+      }
     }
   }
 }

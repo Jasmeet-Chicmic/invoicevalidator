@@ -2,6 +2,7 @@
 import React from 'react';
 // Styles
 import './PreviewWrapper.scss';
+import IMAGES from '../../../Shared/Images';
 
 type PreviewWrapperProps = {
   onBack: () => void;
@@ -16,13 +17,19 @@ const PreviewWrapper: React.FC<PreviewWrapperProps> = ({
 }) => {
   return (
     <div className="two-pane-wrapper">
-      <div className="container">
-        <div className="paneWrapper py-5">
-          <button type="button" className="back-btn" onClick={onBack}>
-            ← Cancel
-          </button>
+      <div className="container-fluid">
+        <div className="paneWrapper">
           <div className="panes">
-            <div className="left-pane">{left}</div>
+            <div className="left-pane">
+              {left}
+              <button type="button" className="back-btn" onClick={onBack}>
+                <span>
+                  {' '}
+                  <img src={IMAGES.backIcon} alt="back-icon" />
+                </span>{' '}
+                Back
+              </button>
+            </div>
             <div className="right-pane">{right}</div>
           </div>
         </div>

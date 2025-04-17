@@ -8,6 +8,7 @@ import { MESSAGES } from '../../../Shared/Constants';
 import { isValidFileType } from '../../../Shared/functions';
 // Styles
 import './FileUploader.scss';
+import IMAGES from '../../../Shared/Images';
 
 type FileUploaderProps = {
   onUpload: (file: File) => void;
@@ -89,8 +90,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
+          <span>
+            <img src={IMAGES.uploadIcon} alt="upload-icon" />
+          </span>
           <p>{MESSAGES.FILE_UPLOADER.MESSAGE}</p>
-          <span>📁</span>
         </div>
       )}
       <input

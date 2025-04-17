@@ -1,29 +1,85 @@
 @import "../../Assets/SCSS/main";
 
-html,body,#root{
+html,
+body,
+#root {
     height: 100%;
 }
-.header{
+
+.header {
     width: 100%;
+    background: $white-color;
+    box-shadow: $shadow1;
+
     .navbar {
         background: none;
         padding: 15px;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        .navbar-brand{
+        
+        .navbar-brand {
             color: $black-color;
+            font-weight: $font-medium;
+            span{
+                color: $blue-color;
+                margin-left: 3px;
+            }
+        }
+        .sidebtns{
+            .btn{
+                &.bookademo {
+                    border: 1.5px solid currentColor;
+                    padding: 10px 26px;
+                    background: $none;
+                    color: $blue-color;
+                    font-weight: $font-regular;
+                    font-size: 16px;
+                    border-radius: 8px;
+                    &:hover{
+                        background: $blue-color;
+                        color: $white-color;
+                        border-color: $blue-color;
+                        img{
+                            filter: brightness(0%) contrast(100) invert(1);
+                        }
+                    }
+                }
+                .btn-icon{
+                    width: 12px;
+                    height: 12px;
+                    display: inline-block;
+                }
+
+            }
         }
     }
 }
 
+.page-title{
+    width: 100%;
+    text-align: center;
+    h1{
+        font-size: 30px;
+        font-weight: $font-medium;
+        color: $black-color-900;
+        margin-bottom: 16px;
+    }
+}
+
+.file-uploader{
+    border-radius: 16px;
+    background: $blue-color;
+    padding: 10px;
+}
 
 .file-uploadbx,
 .upload-page {
     width: 100%;
 }
+
 .PublicLayout {
     display: flex;
     flex-direction: column;
     height: 100%;
+
     .content {
         display: flex;
         align-items: center;
