@@ -28,7 +28,7 @@ import {
   MODAL_MESSAGES,
   ROUTES,
 } from '../../Shared/Constants';
-import { areAllFieldsApproved } from '../../Shared/functions';
+import { areAllFieldsApproved, checkFileType } from '../../Shared/functions';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -127,6 +127,7 @@ function Home() {
     const formData = new FormData();
     try {
       formData.append('file', newFile);
+      formData.append('fileType', checkFileType(newFile));
       const fileUploadResponse: FileUploadResponse =
         await uploadFile(formData).unwrap();
       setFileUrl(API_BASE_URL + fileUploadResponse.data.filePath);

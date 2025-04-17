@@ -88,9 +88,10 @@ const InvoiceList: React.FC = () => {
     isOpen: false,
     data: { invoiceId: '' },
   });
-  const {data:allInvoicesData}=useGetAllInvoiceQuery({});
-  console.log("allInvoicesData",allInvoicesData);
-  
+  useGetAllInvoiceQuery<Invoice[]>({});
+  // useEffect(() => {
+  //   setInvoices(allInvoicesData);
+  // }, [allInvoicesData]);
   const navigate = useNavigate();
 
   const formatCurrency = (amount: number): string =>
@@ -154,9 +155,19 @@ const InvoiceList: React.FC = () => {
             </button>
           ))}
         </div>
-        <div className='download-btns'>
-          <button type="button" className="btn-primary exporttotelly"><span className='btn-icon'><img src={IMAGES.exportIcon} /></span>Export to Tally</button>
-          <button type="button" className="btn-primary downloadjson"><span className='btn-icon'><img src={IMAGES.downloadIcon} /></span>Download JSON</button>
+        <div className="download-btns">
+          <button type="button" className="btn-primary exporttotelly">
+            <span className="btn-icon">
+              <img src={IMAGES.exportIcon} alt="Export to Tally" />
+            </span>
+            Export to Tally
+          </button>
+          <button type="button" className="btn-primary downloadjson">
+            <span className="btn-icon">
+              <img src={IMAGES.downloadIcon} alt="Download JSON" />
+            </span>
+            Download JSON
+          </button>
         </div>
       </div>
 
@@ -192,7 +203,7 @@ const InvoiceList: React.FC = () => {
                       onClick={() => handleEdit(invoice.id)}
                       aria-label={`Edit invoice ${invoice.invoiceNo}`}
                     >
-                      <img src={IMAGES.editIcon} />
+                      <img src={IMAGES.editIcon} alt="edit-icon" />
                     </button>
                     <button
                       type="button"
@@ -200,7 +211,7 @@ const InvoiceList: React.FC = () => {
                       onClick={() => handleDelete(invoice.id)}
                       aria-label={`Delete invoice ${invoice.invoiceNo}`}
                     >
-                      <img src={IMAGES.deleteIcon} />
+                      <img src={IMAGES.deleteIcon} alt="delete-icon" />
                     </button>
                     <button
                       type="button"
@@ -208,7 +219,7 @@ const InvoiceList: React.FC = () => {
                       onClick={() => handleDelete(invoice.id)}
                       aria-label={`Export to Telly ${invoice.invoiceNo}`}
                     >
-                      <img src={IMAGES.exportIcon} />
+                      <img src={IMAGES.exportIcon} alt="export-icon" />
                     </button>
 
                     <button
@@ -216,7 +227,7 @@ const InvoiceList: React.FC = () => {
                       className="invoice-list__action-button invoice-list__action-button--download"
                       aria-label={`Download JSON ${invoice.invoiceNo}`}
                     >
-                      <img src={IMAGES.downloadIcon} />
+                      <img src={IMAGES.downloadIcon} alt="download-icon" />
                     </button>
                   </td>
                 </tr>

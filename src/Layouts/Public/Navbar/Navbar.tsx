@@ -26,7 +26,10 @@ function NavbarComponent() {
                   navigate(ROUTES.HOMEPAGE);
                 }}
               >
-                <span className='btn-icon me-2'><img src={IMAGES.addIcon} /></span>Upload
+                <span className="btn-icon me-2">
+                  <img src={IMAGES.addIcon} alt="add-icon" />
+                </span>
+                Upload
               </Button>
             </div>
           </Navbar.Collapse>

@@ -90,7 +90,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
         >
-          <span><img src={IMAGES.uploadIcon} /></span>
+          <span>
+            <img src={IMAGES.uploadIcon} alt="upload-icon" />
+          </span>
           <p>{MESSAGES.FILE_UPLOADER.MESSAGE}</p>
         </div>
       )}
