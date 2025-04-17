@@ -36,7 +36,10 @@ function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [confirmationModal, setConfirmationModal] = useState(false);
-  const [statusText, setStatusText] = useState({buttonText:BUTTON_TEXT.DRAFT,status:INVOICE_STATUS.PENDING});
+  const [statusText, setStatusText] = useState({
+    buttonText: BUTTON_TEXT.DRAFT,
+    status: INVOICE_STATUS.PENDING,
+  });
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
@@ -47,13 +50,16 @@ function Home() {
   const notify = useNotification();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("All fields are approved",extractedData);
     if (extractedData && areAllFieldsApproved(extractedData)) {
-     
-      
-      setStatusText({buttonText:BUTTON_TEXT.SAVE,status:INVOICE_STATUS.APPROVED});
+      setStatusText({
+        buttonText: BUTTON_TEXT.SAVE,
+        status: INVOICE_STATUS.APPROVED,
+      });
     } else {
-      setStatusText({buttonText:BUTTON_TEXT.DRAFT,status:INVOICE_STATUS.PENDING});
+      setStatusText({
+        buttonText: BUTTON_TEXT.DRAFT,
+        status: INVOICE_STATUS.PENDING,
+      });
     }
   }, [extractedData]);
   const fetchImageData = async (
@@ -69,14 +75,12 @@ function Home() {
     try {
       const extractedDataResponse: ExtractedDataResponse =
         await getInvoice(getInvoicePayload).unwrap();
-      console.log('Extracted Data Response: ', extractedDataResponse);
       setExtractedData(extractedDataResponse.data);
       oldStateRef.current = JSON.parse(
         JSON.stringify(extractedDataResponse.data)
       );
     } catch (catchError) {
       const error = catchError as unknown as CommonErrorResponse;
-      console.log('error', error);
       notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
     }
   };
@@ -174,8 +178,8 @@ function Home() {
   };
 
   const onCloseModal = () => {
-  setConfirmationModal(false);
-}
+    setConfirmationModal(false);
+  };
   return (
     <div className="file-uploadbx">
       {!fileUrl ? (
@@ -208,8 +212,8 @@ function Home() {
                 <div className="fields-top-section">
                   <h2>File Fields</h2>
                 </div>
-                <div className='fields-data'>
-                  <div className='fields'>
+                <div className="fields-data">
+                  <div className="fields">
                     <ExtractedFields
                       data={extractedData}
                       setData={setExtractedData}
@@ -219,8 +223,17 @@ function Home() {
                   </div>
                 </div>
                 <div className="fields-bottom-section">
-                  <h3>Status: <span className={`${statusText.status}`}>{statusText.status}</span></h3>
-                  <button onClick={handleSave} className='draft-save-btn' type="button">
+                  <h3>
+                    Status:{' '}
+                    <span className={`${statusText.status}`}>
+                      {statusText.status}
+                    </span>
+                  </h3>
+                  <button
+                    onClick={handleSave}
+                    className="draft-save-btn"
+                    type="button"
+                  >
                     {statusText.buttonText}
                   </button>
                 </div>

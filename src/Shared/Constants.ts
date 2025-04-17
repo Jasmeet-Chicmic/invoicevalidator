@@ -73,7 +73,7 @@ const MODAL_MESSAGES = {
 const INVOICE_STATUS = {
   APPROVED: 'Approved',
   PENDING: 'Pending',
-}
+};
 const BUTTON_TEXT = {
   SAVE: 'Save',
   DRAFT: 'Draft',
@@ -115,5 +115,5 @@ export {
   MODAL_MESSAGES,
   INPUT,
   BUTTON,
-  INVOICE_STATUS
+  INVOICE_STATUS,
 };

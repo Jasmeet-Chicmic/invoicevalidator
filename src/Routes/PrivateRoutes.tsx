@@ -2,7 +2,6 @@ import { Navigate } from 'react-router-dom';
 import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/Constants';
 import { CustomRouter } from './RootRoutes';
 
-
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
   {
     path: ROUTES_CONFIG.ABOUT.path,

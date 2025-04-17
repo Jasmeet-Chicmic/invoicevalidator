@@ -4,6 +4,7 @@ import FieldWrapper from '../../Cells/FieldWrapper';
 import useNotification from '../../../Hooks/useNotification';
 import { MESSAGES } from '../../../Shared/Constants';
 import { ExtractedData } from '../../../Services/Api/Constants';
+import TextLoader from '../../Atoms/TextLoader';
 
 type ExtractedFieldsProps = {
   setData: React.Dispatch<React.SetStateAction<ExtractedData | null>>;
@@ -98,8 +99,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     }
   };
 
-  if (loading || !data)
-    return <div className="loading-text">Loading extracted fields...</div>;
+  if (loading || !data) return <TextLoader />;
 
   return (
     <div className="extracted-data">
