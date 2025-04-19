@@ -99,7 +99,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
         // eslint-disable-next-line no-param-reassign
         oldStateRef.current[sectionKey][fieldKey].value = newFieldValue;
       }
-    } catch (error) {
+    } catch (catchError) {
       notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
     }
   };
