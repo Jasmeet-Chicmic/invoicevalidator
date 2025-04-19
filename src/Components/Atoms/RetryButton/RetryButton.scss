@@ -1,0 +1,43 @@
+.retry-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .retry-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  
+  .retry-icon-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  
+    &:hover {
+      transform: scale(1.1);
+    }
+  
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  .retry-icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+  }
+  
+  .retry-text {
+    font-size: 1rem;
+    color: #ff0101;
+    user-select: none;
+  }
+  

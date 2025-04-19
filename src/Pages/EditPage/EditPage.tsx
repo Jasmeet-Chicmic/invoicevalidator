@@ -140,6 +140,7 @@ const EditPage = () => {
                   setData={setExtractedData}
                   oldStateRef={oldStateRef}
                   loading={extractedFieldLoading}
+                  error={false}
                 />
               </div>
             </div>

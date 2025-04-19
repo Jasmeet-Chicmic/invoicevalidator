@@ -5,12 +5,15 @@ import useNotification from '../../../Hooks/useNotification';
 import { MESSAGES } from '../../../Shared/Constants';
 import { ExtractedData } from '../../../Services/Api/Constants';
 import TextLoader from '../../Atoms/TextLoader';
+import RetryButton from '../../Atoms/RetryButton';
 
 type ExtractedFieldsProps = {
   setData: React.Dispatch<React.SetStateAction<ExtractedData | null>>;
   data: ExtractedData | null;
   oldStateRef: React.MutableRefObject<ExtractedData | null>;
   loading: boolean;
+  error?: boolean;
+  onRetry?: () => void;
 };
 
 const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
@@ -18,6 +21,8 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   data,
   oldStateRef,
   loading,
+  error = true,
+  onRetry = () => {},
 }) => {
   const notify = useNotification();
 
@@ -99,6 +104,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     }
   };
 
+  if (error) return <RetryButton onClick={onRetry} />;
   if (loading || !data) return <TextLoader />;
 
   return (

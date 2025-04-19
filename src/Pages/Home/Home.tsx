@@ -15,6 +15,7 @@ import {
   CommonErrorResponse,
   ExtractedData,
   ExtractedDataResponse,
+  FileUploadData,
   FileUploadResponse,
   GetInvoiceRequest,
 } from '../../Services/Api/Constants';
@@ -40,6 +41,7 @@ function Home() {
     buttonText: BUTTON_TEXT.DRAFT,
     status: INVOICE_STATUS.PENDING,
   });
+  const fileDataRef = useRef<FileUploadData>();
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
@@ -335,6 +337,7 @@ function Home() {
   //     },
   //   },
   // };
+
   const fetchImageData = async (
     filePath: string,
     invoiceId: string,
@@ -423,7 +426,10 @@ function Home() {
       const fileUploadResponse: FileUploadResponse =
         await uploadFile(formData).unwrap();
       setFileUrl(API_BASE_URL + fileUploadResponse.data.filePath);
-
+      fileDataRef.current = {
+        filePath: fileUploadResponse.data.filePath,
+        invoiceId: fileUploadResponse.data.invoiceId,
+      };
       fetchImageData(
         fileUploadResponse.data.filePath,
         fileUploadResponse.data.invoiceId,
@@ -454,6 +460,22 @@ function Home() {
 
   const onCloseModal = () => {
     setConfirmationModal(false);
+  };
+  const onRetryCallback = () => {
+    if (
+      fileDataRef.current &&
+      fileDataRef.current.filePath &&
+      fileDataRef.current.invoiceId &&
+      file
+    ) {
+      fetchImageData(
+        fileDataRef.current?.filePath,
+        fileDataRef.current?.invoiceId,
+        checkFileType(file)
+      );
+    } else {
+      notify(MESSAGES.FILE_UPLOADER.FILE_DATA_ERROR);
+    }
   };
   return (
     <div className="file-uploadbx">
@@ -494,6 +516,7 @@ function Home() {
                       setData={setExtractedData}
                       loading={extractedFieldLoading}
                       oldStateRef={oldStateRef}
+                      onRetry={onRetryCallback}
                     />
                   </div>
                 </div>
@@ -508,6 +531,7 @@ function Home() {
                     onClick={handleSave}
                     className="draft-save-btn"
                     type="button"
+                    disabled={extractedFieldLoading || !extractedData}
                   >
                     {statusText.buttonText}
                   </button>
