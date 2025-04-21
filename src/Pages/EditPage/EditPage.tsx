@@ -45,7 +45,7 @@ const EditPage = () => {
     isFetching: loading,
   } = useEditDataQuery({ invoiceId: invoiceId! }, { skip: !invoiceId });
   const [statusText, setStatusText] = useState({
-    buttonText: BUTTON_TEXT.DRAFT,
+    buttonText: BUTTON_TEXT.PENDING,
     status: INVOICE_STATUS.PENDING,
   });
   const oldStateRef = useRef<ExtractedData | null>(null);
@@ -69,7 +69,7 @@ const EditPage = () => {
       });
     } else {
       setStatusText({
-        buttonText: BUTTON_TEXT.DRAFT,
+        buttonText: BUTTON_TEXT.PENDING,
         status: INVOICE_STATUS.PENDING,
       });
     }

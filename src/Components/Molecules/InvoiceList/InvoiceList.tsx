@@ -97,7 +97,10 @@ const InvoiceList: React.FC = () => {
 
   const onModalOk = async () => {
     try {
-      await deleteInvoice({ invoiceId: confirmationModal.data.invoiceId });
+      await deleteInvoice({
+        invoiceId: confirmationModal.data.invoiceId,
+      }).unwrap();
+      refetch();
       setConfirmationModal({ ...confirmationModal, isOpen: false });
       notify(MESSAGES.NOTIFICATION.INVOICE_DELETED_SUCCESSFULLY);
     } catch (error) {
@@ -109,6 +112,36 @@ const InvoiceList: React.FC = () => {
   const onModalClose = () => {
     setConfirmationModal({ ...confirmationModal, isOpen: false });
   };
+  const showingTheListItemCounter = () => {
+    const startIndex = currentPage * ITEMS_PER_PAGE + 1;
+    const endIndex = Math.min(
+      (currentPage + 1) * ITEMS_PER_PAGE,
+      data?.total || 0
+    );
+    return `${startIndex}-${endIndex} of ${data?.total}`;
+  };
+
+  function getFilterStatusClass(
+    currentStatus: string,
+    targetStatus: string
+  ): string {
+    let className = '';
+
+    if (targetStatus === ListingStatus.Approved) {
+      className = 'approved';
+    } else if (targetStatus === ListingStatus.Pending) {
+      className = 'pending';
+    } else {
+      className = 'all';
+    }
+
+    if (currentStatus === targetStatus) {
+      className = `active ${className}`;
+    }
+
+    return className;
+  }
+
   if (isAllInvoiceError) return <RetryButton onClick={onRetry} />;
   if (isAllInvoiceLoading) return <TextLoader showText={false} />;
 
@@ -131,7 +164,7 @@ const InvoiceList: React.FC = () => {
             {filterList.map((status) => (
               <button
                 key={status}
-                className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
+                className={`filter-btn ${getFilterStatusClass(status, filterStatus)}`}
                 onClick={() => {
                   setFilterStatus(status);
                   setCurrentPage(0);
@@ -234,17 +267,20 @@ const InvoiceList: React.FC = () => {
       </div>
 
       {data?.total > ITEMS_PER_PAGE && (
-        <ReactPaginate
-          previousLabel="Prev"
-          nextLabel="Next"
-          pageCount={Math.ceil((data && data.total) / ITEMS_PER_PAGE)}
-          onPageChange={handlePageChange}
-          containerClassName="pagination"
-          activeClassName="active"
-          pageRangeDisplayed={3}
-          marginPagesDisplayed={1}
-          forcePage={currentPage}
-        />
+        <>
+          <span>Showing {showingTheListItemCounter()}</span>
+          <ReactPaginate
+            previousLabel="Prev"
+            nextLabel="Next"
+            pageCount={Math.ceil((data && data.total) / ITEMS_PER_PAGE)}
+            onPageChange={handlePageChange}
+            containerClassName="pagination"
+            activeClassName="active"
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={1}
+            forcePage={currentPage}
+          />
+        </>
       )}
 
       <CommonModal

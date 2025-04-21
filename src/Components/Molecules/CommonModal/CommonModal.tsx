@@ -36,18 +36,18 @@ const CommonModal: React.FC<CommonModalProps> = ({
       <h2>{message}</h2>
       <div className="common-modal__footer">
         <button
-          className="common-modal__button blue-btn"
-          onClick={onOk}
-          type={BUTTON.BUTTON_TYPE.button}
-        >
-          {okText}
-        </button>
-        <button
           className="common-modal__button outline-btn"
           onClick={onRequestClose}
           type={BUTTON.BUTTON_TYPE.button}
         >
           {closeText}
+        </button>
+        <button
+          className="common-modal__button blue-btn"
+          onClick={onOk}
+          type={BUTTON.BUTTON_TYPE.button}
+        >
+          {okText}
         </button>
       </div>
     </Modal>

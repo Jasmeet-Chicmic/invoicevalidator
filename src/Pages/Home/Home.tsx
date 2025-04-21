@@ -42,7 +42,7 @@ function Home() {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [statusText, setStatusText] = useState({
-    buttonText: BUTTON_TEXT.DRAFT,
+    buttonText: BUTTON_TEXT.PENDING,
     status: INVOICE_STATUS.PENDING,
   });
   const fileDataRef = useRef<FileUploadData>();
@@ -72,7 +72,7 @@ function Home() {
       });
     } else {
       setStatusText({
-        buttonText: BUTTON_TEXT.DRAFT,
+        buttonText: BUTTON_TEXT.PENDING,
         status: INVOICE_STATUS.PENDING,
       });
     }
@@ -546,6 +546,17 @@ function Home() {
     <div className="file-uploadbx">
       {!fileUrl ? (
         <div className="fileupload-page">
+          {/* <button
+            type="button"
+            className="back-btn"
+            onClick={() => navigate(ROUTES.LISTING)}
+          >
+            <span>
+              {' '}
+              <img src={IMAGES.backIcon} alt="back-icon" />
+            </span>{' '}
+            Back
+          </button> */}
           <div className="page-title">
             <h1>Upload File</h1>
           </div>

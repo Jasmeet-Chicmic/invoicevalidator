@@ -2,7 +2,7 @@
 import React, { useCallback, useMemo } from 'react';
 // constants
 import { formatCamelCase, replaceToLowerCase } from '../../../Shared/functions';
-import { CONFIDENCE_CONFIG } from '../../../Shared/Constants';
+import { CONFIDENCE_CONFIG, STRINGS } from '../../../Shared/Constants';
 // styles
 import './ExtractedField.scss';
 import IMAGES from '../../../Shared/Images';
@@ -33,6 +33,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   approveButtonLoading,
 }) => {
   const borderColor = useMemo(() => {
+    if (!value) return STRINGS.EMPTY_STRING;
     if (confidenceScore < CONFIDENCE_CONFIG.DANGER) {
       return 'score-red';
     }
@@ -40,7 +41,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
       return 'score-yellow';
     }
     return 'score-green';
-  }, [confidenceScore]);
+  }, [confidenceScore, value]);
   const handleOnApprove = () => {
     if (value) onApproveClick(true, value);
   };
@@ -65,7 +66,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
             className={`extracted-field__input ${borderColor}`}
           />
           <span className="scoreField">
-            {confidenceScoreText(confidenceScore)}
+            {value && confidenceScoreText(confidenceScore)}
           </span>
         </div>
         <button

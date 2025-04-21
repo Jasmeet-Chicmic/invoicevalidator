@@ -15,7 +15,10 @@ function NavbarComponent() {
     <Navbar expand="lg" className="">
       <Container fluid>
         <div className="headerWrapper">
-          <Navbar.Brand onClick={() => navigate(ROUTES.LISTING)}>
+          <Navbar.Brand
+            onClick={() => navigate(ROUTES.LISTING)}
+            className="pointer"
+          >
             Bookeep<span>AI</span>
           </Navbar.Brand>
           {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
