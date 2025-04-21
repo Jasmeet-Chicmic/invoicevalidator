@@ -170,7 +170,12 @@ const InvoiceList: React.FC = () => {
     isOpen: false,
     data: { invoiceId: '' },
   });
-  const { data, isFetching: isAllInvoiceLoading,isError:isAllInvoiceError,refetch } = useGetAllInvoiceQuery({});
+  const {
+    data,
+    isFetching: isAllInvoiceLoading,
+    isError: isAllInvoiceError,
+    refetch,
+  } = useGetAllInvoiceQuery({});
 
   useEffect(() => {
     setInvoices(data);

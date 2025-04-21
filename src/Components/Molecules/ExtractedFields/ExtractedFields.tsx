@@ -3,9 +3,11 @@ import ExtractedField from '../../Atoms/ExtractedField';
 import FieldWrapper from '../../Cells/FieldWrapper';
 import useNotification from '../../../Hooks/useNotification';
 import { MESSAGES } from '../../../Shared/Constants';
-import { ExtractedData } from '../../../Services/Api/Constants';
+import { CommonErrorResponse, ExtractedData } from '../../../Services/Api/Constants';
 import TextLoader from '../../Atoms/TextLoader';
 import RetryButton from '../../Atoms/RetryButton';
+import { useOnApproveMutation } from '../../../Services/Api/module/fileApi';
+import { STATUS } from '../../../Shared/enum';
 
 type ExtractedFieldsProps = {
   setData: React.Dispatch<React.SetStateAction<ExtractedData | null>>;
@@ -14,6 +16,7 @@ type ExtractedFieldsProps = {
   loading: boolean;
   error?: boolean;
   onRetry?: () => void;
+  invoiceId: string;
 };
 
 const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
@@ -23,8 +26,11 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   loading,
   error = true,
   onRetry = () => {},
+  invoiceId,
 }) => {
   const notify = useNotification();
+  const [onApprove, { isLoading: approveButtonLoading }] =
+    useOnApproveMutation();
   const handleChange = (
     sectionKey: string,
     fieldKey: string,
@@ -80,7 +86,12 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     newFieldValue: string
   ) => {
     try {
-      notify(MESSAGES.NOTIFICATION.APPROVED);
+      await onApprove({
+        category: sectionKey,
+        title: fieldKey,
+        value: newFieldValue,
+        invoiceId,
+      });
       setData((prevData) => ({
         ...prevData!,
         [sectionKey]: {
@@ -92,14 +103,13 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
         },
       }));
       if (oldStateRef.current) {
-        // eslint-disable-next-line no-param-reassign
         oldStateRef.current[sectionKey][fieldKey].approved = value;
-
-        // eslint-disable-next-line no-param-reassign
         oldStateRef.current[sectionKey][fieldKey].value = newFieldValue;
       }
+      notify(MESSAGES.NOTIFICATION.APPROVED);
     } catch (catchError) {
-      notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
+      const errorObj = catchError as CommonErrorResponse;
+      notify(errorObj.data.message, { type: STATUS.error });
     }
   };
 
@@ -138,6 +148,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
                 }
                 disableApprove={disableApprove}
                 approveButtonText={buttonText}
+                approveButtonLoading={!approveButtonLoading}
               />
             );
           })}

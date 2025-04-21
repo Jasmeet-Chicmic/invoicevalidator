@@ -6,6 +6,7 @@ import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
 import {
+  useDeleteFileMutation,
   useFileUploadMutation,
   useLazyGetInvoiceQuery,
 } from '../../Services/Api/module/fileApi';
@@ -49,9 +50,12 @@ function Home() {
   );
   const oldStateRef = useRef<ExtractedData | null>(null);
   const [uploadFile, { isLoading: uploadLoading }] = useFileUploadMutation();
-  const [getInvoice, { isFetching: extractedFieldLoading ,error:imageDataFetchingError}] =
-    useLazyGetInvoiceQuery();
-  
+  const [deleteFile] = useDeleteFileMutation();
+  const [
+    getInvoice,
+    { isFetching: extractedFieldLoading, error: imageDataFetchingError,data:wholeExtractedData },
+  ] = useLazyGetInvoiceQuery();
+
   const notify = useNotification();
   const navigate = useNavigate();
   useEffect(() => {
@@ -343,15 +347,31 @@ function Home() {
   const resetExtractedData = () => {
     setExtractedData(null);
     oldStateRef.current = null;
+    fileDataRef.current = undefined;
   };
   const handleBack = () => {
     setConfirmationModal(true);
   };
-  const handleRemove = () => {
-    resetExtractedData();
-    setFile(null);
-    setFileUrl(null);
-    setConfirmationModal(false);
+
+  const handleRemove = async () => {
+    if (!fileDataRef.current?.invoiceId) {
+      return;
+    }
+    try {
+      await deleteFile({ invoiceId: fileDataRef.current?.invoiceId });
+      resetExtractedData();
+      setFile(null);
+      setFileUrl(null);
+      setConfirmationModal(false);
+    } catch (error) {
+      const errorObj = error as CommonErrorResponse;
+      notify(
+        errorObj.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG,
+        {
+          type: STATUS.error,
+        }
+      );
+    }
   };
   const fetchImageData = async (
     filePath: string,
@@ -378,7 +398,7 @@ function Home() {
         type: STATUS.error,
       });
       if (error.status === API_RESPONSE_STATUS_CODE.NOT_ACCEPTABLE) {
-        handleRemove()
+        handleRemove();
       }
     }
   };
@@ -532,6 +552,7 @@ function Home() {
                       oldStateRef={oldStateRef}
                       onRetry={onRetryCallback}
                       error={!!imageDataFetchingError}
+                      invoiceId={wholeExtractedData && wholeExtractedData.id}
                     />
                   </div>
                 </div>
