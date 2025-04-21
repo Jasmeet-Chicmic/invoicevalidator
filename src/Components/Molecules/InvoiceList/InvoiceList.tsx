@@ -255,34 +255,45 @@ const InvoiceList: React.FC = () => {
       <div className="invoice-list__header">
         <h1 className="invoice-list__title">Invoices</h1>
 
-        <div className="invoice-list__filters">
-          {['All', 'Pending', 'Approved'].map((status) => (
-            <button
-              key={status}
-              className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
-              onClick={() => {
-                setFilterStatus(status as FilterStateType);
-                setCurrentPage(0);
-              }}
-              type="button"
-            >
-              {status}
+        <div className="hdrright-actions">
+          <div className="search-bx">
+            <input
+              type="text"
+              alt="search"
+              placeholder="Search"
+              className="search-field"
+            />
+            <button className="saerch-btn">Search</button>
+          </div>
+          <div className="invoice-list__filters">
+            {['All', 'Pending', 'Approved'].map((status) => (
+              <button
+                key={status}
+                className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
+                onClick={() => {
+                  setFilterStatus(status as FilterStateType);
+                  setCurrentPage(0);
+                }}
+                type="button"
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+          <div className="download-btns">
+            <button type="button" className="btn-primary exporttotelly">
+              <span className="btn-icon">
+                <img src={IMAGES.exportIcon} alt="Export to Tally" />
+              </span>
+              Export to Tally
             </button>
-          ))}
-        </div>
-        <div className="download-btns">
-          <button type="button" className="btn-primary exporttotelly">
-            <span className="btn-icon">
-              <img src={IMAGES.exportIcon} alt="Export to Tally" />
-            </span>
-            Export to Tally
-          </button>
-          <button type="button" className="btn-primary downloadjson">
-            <span className="btn-icon">
-              <img src={IMAGES.downloadIcon} alt="Download JSON" />
-            </span>
-            Download JSON
-          </button>
+            <button type="button" className="btn-primary downloadjson">
+              <span className="btn-icon">
+                <img src={IMAGES.downloadIcon} alt="Download JSON" />
+              </span>
+              Download JSON
+            </button>
+          </div>
         </div>
       </div>
 
