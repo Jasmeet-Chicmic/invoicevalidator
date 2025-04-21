@@ -51,4 +51,5 @@ export const {
   useOnApproveMutation,
   useLazyGetInvoiceQuery,
   useGetAllInvoiceQuery,
+  useDeleteFileMutation,
 } = fileApi;

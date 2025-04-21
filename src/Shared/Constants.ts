@@ -60,8 +60,9 @@ const MESSAGES = {
     SAVED: 'Saved',
   },
   FILE_UPLOADER: {
-    FILE_DATA_ERROR: 'Something went wrong. Please re-upload the image',
-    MESSAGE: 'Click or drag and drop a PDF or image here',
+    FILE_DATA_ERROR:
+      'Error extracting data. Please go back and re-upload the image.',
+    MESSAGE: 'Click or drag and drop a PDF or image here.',
   },
 };
 const SNACKBAR_CONFIG = {

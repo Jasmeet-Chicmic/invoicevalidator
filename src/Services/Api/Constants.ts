@@ -2,7 +2,7 @@
 export const API_BASE_URL: string = import.meta.env.VITE_BASE_URL;
 export const API_END_POINTS = {
   FILE_UPLOAD: '/bookkeep/invoice/upload/',
-  ON_APPROVE: '/bookkeep/invoice/on-approve/',
+  ON_APPROVE: '/bookkeep/invoice/data/update/',
   INVOICE_DATA: '/bookkeep/invoice/display',
   ALL_INVOICES: 'bookkeep/invoice/list/all/',
   DELETE_IMAGE: 'bookkeep/invoice/delete/',
@@ -28,7 +28,10 @@ export interface FileUploadResponse {
 }
 
 export interface OnApproveRequest {
-  [key: string]: string;
+  invoiceId: string;
+  category: string;
+  title: string;
+  value: string;
 }
 
 export interface GetInvoiceRequest {
@@ -69,5 +72,9 @@ export interface CommonErrorResponse {
 }
 
 export interface DeleteImageRequest {
-  invoiceId: number;
+  invoiceId: string;
 }
+
+export const API_RESPONSE_STATUS_CODE = {
+  NOT_ACCEPTABLE: 406,
+};

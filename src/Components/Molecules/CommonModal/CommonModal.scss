@@ -1,3 +1,5 @@
+@import "../../../Assets/SCSS/main";
+
 .common-modal {
     &__content {
       position: absolute;
@@ -13,6 +15,13 @@
       text-align: center;
       background: #fff;
       outline: none;
+
+      h2{
+        font-size: 16px;
+        font-weight: $font-medium;
+        color: $black-color;
+        margin-bottom: 0rem;
+      }
     }
   
     &__overlay {
@@ -29,6 +38,20 @@
       display: flex;
       gap: 1rem;
       justify-content: center;
+      button{
+        padding: 10px 20px;
+        font-size: 14px;
+        &.blue-btn{
+          background: $blue-color;
+          color: $white-color;
+          border: 1px solid $blue-color;
+        }
+        &.outline-btn{
+          background: $white-color;
+          color: $grey-color-500;
+          border: 1px solid $grey-color-500;
+        }
+      }
     }
   
     &__button {
@@ -51,3 +74,6 @@
     }
   }
   
+  .common-modal__overlay {
+    z-index: 10;
+}
