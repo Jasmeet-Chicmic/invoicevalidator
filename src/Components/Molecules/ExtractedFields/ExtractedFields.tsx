@@ -3,7 +3,10 @@ import ExtractedField from '../../Atoms/ExtractedField';
 import FieldWrapper from '../../Cells/FieldWrapper';
 import useNotification from '../../../Hooks/useNotification';
 import { MESSAGES } from '../../../Shared/Constants';
-import { CommonErrorResponse, ExtractedData } from '../../../Services/Api/Constants';
+import {
+  CommonErrorResponse,
+  ExtractedData,
+} from '../../../Services/Api/Constants';
 import TextLoader from '../../Atoms/TextLoader';
 import RetryButton from '../../Atoms/RetryButton';
 import { useOnApproveMutation } from '../../../Services/Api/module/fileApi';

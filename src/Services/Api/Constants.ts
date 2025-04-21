@@ -6,6 +6,8 @@ export const API_END_POINTS = {
   INVOICE_DATA: '/bookkeep/invoice/display',
   ALL_INVOICES: 'bookkeep/invoice/list/all/',
   DELETE_IMAGE: 'bookkeep/invoice/delete/',
+  ON_SUBMIT: 'bookkeep/invoice/details/submit/',
+  DELETE_INVOICE: 'bookkeep/invoice/data/delete/',
 };
 export const HTTPS_METHODS = {
   GET: 'GET',
@@ -65,13 +67,14 @@ export interface ExtractedDataResponse {
 
 export interface ErrorData {
   message: string;
+  errorId?: number;
 }
 export interface CommonErrorResponse {
   status: number;
   data: ErrorData;
 }
 
-export interface DeleteImageRequest {
+export interface CRUDRequest {
   invoiceId: string;
 }
 

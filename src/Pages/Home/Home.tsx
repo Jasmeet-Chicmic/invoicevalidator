@@ -9,6 +9,7 @@ import {
   useDeleteFileMutation,
   useFileUploadMutation,
   useLazyGetInvoiceQuery,
+  useOnSubmitMutation,
 } from '../../Services/Api/module/fileApi';
 import {
   API_BASE_URL,
@@ -34,7 +35,7 @@ import {
 } from '../../Shared/Constants';
 import { areAllFieldsApproved, checkFileType } from '../../Shared/functions';
 import IMAGES from '../../Shared/Images';
-import { STATUS } from '../../Shared/enum';
+import { ERRORID, STATUS } from '../../Shared/enum';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -51,9 +52,14 @@ function Home() {
   const oldStateRef = useRef<ExtractedData | null>(null);
   const [uploadFile, { isLoading: uploadLoading }] = useFileUploadMutation();
   const [deleteFile] = useDeleteFileMutation();
+  const [onSubmit] = useOnSubmitMutation();
   const [
     getInvoice,
-    { isFetching: extractedFieldLoading, error: imageDataFetchingError,data:wholeExtractedData },
+    {
+      isFetching: extractedFieldLoading,
+      error: imageDataFetchingError,
+      data: wholeExtractedData,
+    },
   ] = useLazyGetInvoiceQuery();
 
   const notify = useNotification();
@@ -347,7 +353,6 @@ function Home() {
   const resetExtractedData = () => {
     setExtractedData(null);
     oldStateRef.current = null;
-    fileDataRef.current = undefined;
   };
   const handleBack = () => {
     setConfirmationModal(true);
@@ -399,6 +404,10 @@ function Home() {
       });
       if (error.status === API_RESPONSE_STATUS_CODE.NOT_ACCEPTABLE) {
         handleRemove();
+      } else if (error.data.errorId === ERRORID.DUPLICATE_INVOICE) {
+        resetExtractedData();
+        setFile(null);
+        setFileUrl(null);
       }
     }
   };
@@ -485,10 +494,22 @@ function Home() {
     }
   };
 
-  const handleSave = () => {
-    oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
-    notify(MESSAGES.NOTIFICATION.SAVED);
-    navigate(ROUTES.LISTING);
+  const handleSave = async () => {
+    if (fileDataRef.current?.invoiceId === undefined) {
+      notify(MESSAGES.NOTIFICATION.INVOICE_ID_NOT_FOUND);
+      return;
+    }
+    try {
+      await onSubmit({ invoiceId: fileDataRef.current?.invoiceId });
+      oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
+      notify(MESSAGES.NOTIFICATION.SAVED);
+      navigate(ROUTES.LISTING);
+    } catch (errorCatch) {
+      const error = errorCatch as unknown as CommonErrorResponse;
+      notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG, {
+        type: STATUS.error,
+      });
+    }
   };
 
   const onCloseModal = () => {

@@ -1,7 +1,7 @@
 import api from '../../api';
 import {
   API_END_POINTS,
-  DeleteImageRequest,
+  CRUDRequest,
   GetInvoiceRequest,
   HTTPS_METHODS,
   OnApproveRequest,
@@ -17,8 +17,15 @@ export const fileApi = api.injectEndpoints({
       }),
     }),
     deleteFile: builder.mutation({
-      query: (data: DeleteImageRequest) => ({
+      query: (data: CRUDRequest) => ({
         url: API_END_POINTS.DELETE_IMAGE,
+        method: HTTPS_METHODS.DELETE,
+        body: data,
+      }),
+    }),
+    deleteInvoice: builder.mutation({
+      query: (data: CRUDRequest) => ({
+        url: API_END_POINTS.DELETE_INVOICE,
         method: HTTPS_METHODS.DELETE,
         body: data,
       }),
@@ -27,6 +34,13 @@ export const fileApi = api.injectEndpoints({
       query: (data: OnApproveRequest) => ({
         url: API_END_POINTS.ON_APPROVE,
         method: HTTPS_METHODS.PATCH,
+        body: data,
+      }),
+    }),
+    onSubmit: builder.mutation({
+      query: (data: CRUDRequest) => ({
+        url: API_END_POINTS.ON_SUBMIT,
+        method: HTTPS_METHODS.POST,
         body: data,
       }),
     }),
@@ -52,4 +66,6 @@ export const {
   useLazyGetInvoiceQuery,
   useGetAllInvoiceQuery,
   useDeleteFileMutation,
+  useDeleteInvoiceMutation,
+  useOnSubmitMutation,
 } = fileApi;
