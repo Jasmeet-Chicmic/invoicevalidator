@@ -58,6 +58,8 @@ const MESSAGES = {
     APPROVED: 'Approved',
     APPROVE: 'Approve',
     SAVED: 'Saved',
+    INVOICE_ID_NOT_FOUND: 'Invoice ID not found',
+    INVOICE_DELETED_SUCCESSFULLY: 'Invoice deleted successfully',
   },
   FILE_UPLOADER: {
     FILE_DATA_ERROR:

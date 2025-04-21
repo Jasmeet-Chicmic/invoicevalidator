@@ -17,7 +17,7 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.LISTING.title,
   },
   {
-    path: ROUTES_CONFIG.EDIT.path,
+    path: `${ROUTES_CONFIG.EDIT.path}/:invoiceId`,
     element: <EditPage />,
     title: ROUTES_CONFIG.EDIT.title,
   },

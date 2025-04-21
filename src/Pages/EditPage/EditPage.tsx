@@ -1,8 +1,12 @@
 // Libraries
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 // Constants
-import { ExtractedData } from '../../Services/Api/Constants';
+import {
+  API_BASE_URL,
+  CommonErrorResponse,
+  ExtractedData,
+} from '../../Services/Api/Constants';
 import {
   BUTTON_TEXT,
   INVOICE_STATUS,
@@ -20,20 +24,43 @@ import useNotification from '../../Hooks/useNotification';
 // Utils
 import { areAllFieldsApproved } from '../../Shared/functions';
 import IMAGES from '../../Shared/Images';
+import {
+  useEditDataQuery,
+  useOnSubmitMutation,
+} from '../../Services/Api/module/fileApi';
+import { STATUS } from '../../Shared/enum';
 
 const EditPage = () => {
+  const navigate = useNavigate();
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
-  const [extractedFieldLoading, setExtractedFieldLoading] = useState(true);
+  const [onSubmit] = useOnSubmitMutation();
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const { invoiceId } = useParams();
+
+  const {
+    data,
+    error,
+    isFetching: loading,
+  } = useEditDataQuery({ invoiceId: invoiceId! }, { skip: !invoiceId });
   const [statusText, setStatusText] = useState({
     buttonText: BUTTON_TEXT.DRAFT,
     status: INVOICE_STATUS.PENDING,
   });
   const oldStateRef = useRef<ExtractedData | null>(null);
-  const navigate = useNavigate();
   const notify = useNotification();
+  const extractedEditData = useMemo(() => {
+    if (data) {
+      return data.data;
+    }
+    return null;
+  }, [data]);
+  useEffect(() => {
+    if (invoiceId === undefined) {
+      navigate(ROUTES.LISTING);
+    }
+  }, [invoiceId, navigate]);
   useEffect(() => {
     if (extractedData && areAllFieldsApproved(extractedData)) {
       setStatusText({
@@ -48,63 +75,36 @@ const EditPage = () => {
     }
   }, [extractedData]);
   useEffect(() => {
-    setTimeout(() => {
-      const fetchedData: ExtractedData = {
-        invoiceDetails: {
-          invoiceNo: { value: 'INV-123', confidenceScore: 85, approved: true },
-          date: { value: '2024-04-01', confidenceScore: 90, approved: true },
-          modeOfPayment: {
-            value: 'Credit Card',
-            confidenceScore: 75,
-            approved: true,
-          },
-        },
-        supplierDetails: {
-          name: { value: 'ABC Pvt Ltd', confidenceScore: 95, approved: true },
-          address: { value: '123 Street', confidenceScore: 80, approved: true },
-          contact: { value: '9876543210', confidenceScore: 70, approved: true },
-          gstin: {
-            value: '22AAAAA0000A1Z5',
-            confidenceScore: 85,
-            approved: true,
-          },
-          stateName: {
-            value: 'Karnataka',
-            confidenceScore: 88,
-            approved: true,
-          },
-          code: { value: 'KA01', confidenceScore: 60, approved: true },
-          email: {
-            value: 'abc@example.com',
-            confidenceScore: 92,
-            approved: true,
-          },
-        },
-        buyerDetails: {
-          name: { value: 'XYZ Traders', confidenceScore: 93, approved: true },
-          address: { value: '456 Avenue', confidenceScore: 78, approved: true },
-          gstin: {
-            value: '29BBBBB1111B2Z6',
-            confidenceScore: 82,
-            approved: true,
-          },
-          stateName: {
-            value: 'Maharashtra',
-            confidenceScore: 87,
-            approved: true,
-          },
-          code: { value: 'MH02', confidenceScore: 65, approved: true },
-        },
-      };
-      setExtractedData(fetchedData);
-      oldStateRef.current = JSON.parse(JSON.stringify(fetchedData));
-      setExtractedFieldLoading(false);
-    }, 1000);
-  }, [oldStateRef, setExtractedData]);
-  const handleSave = () => {
-    oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
-    notify(MESSAGES.NOTIFICATION.SAVED);
-    navigate(ROUTES.LISTING);
+    if (data) {
+      const editExtractedData = data.data?.data;
+      setExtractedData(editExtractedData);
+      oldStateRef.current = JSON.parse(JSON.stringify(editExtractedData));
+    }
+  }, [data]);
+
+  const handleSave = async () => {
+    if (extractedEditData && extractedEditData.id === undefined) {
+      notify(MESSAGES.NOTIFICATION.INVOICE_ID_NOT_FOUND);
+      return;
+    }
+    try {
+      await onSubmit({
+        invoiceId: extractedEditData.id,
+        isApproved: statusText.status === INVOICE_STATUS.APPROVED,
+        data: extractedData!,
+      });
+      oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
+      notify(MESSAGES.NOTIFICATION.SAVED);
+      navigate(ROUTES.LISTING);
+    } catch (errorCatch) {
+      const errorObj = errorCatch as unknown as CommonErrorResponse;
+      notify(
+        errorObj.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG,
+        {
+          type: STATUS.error,
+        }
+      );
+    }
   };
 
   const handleDiscard = () => {
@@ -123,8 +123,11 @@ const EditPage = () => {
         left={
           <div className="file-previewbx">
             <FilePreviewer
-              isImage
-              fileUrl="https://via.placeholder.com/150x150"
+              isImage={extractedEditData && extractedEditData.type}
+              fileUrl={
+                extractedEditData &&
+                `${API_BASE_URL}/${extractedEditData.mediaUrl}`
+              }
             />
           </div>
         }
@@ -139,9 +142,9 @@ const EditPage = () => {
                   data={extractedData}
                   setData={setExtractedData}
                   oldStateRef={oldStateRef}
-                  loading={extractedFieldLoading}
-                  error={false}
-                  invoiceId="123"
+                  loading={loading}
+                  error={!!error}
+                  invoiceId={extractedEditData && extractedEditData.id}
                 />
               </div>
             </div>

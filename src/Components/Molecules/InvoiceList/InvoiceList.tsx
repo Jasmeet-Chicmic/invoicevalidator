@@ -1,13 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
-import { MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
+import { MESSAGES, MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
 import './InvoiceList.scss';
 import CommonModal from '../CommonModal';
 import IMAGES from '../../../Shared/Images';
-import { useGetAllInvoiceQuery } from '../../../Services/Api/module/fileApi';
+import {
+  useDeleteInvoiceMutation,
+  useGetAllInvoiceQuery,
+} from '../../../Services/Api/module/fileApi';
 import TextLoader from '../../Atoms/TextLoader';
 import RetryButton from '../../Atoms/RetryButton';
+import { CommonErrorResponse } from '../../../Services/Api/Constants';
+import useNotification from '../../../Hooks/useNotification';
+import { STATUS } from '../../../Shared/enum';
 
 export interface Invoice {
   id: string;
@@ -166,6 +172,7 @@ const InvoiceList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [filterStatus, setFilterStatus] = useState<FilterStateType>('All');
   const [currentPage, setCurrentPage] = useState(0);
+  const notify = useNotification();
   const [confirmationModal, setConfirmationModal] = useState({
     isOpen: false,
     data: { invoiceId: '' },
@@ -175,10 +182,10 @@ const InvoiceList: React.FC = () => {
     isFetching: isAllInvoiceLoading,
     isError: isAllInvoiceError,
     refetch,
-  } = useGetAllInvoiceQuery({});
-
+  } = useGetAllInvoiceQuery({}, { refetchOnMountOrArgChange: true });
+  const [deleteInvoice] = useDeleteInvoiceMutation();
   useEffect(() => {
-    setInvoices(data);
+    if (data) setInvoices(data.data);
   }, [data]);
   // useEffect(() => {
   //   setInvoices(allInvoicesData);
@@ -192,9 +199,9 @@ const InvoiceList: React.FC = () => {
       maximumFractionDigits: 0,
     }).format(amount);
 
-  const handleEdit = (id: string) => {
-    id.concat('test');
-    navigate(ROUTES.EDIT); // Update with `ROUTES.EDIT + id` if needed
+  const handleEdit = (invoiceId: number) => {
+    console.log(invoiceId, 'invoiceId');
+    navigate(`${ROUTES.EDIT}/${invoiceId}`);
   };
 
   const handleDelete = (id: string) => {
@@ -216,6 +223,7 @@ const InvoiceList: React.FC = () => {
     if (invoices && invoices.length === 0) {
       return [];
     }
+
     return invoices.filter((invoice) =>
       filterStatus === 'All' ? true : invoice.status === filterStatus
     );
@@ -248,6 +256,25 @@ const InvoiceList: React.FC = () => {
     refetch();
   };
 
+  const onModalOk = async () => {
+    try {
+      await deleteInvoice({ invoiceId: confirmationModal.data.invoiceId });
+      setConfirmationModal({ ...confirmationModal, isOpen: false });
+      setInvoices((prev) =>
+        prev.filter(
+          (invoice) => invoice.id !== confirmationModal.data.invoiceId
+        )
+      );
+      notify(MESSAGES.NOTIFICATION.INVOICE_DELETED_SUCCESSFULLY);
+    } catch (error) {
+      const errorObj = error as unknown as CommonErrorResponse;
+      notify(errorObj.data.message, { type: STATUS.error });
+    }
+  };
+
+  const onModalClose = () => {
+    setConfirmationModal({ ...confirmationModal, isOpen: false });
+  };
   if (isAllInvoiceError) return <RetryButton onClick={onRetry} />;
   if (isAllInvoiceLoading) return <TextLoader showText={false} />;
   return (
@@ -315,7 +342,9 @@ const InvoiceList: React.FC = () => {
                     <button
                       type="button"
                       className="invoice-list__action-button invoice-list__action-button--edit"
-                      onClick={() => handleEdit(invoice.id)}
+                      onClick={() =>
+                        handleEdit(invoice.id as unknown as number)
+                      }
                       aria-label={`Edit invoice ${invoice.invoiceNo}`}
                     >
                       <img src={IMAGES.editIcon} alt="edit-icon" />
@@ -374,17 +403,8 @@ const InvoiceList: React.FC = () => {
 
       <CommonModal
         isOpen={confirmationModal.isOpen}
-        onRequestClose={() =>
-          setConfirmationModal({ ...confirmationModal, isOpen: false })
-        }
-        onOk={() => {
-          setConfirmationModal({ ...confirmationModal, isOpen: false });
-          setInvoices((prev) =>
-            prev.filter(
-              (invoice) => invoice.id !== confirmationModal.data.invoiceId
-            )
-          );
-        }}
+        onRequestClose={onModalClose}
+        onOk={onModalOk}
         message={MODAL_MESSAGES.DELETE_CONFIRMATION}
       />
     </div>

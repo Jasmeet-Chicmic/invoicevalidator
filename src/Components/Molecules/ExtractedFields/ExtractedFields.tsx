@@ -3,7 +3,10 @@ import ExtractedField from '../../Atoms/ExtractedField';
 import FieldWrapper from '../../Cells/FieldWrapper';
 import useNotification from '../../../Hooks/useNotification';
 import { MESSAGES } from '../../../Shared/Constants';
-import { CommonErrorResponse, ExtractedData } from '../../../Services/Api/Constants';
+import {
+  CommonErrorResponse,
+  ExtractedData,
+} from '../../../Services/Api/Constants';
 import TextLoader from '../../Atoms/TextLoader';
 import RetryButton from '../../Atoms/RetryButton';
 import { useOnApproveMutation } from '../../../Services/Api/module/fileApi';
@@ -126,7 +129,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     <div className="extracted-data">
       {Object.entries(data || {}).map(([sectionKey, fields]) => (
         <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
-          {Object.entries(fields).map(([fieldKey, fieldValue]) => {
+          {Object.entries(fields || {}).map(([fieldKey, fieldValue]) => {
             const isApproved = fieldValue.approved;
             const disableApprove = isApproved;
             const buttonText = isApproved
