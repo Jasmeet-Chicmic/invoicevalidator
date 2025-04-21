@@ -11,6 +11,10 @@
   gap: 5px;
   @media screen and (max-width:768px) {
     margin-left: 0px;
+    width: 100%;
+  }
+  @media screen and (min-width: 769px) and (max-width:1024px) { 
+    margin-left: 0px;
   }
   .filter-btn{
 
@@ -18,12 +22,15 @@
 }
 
 .download-btns {
-  margin-left: 15px;
   display: flex;
   gap: 10px;
 
   @media screen and (max-width:768px) {
     margin: 0px;
+  }
+  @media screen and (max-width:340px) {
+    flex-direction: column;
+    width: 100%;
   }
 
   .btn-primary {
@@ -33,6 +40,8 @@
     font-size: 12px;
     border-radius: 5px;
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
 
     @media screen and (max-width:768px) {
@@ -59,6 +68,9 @@ button {
     font-size: 12px;
     font-weight: $font-regular;
     color: $grey-color-500;
+    @media screen and (max-width:768px) {
+      flex: 1;
+    }
 
     &.active {
       background-color: $blue-color;
@@ -378,6 +390,62 @@ button {
       a{
         color: $white-color;
       }
+    }
+  }
+}
+
+
+.hdrright-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+  }
+  @media screen and (min-width: 769px) and (max-width:1024px) {
+    gap: 5px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end; 
+  }
+
+  .search-bx{
+    position: relative;
+    display: flex;
+    gap:10px;
+    @media screen and (max-width: 768px) {
+      margin-bottom: 0px;
+      width: 100%;
+    }
+
+    .search-field{
+      border: 1px solid $grey-color-300;
+      color: $black-color;
+      background: white;
+      border-radius: 5px;
+      padding: 5px 10px;
+      height: 32px;
+      font-size: 12px;
+      flex: 0.7;
+      display: flex;
+      &:focus{
+        border: 1px solid rgba($black-color, 0.2) !important;
+        outline: none;
+      }
+    }
+    .saerch-btn{
+      position: absolute;
+      z-index: 1;
+      border-radius: 5px;
+      background: $blue-color;
+      color: $white-color;
+      font-size: 12px;
+      height: 32px;
+      right: 0px;
+      flex: 0.3;
+      display: flex;
     }
   }
 }

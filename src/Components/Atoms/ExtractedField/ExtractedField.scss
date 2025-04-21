@@ -30,10 +30,11 @@
     transition: border-color 0.3s;
     width: 100%;
     height: 46px;
-    color: $grey-color-500 !important;
+    color: $black-color !important;
 
-    ::placeholder {
-      color: $grey-color-500 !important;
+    &::placeholder {
+      color: rgba($grey-color-500, 0.5) !important;
+      // color: red !important;
     }
 
     &.score-green {

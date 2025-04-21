@@ -117,34 +117,45 @@ const InvoiceList: React.FC = () => {
       <div className="invoice-list__header">
         <h1 className="invoice-list__title">{STRINGS.INVOICES}</h1>
 
-        <div className="invoice-list__filters">
-          {filterList.map((status) => (
-            <button
-              key={status}
-              className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
-              onClick={() => {
-                setFilterStatus(status);
-                setCurrentPage(0);
-              }}
-              type="button"
-            >
-              {status}
-            </button>
-          ))}
-        </div>
-        <div className="download-btns">
-          {filterTabs.map(({ className, icon, alt, label }) => (
-            <button
-              key={className}
-              type="button"
-              className={`btn-primary ${className}`}
-            >
-              <span className="btn-icon">
-                <img src={icon} alt={alt} />
-              </span>
-              {label}
-            </button>
-          ))}
+        <div className="hdrright-actions">
+          <div className="search-bx">
+            <input
+              type="text"
+              alt="search"
+              placeholder="Search"
+              className="search-field"
+            />
+            <button className="saerch-btn">Search</button>
+          </div>
+          <div className="invoice-list__filters">
+            {filterList.map((status) => (
+              <button
+                key={status}
+                className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
+                onClick={() => {
+                  setFilterStatus(status);
+                  setCurrentPage(0);
+                }}
+                type="button"
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+          <div className="download-btns">
+            {filterTabs.map(({ className, icon, alt, label }) => (
+              <button
+                key={className}
+                type="button"
+                className={`btn-primary ${className}`}
+              >
+                <span className="btn-icon">
+                  <img src={icon} alt={alt} />
+                </span>
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

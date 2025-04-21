@@ -1,5 +1,9 @@
 @import "../../../Assets/SCSS/main";
 
+html:has(.invoice-list-page){
+  overflow: hidden;
+}
+
 .retrybtn-data {
   height: 100px;
   width: 100%;
@@ -32,7 +36,7 @@
   background: $grey-color-300;
   border: none;
   border-radius: 5px;
-  padding: 10px 18px;
+  padding: 29px 38px;
   cursor: pointer;
   transition: transform 0.2s ease;
 
