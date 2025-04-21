@@ -13,8 +13,6 @@ function PublicLayout({ children }: AppLayoutProps): ReactNode {
       <div className="content">
         <div className="upload-page">{children}</div>
       </div>
-
-      {/* <Footer /> */}
     </main>
   );
 }

@@ -49,6 +49,8 @@ const MODAL_MESSAGES = {
 const BUTTON_TEXT = {
   SAVE: 'Save',
   DRAFT: 'Draft',
+  UPLOAD_INVOICE: 'Upload Invoice',
+  EXPORT: 'Export',
 };
 const CONFIDENCE_CONFIG = {
   DANGER: 50,
@@ -81,15 +83,13 @@ const INPUT = {
   },
 };
 type ButtonType = 'button' | 'submit' | 'reset';
- const BUTTON = {
+const BUTTON = {
   BUTTON_TYPE: {
     button: 'button' as ButtonType,
     submit: 'submit' as ButtonType,
     reset: 'reset' as ButtonType,
   },
 };
-
-
 
 export {
   SNACKBAR_CONFIG,

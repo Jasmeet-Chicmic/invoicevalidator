@@ -14,8 +14,8 @@ import {
 } from '../../Services/Api/Constants';
 import ExtractedFields from '../../Components/Molecules/ExtractedFields';
 import CommonModal from '../../Components/Molecules/CommonModal';
+// hooks
 import useNotification from '../../Hooks/useNotification';
-
 // constants
 import {
   BUTTON_TEXT,
@@ -38,13 +38,6 @@ function Home() {
   const [uploadFile] = useFileUploadMutation();
   const notify = useNotification();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (extractedData && areAllFieldsApproved(extractedData)) {
-      setSubmitBtnText(BUTTON_TEXT.SAVE);
-    } else {
-      setSubmitBtnText(BUTTON_TEXT.DRAFT);
-    }
-  }, [extractedData]);
   const handleUpload = async (newFile: File) => {
     setLoading(true);
     setFile(newFile);
@@ -79,8 +72,16 @@ function Home() {
   };
 
   const onCloseModal = () => {
-  setConfirmationModal(false);
-}
+    setConfirmationModal(false);
+  };
+
+  useEffect(() => {
+    if (extractedData && areAllFieldsApproved(extractedData)) {
+      setSubmitBtnText(BUTTON_TEXT.SAVE);
+    } else {
+      setSubmitBtnText(BUTTON_TEXT.DRAFT);
+    }
+  }, [extractedData]);
   return (
     <div className="file-uploadbx">
       {!fileUrl ? (

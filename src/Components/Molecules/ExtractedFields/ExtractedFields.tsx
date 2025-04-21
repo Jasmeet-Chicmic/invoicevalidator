@@ -7,7 +7,7 @@ import ExtractedField from '../../Atoms/ExtractedField';
 import FieldWrapper from '../../Cells/FieldWrapper';
 // Hooks
 import useNotification from '../../../Hooks/useNotification';
-// Constants 
+// Constants
 import { MESSAGES } from '../../../Shared/Constants';
 import { ExtractedData } from '../../../Services/Api/Constants';
 import { ExtracetedDummyData } from './helpers/constants';
@@ -26,10 +26,10 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
 
   const notify = useNotification();
-  const dummyApiTime =  1000;
+  const dummyApiTime = 1000;
   useEffect(() => {
     setTimeout(() => {
-      const fetchedData: ExtractedData =ExtracetedDummyData
+      const fetchedData: ExtractedData = ExtracetedDummyData;
       setData(fetchedData);
       oldStateRef.current = JSON.parse(JSON.stringify(fetchedData));
       setLoading(false);
@@ -40,7 +40,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     value?: string;
     approved?: boolean;
   };
-  
+
   const updateFieldState = (
     prevData: typeof data,
     sectionKey: string,
@@ -58,31 +58,30 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
       },
     };
   };
-  
+
   const handleChange = (
     sectionKey: string,
     fieldKey: string,
     newValue: string
   ) => {
     if (!data) return;
-  
+
     const isValueChanged =
       oldStateRef.current &&
       oldStateRef.current[sectionKey][fieldKey].value !== newValue;
-  
+
     setData((prevData) =>
       updateFieldState(prevData, sectionKey, fieldKey, {
-        approved: !isValueChanged ? true : false,
+        approved: !isValueChanged,
       })
     );
-  
+
     setData((prevData) =>
       updateFieldState(prevData, sectionKey, fieldKey, {
         value: newValue,
       })
     );
   };
-  
 
   const handleOnApprove = async (
     sectionKey: string,
@@ -92,13 +91,13 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   ) => {
     try {
       notify(MESSAGES.NOTIFICATION.APPROVED);
-  
+
       setData((prevData) =>
         updateFieldState(prevData, sectionKey, fieldKey, {
           approved: value,
         })
       );
-  
+
       if (oldStateRef.current) {
         oldStateRef.current[sectionKey][fieldKey].approved = value;
         oldStateRef.current[sectionKey][fieldKey].value = newFieldValue;
@@ -107,7 +106,6 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
       notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
     }
   };
-  
 
   if (loading || !data) return <div>Loading extracted fields...</div>;
 

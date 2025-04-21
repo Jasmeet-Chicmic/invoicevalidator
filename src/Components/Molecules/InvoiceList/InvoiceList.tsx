@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './InvoiceList.scss';
 import CommonModal from '../CommonModal';
-import { MODAL_MESSAGES } from '../../../Shared/Constants';
+import { BUTTON_TEXT, MODAL_MESSAGES } from '../../../Shared/Constants';
 
 export interface Invoice {
   id: string;
@@ -79,6 +79,16 @@ const InvoiceList: React.FC = () => {
     });
   };
 
+  const onModalClose = () => {
+    setConfirmationModal({ ...confirmationModal, isOpen: false })
+  };
+
+  const onModalOkCallback = () => {
+    setConfirmationModal({ ...confirmationModal, isOpen: false });
+    setInvoices((prev) =>
+      prev.filter((invoice) => invoice.id !== confirmationModal.data.invoiceId)
+    );
+  };
   const getStatusClass = (status: string): string =>
     `status-badge status-${status.toLowerCase()}`;
 
@@ -169,21 +179,12 @@ const InvoiceList: React.FC = () => {
         </table>
       </div>
       <button type="button" className="invoice-list__export-button">
-        Export
+        {BUTTON_TEXT.EXPORT}
       </button>
       <CommonModal
         isOpen={confirmationModal.isOpen}
-        onRequestClose={() =>
-          setConfirmationModal({ ...confirmationModal, isOpen: false })
-        }
-        onOk={() => {
-          setConfirmationModal({ ...confirmationModal, isOpen: false });
-          setInvoices((prev) =>
-            prev.filter(
-              (invoice) => invoice.id !== confirmationModal.data.invoiceId
-            )
-          );
-        }}
+        onRequestClose={onModalClose}
+        onOk={onModalOkCallback}
         message={MODAL_MESSAGES.DELETE_CONFIRMATION}
       />
     </div>
