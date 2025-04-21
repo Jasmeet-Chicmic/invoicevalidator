@@ -104,7 +104,13 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     }
   };
 
-  if (error) return <RetryButton onClick={onRetry} />;
+  if (error)
+    return (
+      <div className="retrybtn-data">
+        {' '}
+        <RetryButton onClick={onRetry} />
+      </div>
+    );
   if (loading || !data) return <TextLoader />;
 
   return (

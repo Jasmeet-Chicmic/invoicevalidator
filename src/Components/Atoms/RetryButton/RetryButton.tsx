@@ -7,8 +7,8 @@ const RetryButton = ({ onClick }: { onClick?: () => void }) => {
       <div className="retry-button">
         <button className="retry-icon-button" onClick={onClick}>
           <img src={IMAGES.retryIcon} alt="Retry Icon" className="retry-icon" />
+          <span className="retry-text">Retry</span>
         </button>
-        <span className="retry-text">Retry</span>
       </div>
     </div>
   );

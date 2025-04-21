@@ -32,6 +32,7 @@ import {
   ROUTES,
 } from '../../Shared/Constants';
 import { areAllFieldsApproved, checkFileType } from '../../Shared/functions';
+import IMAGES from '../../Shared/Images';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -489,7 +490,7 @@ function Home() {
             file={file}
             fileUrl={fileUrl}
             loading={uploadLoading}
-            onRemove={handleRemove}
+            onRemove={handleRemove} 
           />
         </div>
       ) : (
@@ -499,7 +500,7 @@ function Home() {
             left={
               <div className="file-previewbx">
                 <FilePreviewer
-                  isImage={file!.type.startsWith('image/')}
+                    isImage={file!.type.startsWith('image/')}
                   fileUrl={fileUrl}
                 />
               </div>
@@ -517,6 +518,7 @@ function Home() {
                       loading={extractedFieldLoading}
                       oldStateRef={oldStateRef}
                       onRetry={onRetryCallback}
+                   
                     />
                   </div>
                 </div>
@@ -533,6 +535,9 @@ function Home() {
                     type="button"
                     disabled={extractedFieldLoading || !extractedData}
                   >
+                      <span>
+                  <img src={IMAGES.saveIcon} alt="save-icon" />
+                </span>
                     {statusText.buttonText}
                   </button>
                 </div>
