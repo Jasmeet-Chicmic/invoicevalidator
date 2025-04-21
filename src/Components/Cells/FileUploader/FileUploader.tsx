@@ -1,7 +1,5 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 //  React or core framework imports
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 // Components
 import useNotification from '../../../Hooks/useNotification';
 import { INPUT, MESSAGES } from '../../../Shared/Constants';
@@ -9,7 +7,7 @@ import { isValidFileType } from '../../../Shared/functions';
 // Styles
 import './FileUploader.scss';
 
-type Props = {
+type FileUploaderProps = {
   onUpload: (file: File) => void;
   fileUrl: string | null;
   file: File | null;
@@ -17,7 +15,7 @@ type Props = {
   onRemove: () => void;
 };
 
-const FileUploader: React.FC<Props> = ({
+const FileUploader: React.FC<FileUploaderProps> = ({
   onUpload,
   fileUrl,
   file,
@@ -55,6 +53,10 @@ const FileUploader: React.FC<Props> = ({
     inputRef.current?.click();
   };
 
+  const isDropzone = useMemo(
+    () => !loading && (!file || !fileUrl),
+    [loading, file, fileUrl]
+  );
   return (
     <div className="file-uploader">
       {loading && (
@@ -78,7 +80,7 @@ const FileUploader: React.FC<Props> = ({
           </button>
         </div>
       )}
-      {!loading && (!file || !fileUrl) && (
+      {isDropzone ? (
         <div
           className="dropzone"
           onClick={handleClick}
@@ -88,7 +90,7 @@ const FileUploader: React.FC<Props> = ({
           <p>{MESSAGES.FILE_UPLOADER.MESSAGE}</p>
           <span>📁</span>
         </div>
-      )}
+      ) : null}
       <input
         type={INPUT.INPUT_TYPE.FILE}
         accept={INPUT.INPUT_REGEX.FILE}

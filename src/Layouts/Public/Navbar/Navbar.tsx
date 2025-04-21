@@ -1,30 +1,36 @@
+// Library
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
-
+// Styles
 import './navbar.scss';
+// Library
+import { useNavigate } from 'react-router-dom';
+// Constants
+import { BUTTON_TEXT, ROUTES } from '../../../Shared/Constants';
 
 function NavbarComponent() {
+  const navigate = useNavigate();
+  const onClickHome = () => {
+    navigate(ROUTES.HOMEPAGE);
+  };
   return (
     <Navbar expand="lg" className="">
       <Container fluid>
-        <Navbar.Brand href="#home">BookeepAI</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto nav-links">
-            <Nav.Link href="#home" className="active">
-              Home
-            </Nav.Link>
-            <Nav.Link href="#link">About us</Nav.Link>
-            <Nav.Link href="#link">How it Works?</Nav.Link>
-          </Nav>
-          <div className="sidebtns">
-            <Button className="bookademo ms-3" variant="primary">
-              Book a Demo
-            </Button>
-          </div>
-        </Navbar.Collapse>
+        <div className="headerWrapper">
+          <Navbar.Brand href={ROUTES.LISTING}>BookeepAI</Navbar.Brand>
+          <Navbar.Collapse id="basic-navbar-nav">
+            <div className="sidebtns">
+              <Button
+                className="bookademo ms-3"
+                variant="primary"
+                onClick={onClickHome}
+              >
+                {BUTTON_TEXT.UPLOAD_INVOICE}
+              </Button>
+            </div>
+          </Navbar.Collapse>
+        </div>
       </Container>
     </Navbar>
   );

@@ -1,0 +1,52 @@
+.extracted-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    &__title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: capitalize;
+    }
+  
+    &__input {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+      transition: border-color 0.3s;
+  
+      &:focus {
+        border-color: #007bff;
+      }
+    }
+    &__approve-btn{
+      min-width: 120px;
+    }
+  }
+
+    .form-group {
+      position: relative;
+      .scoreField {
+          position: absolute;
+          right: 1px;
+          top: 1px;
+          bottom: 1px;
+          background: #eee;
+          padding: 5px 10px;
+          border-radius: 0 5px 4px 0px;
+        }
+    }
+  
+  .flex-1{
+    flex: 1;
+  }
+  .gap-2{
+    gap: 20px;
+  }
+    .buttonWrap {
+      background: #e6e6e6;
+    }
+
+   
