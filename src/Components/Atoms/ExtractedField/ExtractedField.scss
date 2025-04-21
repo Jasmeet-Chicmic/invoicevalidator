@@ -32,28 +32,33 @@
     height: 46px;
     color: $grey-color-500 !important;
 
-    ::placeholder{
+    ::placeholder {
       color: $grey-color-500 !important;
     }
 
-    &.score-green{
+    &.score-green {
       border-color: $green-color-900 !important;
+
       &:focus {
         border-color: rgba($green-color-900, 0.9) !important;
-      }  
+      }
     }
-    &.score-yellow{
+
+    &.score-yellow {
       border-color: $yellow-color-600 !important;
+
       &:focus {
         border-color: rgba($yellow-color-600, 0.9) !important;
-      }  
+      }
     }
-    &.score-red{
+
+    &.score-red {
       border-color: $red-color-900 !important;
+
       &:focus {
         border-color: rgba($blue-color-900, 0.9) !important;
-      }  
-    } 
+      }
+    }
 
     &:focus {
       // border-color: $blue-color-900;
@@ -73,9 +78,11 @@
     justify-content: center;
     font-size: 0px;
     border-radius: 3px;
-    &:hover{
+
+    &:hover {
       border: none;
     }
+
     &:disabled {
       background: $grey-color-300;
       pointer-events: none;
@@ -109,4 +116,25 @@
 
 .buttonWrap {
   background: #e6e6e6;
+}
+
+
+.form-group {
+  &:has(.score-green) {
+    .scoreField {
+      color: $green-color-1000 !important;
+    }
+  }
+
+  &:has(.score-red) {
+    .scoreField {
+      color: $red-color-900 !important;
+    }
+  }
+
+  &:has(.score-yellow) {
+    .scoreField {
+      color: $yellow-color-900 !important;
+    }
+  }
 }

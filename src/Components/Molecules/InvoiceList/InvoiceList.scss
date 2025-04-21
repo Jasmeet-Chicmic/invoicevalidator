@@ -272,29 +272,29 @@ button {
   }
 }
 
-/* Dark mode styles */
-@media (prefers-color-scheme: dark) {
-  .invoice-list {
-    background-color: var(--background-dark);
+// /* Dark mode styles */
+// @media (prefers-color-scheme: dark) {
+//   .invoice-list {
+//     background-color: var(--background-dark);
 
-    &__table {
-      background-color: var(--background-dark);
+//     &__table {
+//       background-color: var(--background-dark);
 
-      th {
-        background-color: var(--background-light);
-        color: var(--text-primary);
-      }
+//       th {
+//         background-color: var(--background-light);
+//         color: var(--text-primary);
+//       }
 
-      tbody {
-        tr {
-          &:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-          }
-        }
-      }
-    }
-  }
-}
+//       tbody {
+//         tr {
+//           &:hover {
+//             background-color: rgba(255, 255, 255, 0.05);
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
 
 /* Responsive styles */
 @media (max-width: 768px) {

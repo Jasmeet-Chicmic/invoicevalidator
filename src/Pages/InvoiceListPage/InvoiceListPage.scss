@@ -52,11 +52,11 @@
 }
 
 /* Dark mode styles */
-@media (prefers-color-scheme: dark) {
-  .invoice-list-page {
-    background-color: var(--background-dark);
-  }
-}
+// @media (prefers-color-scheme: dark) {
+//   .invoice-list-page {
+//     background-color: var(--background-dark);
+//   }
+// }
 
 /* Responsive styles */
 @media (max-width: 768px) {
