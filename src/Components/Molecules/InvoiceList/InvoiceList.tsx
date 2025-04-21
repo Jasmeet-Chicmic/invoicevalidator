@@ -182,7 +182,7 @@ const InvoiceList: React.FC = () => {
     isFetching: isAllInvoiceLoading,
     isError: isAllInvoiceError,
     refetch,
-  } = useGetAllInvoiceQuery({});
+  } = useGetAllInvoiceQuery({}, { refetchOnMountOrArgChange: true });
   const [deleteInvoice] = useDeleteInvoiceMutation();
   useEffect(() => {
     if (data) setInvoices(data.data);
@@ -199,9 +199,9 @@ const InvoiceList: React.FC = () => {
       maximumFractionDigits: 0,
     }).format(amount);
 
-  const handleEdit = (id: string) => {
-    id.concat('test');
-    navigate(ROUTES.EDIT); // Update with `ROUTES.EDIT + id` if needed
+  const handleEdit = (invoiceId: number) => {
+    console.log(invoiceId, 'invoiceId');
+    navigate(`${ROUTES.EDIT}/${invoiceId}`);
   };
 
   const handleDelete = (id: string) => {
@@ -342,7 +342,9 @@ const InvoiceList: React.FC = () => {
                     <button
                       type="button"
                       className="invoice-list__action-button invoice-list__action-button--edit"
-                      onClick={() => handleEdit(invoice.id)}
+                      onClick={() =>
+                        handleEdit(invoice.id as unknown as number)
+                      }
                       aria-label={`Edit invoice ${invoice.invoiceNo}`}
                     >
                       <img src={IMAGES.editIcon} alt="edit-icon" />

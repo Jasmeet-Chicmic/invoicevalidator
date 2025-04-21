@@ -5,6 +5,7 @@ import {
   GetInvoiceRequest,
   HTTPS_METHODS,
   OnApproveRequest,
+  SubmitRequest,
 } from '../../Constants';
 
 export const fileApi = api.injectEndpoints({
@@ -38,7 +39,7 @@ export const fileApi = api.injectEndpoints({
       }),
     }),
     onSubmit: builder.mutation({
-      query: (data: CRUDRequest) => ({
+      query: (data: SubmitRequest) => ({
         url: API_END_POINTS.ON_SUBMIT,
         method: HTTPS_METHODS.POST,
         body: data,
@@ -47,6 +48,13 @@ export const fileApi = api.injectEndpoints({
     getInvoice: builder.query({
       query: (data: GetInvoiceRequest) => ({
         url: API_END_POINTS.INVOICE_DATA,
+        method: HTTPS_METHODS.GET,
+        params: data,
+      }),
+    }),
+    editData: builder.query({
+      query: (data: CRUDRequest) => ({
+        url: API_END_POINTS.EDIT_DATA,
         method: HTTPS_METHODS.GET,
         params: data,
       }),
@@ -67,5 +75,6 @@ export const {
   useGetAllInvoiceQuery,
   useDeleteFileMutation,
   useDeleteInvoiceMutation,
+  useEditDataQuery,
   useOnSubmitMutation,
 } = fileApi;

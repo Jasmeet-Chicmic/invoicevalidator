@@ -129,7 +129,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     <div className="extracted-data">
       {Object.entries(data || {}).map(([sectionKey, fields]) => (
         <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
-          {Object.entries(fields).map(([fieldKey, fieldValue]) => {
+          {Object.entries(fields || {}).map(([fieldKey, fieldValue]) => {
             const isApproved = fieldValue.approved;
             const disableApprove = isApproved;
             const buttonText = isApproved

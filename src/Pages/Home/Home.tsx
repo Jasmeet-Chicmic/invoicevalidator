@@ -500,7 +500,11 @@ function Home() {
       return;
     }
     try {
-      await onSubmit({ invoiceId: fileDataRef.current?.invoiceId });
+      await onSubmit({
+        invoiceId: fileDataRef.current?.invoiceId,
+        isApproved: statusText.status === INVOICE_STATUS.APPROVED,
+        data: extractedData!,
+      });
       oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
       notify(MESSAGES.NOTIFICATION.SAVED);
       navigate(ROUTES.LISTING);
