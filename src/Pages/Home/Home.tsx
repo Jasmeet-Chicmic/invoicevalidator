@@ -399,9 +399,12 @@ function Home() {
       );
     } catch (catchError) {
       const error = catchError as unknown as CommonErrorResponse;
-      notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG, {
-        type: STATUS.error,
-      });
+      notify(
+        error?.data?.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG,
+        {
+          type: STATUS.error,
+        }
+      );
       if (error.status === API_RESPONSE_STATUS_CODE.NOT_ACCEPTABLE) {
         handleRemove();
       } else if (error.data.errorId === ERRORID.DUPLICATE_INVOICE) {
@@ -486,9 +489,12 @@ function Home() {
       );
     } catch (catchError) {
       const error = catchError as unknown as CommonErrorResponse;
-      notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG, {
-        type: STATUS.error,
-      });
+      notify(
+        error?.data?.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG,
+        {
+          type: STATUS.error,
+        }
+      );
       setFile(null);
       setFileUrl(null);
     }
@@ -533,7 +539,7 @@ function Home() {
         checkFileType(file)
       );
     } else {
-      notify(MESSAGES.FILE_UPLOADER.FILE_DATA_ERROR);
+      notify(MESSAGES.FILE_UPLOADER.FILE_DATA_ERROR, { type: STATUS.error });
     }
   };
   return (

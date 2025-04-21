@@ -1,7 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
-import { MESSAGES, MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
+import {
+  MESSAGES,
+  MODAL_MESSAGES,
+  ROUTES,
+  STRINGS,
+} from '../../../Shared/Constants';
 import './InvoiceList.scss';
 import CommonModal from '../CommonModal';
 import IMAGES from '../../../Shared/Images';
@@ -14,6 +19,10 @@ import RetryButton from '../../Atoms/RetryButton';
 import { CommonErrorResponse } from '../../../Services/Api/Constants';
 import useNotification from '../../../Hooks/useNotification';
 import { STATUS } from '../../../Shared/enum';
+import { formatCurrency } from '../../../Shared/functions';
+import { filterTabs } from './helpers/constants';
+import { ListingStatus } from './helpers/enum';
+import { generateStatusPayload } from './helpers/utils';
 
 export interface Invoice {
   id: string;
@@ -27,180 +36,44 @@ export interface StatusType {
   APPROVED: 'Approved';
   PENDING: 'Pending';
 }
-// const dummyInvoices: Invoice[] = [
-//   {
-//     id: 'inv-001',
-//     invoiceNo: 'INV-34212',
-//     vendor: 'XYZ Pvt Ltd',
-//     amount: 812499,
-//     date: '25/03/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-002',
-//     invoiceNo: 'INV-34890',
-//     vendor: 'ABC Traders',
-//     amount: 28540,
-//     date: '28/03/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-003',
-//     invoiceNo: 'INV-34901',
-//     vendor: 'Global Industries',
-//     amount: 156780,
-//     date: '30/03/2025',
-//     status: 'Pending',
-//   },
-//   {
-//     id: 'inv-004',
-//     invoiceNo: 'INV-34915',
-//     vendor: 'Tech Solutions',
-//     amount: 45600,
-//     date: '01/04/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-005',
-//     invoiceNo: 'INV-34928',
-//     vendor: 'Supply Chain Co',
-//     amount: 92300,
-//     date: '03/04/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-006',
-//     invoiceNo: 'INV-34929',
-//     vendor: 'Aqua Inc.',
-//     amount: 75200,
-//     date: '04/04/2025',
-//     status: 'Pending',
-//   },
-//   {
-//     id: 'inv-007',
-//     invoiceNo: 'INV-34930',
-//     vendor: 'Ocean Group',
-//     amount: 43200,
-//     date: '05/04/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-008',
-//     invoiceNo: 'INV-34931',
-//     vendor: 'Logix Ltd.',
-//     amount: 116000,
-//     date: '06/04/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-009',
-//     invoiceNo: 'INV-34932',
-//     vendor: 'BrightWare',
-//     amount: 98340,
-//     date: '07/04/2025',
-//     status: 'Pending',
-//   },
-//   {
-//     id: 'inv-010',
-//     invoiceNo: 'INV-34933',
-//     vendor: 'NextGen Systems',
-//     amount: 134900,
-//     date: '08/04/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-011',
-//     invoiceNo: 'INV-34934',
-//     vendor: 'Fusion Tech',
-//     amount: 58900,
-//     date: '09/04/2025',
-//     status: 'Pending',
-//   },
-//   {
-//     id: 'inv-012',
-//     invoiceNo: 'INV-34935',
-//     vendor: 'Alpha Ventures',
-//     amount: 120000,
-//     date: '10/04/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-013',
-//     invoiceNo: 'INV-34936',
-//     vendor: 'Urban Supplies',
-//     amount: 67850,
-//     date: '11/04/2025',
-//     status: 'Pending',
-//   },
-//   {
-//     id: 'inv-014',
-//     invoiceNo: 'INV-34937',
-//     vendor: 'Zenith Logistics',
-//     amount: 149999,
-//     date: '12/04/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-015',
-//     invoiceNo: 'INV-34938',
-//     vendor: 'FutureTech',
-//     amount: 174800,
-//     date: '13/04/2025',
-//     status: 'Approved',
-//   },
-//   {
-//     id: 'inv-016',
-//     invoiceNo: 'INV-34939',
-//     vendor: 'Eco Materials',
-//     amount: 83200,
-//     date: '14/04/2025',
-//     status: 'Pending',
-//   },
-//   {
-//     id: 'inv-017',
-//     invoiceNo: 'INV-34940',
-//     vendor: 'Nova Systems',
-//     amount: 103500,
-//     date: '15/04/2025',
-//     status: 'Approved',
-//   },
-// ];
 
-const ITEMS_PER_PAGE = 5;
-type FilterStateType = 'All' | 'Approved' | 'Pending';
+const filterList = [
+  ListingStatus.All,
+  ListingStatus.Pending,
+  ListingStatus.Approved,
+];
+
+const ITEMS_PER_PAGE = 10;
+
 const InvoiceList: React.FC = () => {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [filterStatus, setFilterStatus] = useState<FilterStateType>('All');
+  const navigate = useNavigate();
+  const [filterStatus, setFilterStatus] = useState<ListingStatus>(
+    ListingStatus.All
+  );
   const [currentPage, setCurrentPage] = useState(0);
   const notify = useNotification();
   const [confirmationModal, setConfirmationModal] = useState({
     isOpen: false,
-    data: { invoiceId: '' },
+    data: { invoiceId: STRINGS.EMPTY_STRING },
   });
+
   const {
     data,
     isFetching: isAllInvoiceLoading,
     isError: isAllInvoiceError,
     refetch,
-  } = useGetAllInvoiceQuery({}, { refetchOnMountOrArgChange: true });
-  const [deleteInvoice] = useDeleteInvoiceMutation();
-  useEffect(() => {
-    if (data) setInvoices(data.data);
-  }, [data]);
-  // useEffect(() => {
-  //   setInvoices(allInvoicesData);
-  // }, [allInvoicesData]);
-  const navigate = useNavigate();
+  } = useGetAllInvoiceQuery(
+    {
+      page: currentPage + 1,
+      limit: ITEMS_PER_PAGE,
+      status: generateStatusPayload(filterStatus),
+    },
+    { refetchOnMountOrArgChange: true }
+  );
 
-  const formatCurrency = (amount: number): string =>
-    new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(amount);
+  const [deleteInvoice] = useDeleteInvoiceMutation();
 
   const handleEdit = (invoiceId: number) => {
-    console.log(invoiceId, 'invoiceId');
     navigate(`${ROUTES.EDIT}/${invoiceId}`);
   };
 
@@ -214,44 +87,10 @@ const InvoiceList: React.FC = () => {
   const getStatusClass = (status: string): string =>
     `status-badge status-${status.toLowerCase()}`;
 
-  // Filtered and Paginated Data
-  const filteredInvoices = useMemo(() => {
-    if (!invoices) {
-      return [];
-    }
-
-    if (invoices && invoices.length === 0) {
-      return [];
-    }
-
-    return invoices.filter((invoice) =>
-      filterStatus === 'All' ? true : invoice.status === filterStatus
-    );
-  }, [invoices, filterStatus]);
-
-  const pageCount = useMemo(() => {
-    if (filteredInvoices.length === 0) {
-      return 0;
-    }
-    return Math.ceil(filteredInvoices.length / ITEMS_PER_PAGE);
-  }, [filteredInvoices]);
-
-  const paginatedInvoices = useMemo(() => {
-    if (filteredInvoices.length === 0) {
-      return [];
-    }
-    return filteredInvoices.slice(
-      currentPage * ITEMS_PER_PAGE,
-      (currentPage + 1) * ITEMS_PER_PAGE
-    );
-  }, [filteredInvoices, currentPage]);
-
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
-
-    // For backend pagination, call API here with selected page
-    // fetchInvoicesFromServer({ page: selectedItem.selected, filter: filterStatus })
   };
+
   const onRetry = () => {
     refetch();
   };
@@ -260,11 +99,6 @@ const InvoiceList: React.FC = () => {
     try {
       await deleteInvoice({ invoiceId: confirmationModal.data.invoiceId });
       setConfirmationModal({ ...confirmationModal, isOpen: false });
-      setInvoices((prev) =>
-        prev.filter(
-          (invoice) => invoice.id !== confirmationModal.data.invoiceId
-        )
-      );
       notify(MESSAGES.NOTIFICATION.INVOICE_DELETED_SUCCESSFULLY);
     } catch (error) {
       const errorObj = error as unknown as CommonErrorResponse;
@@ -277,18 +111,19 @@ const InvoiceList: React.FC = () => {
   };
   if (isAllInvoiceError) return <RetryButton onClick={onRetry} />;
   if (isAllInvoiceLoading) return <TextLoader showText={false} />;
+
   return (
     <div className="invoice-list">
       <div className="invoice-list__header">
-        <h1 className="invoice-list__title">Invoices</h1>
+        <h1 className="invoice-list__title">{STRINGS.INVOICES}</h1>
 
         <div className="invoice-list__filters">
-          {['All', 'Pending', 'Approved'].map((status) => (
+          {filterList.map((status) => (
             <button
               key={status}
               className={`filter-btn ${filterStatus === status ? 'active' : ''}`}
               onClick={() => {
-                setFilterStatus(status as FilterStateType);
+                setFilterStatus(status);
                 setCurrentPage(0);
               }}
               type="button"
@@ -298,18 +133,18 @@ const InvoiceList: React.FC = () => {
           ))}
         </div>
         <div className="download-btns">
-          <button type="button" className="btn-primary exporttotelly">
-            <span className="btn-icon">
-              <img src={IMAGES.exportIcon} alt="Export to Tally" />
-            </span>
-            Export to Tally
-          </button>
-          <button type="button" className="btn-primary downloadjson">
-            <span className="btn-icon">
-              <img src={IMAGES.downloadIcon} alt="Download JSON" />
-            </span>
-            Download JSON
-          </button>
+          {filterTabs.map(({ className, icon, alt, label }) => (
+            <button
+              key={className}
+              type="button"
+              className={`btn-primary ${className}`}
+            >
+              <span className="btn-icon">
+                <img src={icon} alt={alt} />
+              </span>
+              {label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -326,8 +161,8 @@ const InvoiceList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {paginatedInvoices.length > 0 ? (
-              paginatedInvoices.map((invoice) => (
+            {data?.total > 0 ? (
+              data?.data?.map((invoice: Invoice) => (
                 <tr key={invoice.id}>
                   <td>{invoice.invoiceNo}</td>
                   <td>{invoice.vendor}</td>
@@ -387,11 +222,11 @@ const InvoiceList: React.FC = () => {
         </table>
       </div>
 
-      {filteredInvoices.length > ITEMS_PER_PAGE && (
+      {data?.total > ITEMS_PER_PAGE && (
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
-          pageCount={pageCount}
+          pageCount={Math.ceil((data && data.total) / ITEMS_PER_PAGE)}
           onPageChange={handlePageChange}
           containerClassName="pagination"
           activeClassName="active"

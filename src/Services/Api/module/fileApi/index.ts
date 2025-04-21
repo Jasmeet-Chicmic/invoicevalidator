@@ -60,9 +60,10 @@ export const fileApi = api.injectEndpoints({
       }),
     }),
     getAllInvoice: builder.query({
-      query: () => ({
+      query: (params) => ({
         url: API_END_POINTS.ALL_INVOICES,
         method: HTTPS_METHODS.GET,
+        params,
       }),
     }),
   }),

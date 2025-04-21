@@ -1,16 +1,16 @@
-import { formatCamelCase } from '../../../Shared/functions';
-import ExtractedField from '../../Atoms/ExtractedField';
-import FieldWrapper from '../../Cells/FieldWrapper';
 import useNotification from '../../../Hooks/useNotification';
-import { MESSAGES } from '../../../Shared/Constants';
 import {
   CommonErrorResponse,
   ExtractedData,
 } from '../../../Services/Api/Constants';
-import TextLoader from '../../Atoms/TextLoader';
-import RetryButton from '../../Atoms/RetryButton';
 import { useOnApproveMutation } from '../../../Services/Api/module/fileApi';
+import { MESSAGES } from '../../../Shared/Constants';
 import { STATUS } from '../../../Shared/enum';
+import { formatCamelCase } from '../../../Shared/functions';
+import ExtractedField from '../../Atoms/ExtractedField';
+import RetryButton from '../../Atoms/RetryButton';
+import TextLoader from '../../Atoms/TextLoader';
+import FieldWrapper from '../../Cells/FieldWrapper';
 
 type ExtractedFieldsProps = {
   setData: React.Dispatch<React.SetStateAction<ExtractedData | null>>;
@@ -94,7 +94,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
         title: fieldKey,
         value: newFieldValue,
         invoiceId,
-      });
+      }).unwrap();
       setData((prevData) => ({
         ...prevData!,
         [sectionKey]: {

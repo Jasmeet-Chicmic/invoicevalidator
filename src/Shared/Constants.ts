@@ -111,7 +111,23 @@ const BUTTON = {
     reset: 'reset' as ButtonType,
   },
 };
+
+const STRINGS = {
+  INVOICES: 'Invoices',
+  EMPTY_STRING: '',
+  SPACE: ' ',
+  COMMA: ',',
+  DOT: '.',
+  SLASH: '/',
+  COLON: ':',
+  SEMICOLON: ';',
+  HYPHEN: '-',
+  UNDERSCORE: '_',
+  EQUAL: '=',
+};
+
 export {
+  STRINGS,
   FILE_TYPES,
   CONFIDENCE_CONFIG,
   SNACKBAR_CONFIG,
