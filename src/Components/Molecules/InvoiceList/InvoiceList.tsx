@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 import { MODAL_MESSAGES, ROUTES } from '../../../Shared/Constants';
@@ -6,6 +6,8 @@ import './InvoiceList.scss';
 import CommonModal from '../CommonModal';
 import IMAGES from '../../../Shared/Images';
 import { useGetAllInvoiceQuery } from '../../../Services/Api/module/fileApi';
+import TextLoader from '../../Atoms/TextLoader';
+import RetryButton from '../../Atoms/RetryButton';
 
 export interface Invoice {
   id: string;
@@ -19,156 +21,160 @@ export interface StatusType {
   APPROVED: 'Approved';
   PENDING: 'Pending';
 }
-const dummyInvoices: Invoice[] = [
-  {
-    id: 'inv-001',
-    invoiceNo: 'INV-34212',
-    vendor: 'XYZ Pvt Ltd',
-    amount: 812499,
-    date: '25/03/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-002',
-    invoiceNo: 'INV-34890',
-    vendor: 'ABC Traders',
-    amount: 28540,
-    date: '28/03/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-003',
-    invoiceNo: 'INV-34901',
-    vendor: 'Global Industries',
-    amount: 156780,
-    date: '30/03/2025',
-    status: 'Pending',
-  },
-  {
-    id: 'inv-004',
-    invoiceNo: 'INV-34915',
-    vendor: 'Tech Solutions',
-    amount: 45600,
-    date: '01/04/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-005',
-    invoiceNo: 'INV-34928',
-    vendor: 'Supply Chain Co',
-    amount: 92300,
-    date: '03/04/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-006',
-    invoiceNo: 'INV-34929',
-    vendor: 'Aqua Inc.',
-    amount: 75200,
-    date: '04/04/2025',
-    status: 'Pending',
-  },
-  {
-    id: 'inv-007',
-    invoiceNo: 'INV-34930',
-    vendor: 'Ocean Group',
-    amount: 43200,
-    date: '05/04/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-008',
-    invoiceNo: 'INV-34931',
-    vendor: 'Logix Ltd.',
-    amount: 116000,
-    date: '06/04/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-009',
-    invoiceNo: 'INV-34932',
-    vendor: 'BrightWare',
-    amount: 98340,
-    date: '07/04/2025',
-    status: 'Pending',
-  },
-  {
-    id: 'inv-010',
-    invoiceNo: 'INV-34933',
-    vendor: 'NextGen Systems',
-    amount: 134900,
-    date: '08/04/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-011',
-    invoiceNo: 'INV-34934',
-    vendor: 'Fusion Tech',
-    amount: 58900,
-    date: '09/04/2025',
-    status: 'Pending',
-  },
-  {
-    id: 'inv-012',
-    invoiceNo: 'INV-34935',
-    vendor: 'Alpha Ventures',
-    amount: 120000,
-    date: '10/04/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-013',
-    invoiceNo: 'INV-34936',
-    vendor: 'Urban Supplies',
-    amount: 67850,
-    date: '11/04/2025',
-    status: 'Pending',
-  },
-  {
-    id: 'inv-014',
-    invoiceNo: 'INV-34937',
-    vendor: 'Zenith Logistics',
-    amount: 149999,
-    date: '12/04/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-015',
-    invoiceNo: 'INV-34938',
-    vendor: 'FutureTech',
-    amount: 174800,
-    date: '13/04/2025',
-    status: 'Approved',
-  },
-  {
-    id: 'inv-016',
-    invoiceNo: 'INV-34939',
-    vendor: 'Eco Materials',
-    amount: 83200,
-    date: '14/04/2025',
-    status: 'Pending',
-  },
-  {
-    id: 'inv-017',
-    invoiceNo: 'INV-34940',
-    vendor: 'Nova Systems',
-    amount: 103500,
-    date: '15/04/2025',
-    status: 'Approved',
-  },
-];
+// const dummyInvoices: Invoice[] = [
+//   {
+//     id: 'inv-001',
+//     invoiceNo: 'INV-34212',
+//     vendor: 'XYZ Pvt Ltd',
+//     amount: 812499,
+//     date: '25/03/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-002',
+//     invoiceNo: 'INV-34890',
+//     vendor: 'ABC Traders',
+//     amount: 28540,
+//     date: '28/03/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-003',
+//     invoiceNo: 'INV-34901',
+//     vendor: 'Global Industries',
+//     amount: 156780,
+//     date: '30/03/2025',
+//     status: 'Pending',
+//   },
+//   {
+//     id: 'inv-004',
+//     invoiceNo: 'INV-34915',
+//     vendor: 'Tech Solutions',
+//     amount: 45600,
+//     date: '01/04/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-005',
+//     invoiceNo: 'INV-34928',
+//     vendor: 'Supply Chain Co',
+//     amount: 92300,
+//     date: '03/04/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-006',
+//     invoiceNo: 'INV-34929',
+//     vendor: 'Aqua Inc.',
+//     amount: 75200,
+//     date: '04/04/2025',
+//     status: 'Pending',
+//   },
+//   {
+//     id: 'inv-007',
+//     invoiceNo: 'INV-34930',
+//     vendor: 'Ocean Group',
+//     amount: 43200,
+//     date: '05/04/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-008',
+//     invoiceNo: 'INV-34931',
+//     vendor: 'Logix Ltd.',
+//     amount: 116000,
+//     date: '06/04/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-009',
+//     invoiceNo: 'INV-34932',
+//     vendor: 'BrightWare',
+//     amount: 98340,
+//     date: '07/04/2025',
+//     status: 'Pending',
+//   },
+//   {
+//     id: 'inv-010',
+//     invoiceNo: 'INV-34933',
+//     vendor: 'NextGen Systems',
+//     amount: 134900,
+//     date: '08/04/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-011',
+//     invoiceNo: 'INV-34934',
+//     vendor: 'Fusion Tech',
+//     amount: 58900,
+//     date: '09/04/2025',
+//     status: 'Pending',
+//   },
+//   {
+//     id: 'inv-012',
+//     invoiceNo: 'INV-34935',
+//     vendor: 'Alpha Ventures',
+//     amount: 120000,
+//     date: '10/04/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-013',
+//     invoiceNo: 'INV-34936',
+//     vendor: 'Urban Supplies',
+//     amount: 67850,
+//     date: '11/04/2025',
+//     status: 'Pending',
+//   },
+//   {
+//     id: 'inv-014',
+//     invoiceNo: 'INV-34937',
+//     vendor: 'Zenith Logistics',
+//     amount: 149999,
+//     date: '12/04/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-015',
+//     invoiceNo: 'INV-34938',
+//     vendor: 'FutureTech',
+//     amount: 174800,
+//     date: '13/04/2025',
+//     status: 'Approved',
+//   },
+//   {
+//     id: 'inv-016',
+//     invoiceNo: 'INV-34939',
+//     vendor: 'Eco Materials',
+//     amount: 83200,
+//     date: '14/04/2025',
+//     status: 'Pending',
+//   },
+//   {
+//     id: 'inv-017',
+//     invoiceNo: 'INV-34940',
+//     vendor: 'Nova Systems',
+//     amount: 103500,
+//     date: '15/04/2025',
+//     status: 'Approved',
+//   },
+// ];
 
 const ITEMS_PER_PAGE = 5;
 type FilterStateType = 'All' | 'Approved' | 'Pending';
 const InvoiceList: React.FC = () => {
-  const [invoices, setInvoices] = useState<Invoice[]>(dummyInvoices);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [filterStatus, setFilterStatus] = useState<FilterStateType>('All');
   const [currentPage, setCurrentPage] = useState(0);
   const [confirmationModal, setConfirmationModal] = useState({
     isOpen: false,
     data: { invoiceId: '' },
   });
-  useGetAllInvoiceQuery<Invoice[]>({});
+  const { data, isFetching: isAllInvoiceLoading,isError:isAllInvoiceError,refetch } = useGetAllInvoiceQuery({});
+
+  useEffect(() => {
+    setInvoices(data);
+  }, [data]);
   // useEffect(() => {
   //   setInvoices(allInvoicesData);
   // }, [allInvoicesData]);
@@ -197,16 +203,35 @@ const InvoiceList: React.FC = () => {
     `status-badge status-${status.toLowerCase()}`;
 
   // Filtered and Paginated Data
-  const filteredInvoices = invoices.filter((invoice) =>
-    filterStatus === 'All' ? true : invoice.status === filterStatus
-  );
+  const filteredInvoices = useMemo(() => {
+    if (!invoices) {
+      return [];
+    }
 
-  const pageCount = Math.ceil(filteredInvoices.length / ITEMS_PER_PAGE);
+    if (invoices && invoices.length === 0) {
+      return [];
+    }
+    return invoices.filter((invoice) =>
+      filterStatus === 'All' ? true : invoice.status === filterStatus
+    );
+  }, [invoices, filterStatus]);
 
-  const paginatedInvoices = filteredInvoices.slice(
-    currentPage * ITEMS_PER_PAGE,
-    (currentPage + 1) * ITEMS_PER_PAGE
-  );
+  const pageCount = useMemo(() => {
+    if (filteredInvoices.length === 0) {
+      return 0;
+    }
+    return Math.ceil(filteredInvoices.length / ITEMS_PER_PAGE);
+  }, [filteredInvoices]);
+
+  const paginatedInvoices = useMemo(() => {
+    if (filteredInvoices.length === 0) {
+      return [];
+    }
+    return filteredInvoices.slice(
+      currentPage * ITEMS_PER_PAGE,
+      (currentPage + 1) * ITEMS_PER_PAGE
+    );
+  }, [filteredInvoices, currentPage]);
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -214,7 +239,12 @@ const InvoiceList: React.FC = () => {
     // For backend pagination, call API here with selected page
     // fetchInvoicesFromServer({ page: selectedItem.selected, filter: filterStatus })
   };
+  const onRetry = () => {
+    refetch();
+  };
 
+  if (isAllInvoiceError) return <RetryButton onClick={onRetry} />;
+  if (isAllInvoiceLoading) return <TextLoader showText={false} />;
   return (
     <div className="invoice-list">
       <div className="invoice-list__header">

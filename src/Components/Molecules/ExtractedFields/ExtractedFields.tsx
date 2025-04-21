@@ -25,7 +25,6 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   onRetry = () => {},
 }) => {
   const notify = useNotification();
-
   const handleChange = (
     sectionKey: string,
     fieldKey: string,
@@ -111,11 +110,11 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
         <RetryButton onClick={onRetry} />
       </div>
     );
-  if (loading || !data) return <TextLoader />;
+  if (loading) return <TextLoader />;
 
   return (
     <div className="extracted-data">
-      {Object.entries(data).map(([sectionKey, fields]) => (
+      {Object.entries(data || {}).map(([sectionKey, fields]) => (
         <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
           {Object.entries(fields).map(([fieldKey, fieldValue]) => {
             const isApproved = fieldValue.approved;

@@ -71,3 +71,7 @@ export interface CommonErrorResponse {
 export interface DeleteImageRequest {
   invoiceId: number;
 }
+
+export const API_RESPONSE_STATUS_CODE = {
+  NOT_ACCEPTABLE: 406,
+};
