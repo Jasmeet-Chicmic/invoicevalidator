@@ -12,6 +12,7 @@ type ExtractedFieldProps = {
   onApproveClick: (isApproved: boolean, value: string) => void;
   confidenceScore: number;
   disableApprove: boolean;
+  approveButtonLoading: boolean;
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -29,6 +30,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   onChange = () => {},
   id = `input-${replaceToLowerCase(title)}`,
   approveButtonText = 'Save',
+  approveButtonLoading,
 }) => {
   const borderColor = useMemo(() => {
     if (confidenceScore < CONFIDENCE_CONFIG.DANGER) {
@@ -70,7 +72,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
           className="extracted-field__approve-btn"
           type="button"
           onClick={handleOnApprove}
-          disabled={disableApprove || !value}
+          disabled={!approveButtonLoading || disableApprove || !value}
         >
           <span>
             <img src={IMAGES.tickIcon} alt="Approve" />

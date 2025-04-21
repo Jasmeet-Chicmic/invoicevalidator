@@ -1,17 +1,18 @@
 //  React or core framework imports
 import { useEffect, useRef, useState } from 'react';
-
 // Components
 import { useNavigate } from 'react-router-dom';
 import FileUploader from '../../Components/Cells/FileUploader';
 import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
 import FilePreviewer from '../../Components/Atoms/FilePreviewer';
 import {
+  useDeleteFileMutation,
   useFileUploadMutation,
   useLazyGetInvoiceQuery,
 } from '../../Services/Api/module/fileApi';
 import {
   API_BASE_URL,
+  API_RESPONSE_STATUS_CODE,
   CommonErrorResponse,
   ExtractedData,
   ExtractedDataResponse,
@@ -33,6 +34,7 @@ import {
 } from '../../Shared/Constants';
 import { areAllFieldsApproved, checkFileType } from '../../Shared/functions';
 import IMAGES from '../../Shared/Images';
+import { STATUS } from '../../Shared/enum';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -48,8 +50,12 @@ function Home() {
   );
   const oldStateRef = useRef<ExtractedData | null>(null);
   const [uploadFile, { isLoading: uploadLoading }] = useFileUploadMutation();
-  const [getInvoice, { isLoading: extractedFieldLoading }] =
-    useLazyGetInvoiceQuery();
+  const [deleteFile] = useDeleteFileMutation();
+  const [
+    getInvoice,
+    { isFetching: extractedFieldLoading, error: imageDataFetchingError,data:wholeExtractedData },
+  ] = useLazyGetInvoiceQuery();
+
   const notify = useNotification();
   const navigate = useNavigate();
   useEffect(() => {
@@ -338,7 +344,35 @@ function Home() {
   //     },
   //   },
   // };
+  const resetExtractedData = () => {
+    setExtractedData(null);
+    oldStateRef.current = null;
+    fileDataRef.current = undefined;
+  };
+  const handleBack = () => {
+    setConfirmationModal(true);
+  };
 
+  const handleRemove = async () => {
+    if (!fileDataRef.current?.invoiceId) {
+      return;
+    }
+    try {
+      await deleteFile({ invoiceId: fileDataRef.current?.invoiceId });
+      resetExtractedData();
+      setFile(null);
+      setFileUrl(null);
+      setConfirmationModal(false);
+    } catch (error) {
+      const errorObj = error as CommonErrorResponse;
+      notify(
+        errorObj.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG,
+        {
+          type: STATUS.error,
+        }
+      );
+    }
+  };
   const fetchImageData = async (
     filePath: string,
     invoiceId: string,
@@ -360,7 +394,12 @@ function Home() {
       );
     } catch (catchError) {
       const error = catchError as unknown as CommonErrorResponse;
-      notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
+      notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG, {
+        type: STATUS.error,
+      });
+      if (error.status === API_RESPONSE_STATUS_CODE.NOT_ACCEPTABLE) {
+        handleRemove();
+      }
     }
   };
 
@@ -436,23 +475,16 @@ function Home() {
         fileUploadResponse.data.invoiceId,
         checkFileType(newFile)
       );
-    } catch (error) {
-      notify(MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG);
+    } catch (catchError) {
+      const error = catchError as unknown as CommonErrorResponse;
+      notify(error.data.message || MESSAGES.NOTIFICATION.SOMETHING_WENT_WRONG, {
+        type: STATUS.error,
+      });
       setFile(null);
       setFileUrl(null);
     }
   };
 
-  const handleRemove = () => {
-    setExtractedData(oldStateRef.current);
-    setFile(null);
-    setFileUrl(null);
-    setConfirmationModal(false);
-  };
-
-  const handleBack = () => {
-    setConfirmationModal(true);
-  };
   const handleSave = () => {
     oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
     notify(MESSAGES.NOTIFICATION.SAVED);
@@ -463,6 +495,7 @@ function Home() {
     setConfirmationModal(false);
   };
   const onRetryCallback = () => {
+    resetExtractedData();
     if (
       fileDataRef.current &&
       fileDataRef.current.filePath &&
@@ -490,7 +523,7 @@ function Home() {
             file={file}
             fileUrl={fileUrl}
             loading={uploadLoading}
-            onRemove={handleRemove} 
+            onRemove={handleRemove}
           />
         </div>
       ) : (
@@ -500,7 +533,7 @@ function Home() {
             left={
               <div className="file-previewbx">
                 <FilePreviewer
-                    isImage={file!.type.startsWith('image/')}
+                  isImage={file!.type.startsWith('image/')}
                   fileUrl={fileUrl}
                 />
               </div>
@@ -518,7 +551,8 @@ function Home() {
                       loading={extractedFieldLoading}
                       oldStateRef={oldStateRef}
                       onRetry={onRetryCallback}
-                   
+                      error={!!imageDataFetchingError}
+                      invoiceId={wholeExtractedData && wholeExtractedData.id}
                     />
                   </div>
                 </div>
@@ -535,9 +569,9 @@ function Home() {
                     type="button"
                     disabled={extractedFieldLoading || !extractedData}
                   >
-                      <span>
-                  <img src={IMAGES.saveIcon} alt="save-icon" />
-                </span>
+                    <span>
+                      <img src={IMAGES.saveIcon} alt="save-icon" />
+                    </span>
                     {statusText.buttonText}
                   </button>
                 </div>

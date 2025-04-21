@@ -141,6 +141,7 @@ const EditPage = () => {
                   oldStateRef={oldStateRef}
                   loading={extractedFieldLoading}
                   error={false}
+                  invoiceId="123"
                 />
               </div>
             </div>
