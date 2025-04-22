@@ -62,6 +62,8 @@ const MESSAGES = {
     INVOICE_DELETED_SUCCESSFULLY: 'Invoice deleted successfully',
     INVOICE_EXPORTED_TO_TALLY_SUCCESSFULLY:
       'Invoice exported to tally successfully',
+    INVOICE_EXPORTED_TO_LOCAL_SUCCESSFULLY:
+      'Invoice exported to local successfully',
   },
   FILE_UPLOADER: {
     FILE_DATA_ERROR:
@@ -81,6 +83,10 @@ const MODAL_MESSAGES = {
     'Are you sure you want to export all approved invoices to tally?',
   EXPORT_SELECTED_APPROVED_CONFIRMATION:
     'Are you sure you want to export selected approved invoices to tally?',
+  EXPORT_ALL_APPROVED_TO_LOCAL_CONFIRMATION:
+    'Are you sure you want to export all approved invoices to local?',
+  EXPORT_SELECTED_APPROVED_TO_LOCAL_CONFIRMATION:
+    'Are you sure you want to export selected invoices to local?',
   DOWNLOAD_CONFIRMATION:
     'Are you sure you want to export this invoice to local?',
   DELETE_ALL_CONFIRMATION:

@@ -71,7 +71,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
             className={`extracted-field__input ${borderColor}`}
           />
           <span className="scoreField">
-            {confidenceScoreText(confidenceScore)}
+            {value && confidenceScoreText(confidenceScore)}
           </span>
         </div>
 

@@ -53,20 +53,41 @@
     justify-content: center;
     gap: 8px;
 
-    &.deletebtntop{
+    &.deletebtntop {
       background: $red-color-800;
       border: none;
 
-      &:disabled{
+      &:disabled {
         background: rgba($red-color-800, 0.3);
-        &:hover{
+
+        &:hover {
           background: rgba($red-color-800, 0.3);
           border: none;
         }
       }
 
 
-      &:hover{
+      &:hover {
+        background: rgba($red-color-800, 0.8);
+        border: none;
+      }
+    }
+
+    &.downloadjson {
+      background: $blue-color;
+      border: none;
+
+      &:disabled {
+        background: rgba($blue-color, 0.3);
+
+        &:hover {
+          background: rgba($blue-color, 0.3);
+          border: none;
+        }
+      }
+
+
+      &:hover {
         background: rgba($red-color-800, 0.8);
         border: none;
       }
@@ -91,6 +112,7 @@
       }
     }
   }
+
   .btn-danger {
     background: $red-color-800;
     color: $white-color;
@@ -420,6 +442,7 @@ button {
     &:focus {
       outline: none;
     }
+
     &:disabled {
       opacity: 0.5;
     }

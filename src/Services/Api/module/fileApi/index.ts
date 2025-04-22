@@ -38,6 +38,13 @@ export const fileApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    exportToLocal: builder.mutation({
+      query: (data: CRUDRequest) => ({
+        url: API_END_POINTS.EXPORT_TO_LOCAL,
+        method: HTTPS_METHODS.POST,
+        body: data,
+      }),
+    }),
     onApprove: builder.mutation({
       query: (data: OnApproveRequest) => ({
         url: API_END_POINTS.ON_APPROVE,
@@ -77,6 +84,7 @@ export const fileApi = api.injectEndpoints({
 });
 
 export const {
+  useExportToLocalMutation,
   useExportToTallyMutation,
   useFileUploadMutation,
   useOnApproveMutation,

@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
@@ -5,6 +6,7 @@ import useNotification from '../../../Hooks/useNotification';
 import { CommonErrorResponse } from '../../../Services/Api/Constants';
 import {
   useDeleteInvoiceMutation,
+  useExportToLocalMutation,
   useExportToTallyMutation,
   useGetAllInvoiceQuery,
 } from '../../../Services/Api/module/fileApi';
@@ -66,6 +68,7 @@ const InvoiceList: React.FC = () => {
   const navigate = useNavigate();
   const [deleteInvoice] = useDeleteInvoiceMutation();
   const [exportToTally] = useExportToTallyMutation();
+  const [exportToLocal] = useExportToLocalMutation();
   const [filterStatus, setFilterStatus] = useState<ListingStatus>(
     ListingStatus.All
   );
@@ -218,6 +221,18 @@ const InvoiceList: React.FC = () => {
           },
         });
         break;
+      case ButtonActions.ExportToLocal:
+        setConfirmationModal({
+          isOpen: true,
+          title: selectedIds?.length
+            ? MODAL_MESSAGES.EXPORT_SELECTED_APPROVED_TO_LOCAL_CONFIRMATION
+            : MODAL_MESSAGES.EXPORT_ALL_APPROVED_TO_LOCAL_CONFIRMATION,
+          type: actionType,
+          data: {
+            invoiceIds: selectedIds,
+          },
+        });
+        break;
       default:
         setConfirmationModal({
           isOpen: false,
@@ -277,7 +292,42 @@ const InvoiceList: React.FC = () => {
             // invoiceIds: confirmationModal.data.invoiceIds,
           }).unwrap();
           notify(MESSAGES.NOTIFICATION.INVOICE_EXPORTED_TO_TALLY_SUCCESSFULLY);
-          refetch();
+          break;
+        case ButtonActions.ExportToLocal:
+          if (
+            !confirmationModal.data?.invoiceId &&
+            !confirmationModal.data?.invoiceIds?.length
+          )
+            return;
+
+          const localDownloadResponse = await exportToLocal({
+            invoiceId: confirmationModal.data.invoiceId,
+            invoiceIds: confirmationModal.data.invoiceIds,
+          }).unwrap();
+
+          localDownloadResponse?.downloads?.forEach(
+            async (invoice: { invoice_id: number; download_url: string }) => {
+              try {
+                const response = await fetch(invoice.download_url);
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `invoice_${invoice.invoice_id}.txt`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url); // Clean up
+              } catch (err) {
+                console.error(
+                  `Failed to download invoice ${invoice.invoice_id}`,
+                  err
+                );
+              }
+            }
+          );
+          notify(MESSAGES.NOTIFICATION.INVOICE_EXPORTED_TO_LOCAL_SUCCESSFULLY);
           break;
         default:
           setConfirmationModal(ConfirmationPopupDefaultValue);
