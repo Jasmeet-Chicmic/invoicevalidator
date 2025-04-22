@@ -137,10 +137,105 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     }
   };
 
+  const updateArrayFieldOnApprove = (
+    arrParentKey: string,
+    id: number,
+    fieldKey: string,
+    newValue: string,
+    approvedValue: boolean
+  ) => {
+    if (!data) return;
+    if (oldStateRef.current) {
+      const oldRefState = oldStateRef.current as ExtractedData;
+      const arrayItems = oldRefState[arrParentKey] as DynamicFieldArrayItem[];
+      const index = arrayItems.findIndex((item) => item.id === id);
+      if (index === -1) return;
+      const targetItem = arrayItems[index];
+      const fieldObj = targetItem[fieldKey] as FieldValue;
+      const updatedItem: DynamicFieldArrayItem = {
+        ...targetItem,
+        [fieldKey]: {
+          ...fieldObj,
+          approved: approvedValue,
+          value: newValue,
+        },
+      };
+      const updatedArray = [...arrayItems];
+      updatedArray[index] = updatedItem;
+      
+      
+      oldStateRef.current[arrParentKey] = updatedArray;
+      
+    }
+    setData((prevData) => {
+      if (!prevData) return prevData;
+
+      const arrayItems = prevData[arrParentKey] as DynamicFieldArrayItem[];
+      const index = arrayItems.findIndex((item) => item.id === id);
+      if (index === -1) return prevData;
+
+      const targetItem = arrayItems[index];
+      const fieldObj = targetItem[fieldKey] as FieldValue;
+
+      const updatedItem: DynamicFieldArrayItem = {
+        ...targetItem,
+        [fieldKey]: {
+          ...fieldObj,
+          approved: true,
+          confidenceScore: 1,
+        },
+      };
+
+      const updatedArray = [...arrayItems];
+      updatedArray[index] = updatedItem;
+
+      return {
+        ...prevData,
+        [arrParentKey]: updatedArray,
+      };
+    });
+  };
+
+  const updateObjectFieldOnApprove = (
+    sectionKey: string,
+    fieldKey: string,
+    newValue: string,
+    approvedValue: boolean
+  ) => {
+    console.log("oldRefState",oldStateRef);
+    
+    if (oldStateRef.current) {
+      const oldRefState = oldStateRef.current as ExtractedData;
+      const oldRefCurrentSection =  oldRefState[sectionKey] as DynamicField;
+      ((oldRefCurrentSection  as ExtractedData)[fieldKey] as FieldValue).approved = approvedValue;
+      ((oldRefCurrentSection  as ExtractedData)[fieldKey] as FieldValue).value = newValue;
+      
+    }
+    setData((prevData) => {
+      if (!prevData) return prevData;
+
+      const currentSection = prevData[sectionKey] as DynamicField;
+      const currentField = (currentSection as ExtractedData)?.[fieldKey];
+
+      return {
+        ...prevData,
+        [sectionKey]: {
+          ...currentSection,
+          [fieldKey]: {
+            ...currentField,
+            value: newValue,
+            approved: true,
+            confidenceScore: 1,
+          },
+        } as DynamicField,
+      };
+    });
+  };
   const handleOnApprove = async (
     sectionKey: string,
     fieldKey: string,
     newFieldValue: string,
+    approvedValue:boolean,
     arrParentKey?: string,
     id?: number
   ) => {
@@ -153,6 +248,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           invoiceId,
           itemId: null,
         }).unwrap();
+        updateObjectFieldOnApprove(sectionKey, fieldKey, newFieldValue,approvedValue);
       } else {
         await onApprove({
           category: arrParentKey?.toString() || sectionKey,
@@ -161,11 +257,19 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           invoiceId,
           itemId: id.toString(),
         }).unwrap();
+        updateArrayFieldOnApprove(
+          arrParentKey?.toString() || sectionKey,
+          id,
+          fieldKey,
+          newFieldValue,approvedValue
+        );
       }
       // await onApproveCallback();
       setFieldKeyToApprove(null);
       notify(MESSAGES.NOTIFICATION.APPROVED);
     } catch (catchError) {
+      console.log(catchError,"catchError");
+      
       const errorObj = catchError as CommonErrorResponse;
       notify(errorObj.data.message, { type: STATUS.error });
     }
@@ -222,12 +326,13 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
                       id
                     )
                   }
-                  onApproveClick={(_, newFieldValue) => {
+                  onApproveClick={(approvedValue, newFieldValue) => {
                     setFieldKeyToApprove(`${fieldKey}_${newFieldValue}`);
                     handleOnApprove(
                       sectionKey,
                       fieldKey,
                       newFieldValue,
+                      approvedValue,
                       arrParentKey,
                       id
                     );

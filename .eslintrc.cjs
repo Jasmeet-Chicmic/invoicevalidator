@@ -22,6 +22,7 @@ module.exports = {
   ignorePatterns: ['*.config*.ts', '*.d*.ts'],
   rules: {
     'no-param-reassign': ['off'],
+    '@typescript-eslint/no-unused-vars':['off'],
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/accessible-emoji': 'off',
