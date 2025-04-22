@@ -9,25 +9,34 @@
   background: $white-color;
   border: 1px solid $grey-color-300;
   gap: 5px;
-  @media screen and (max-width:768px) {
-    margin-left: 0px;
+
+  @media screen and (max-width: 480px) {
     width: 100%;
   }
-  @media screen and (min-width: 769px) and (max-width:1024px) { 
+
+  @media screen and (max-width:768px) {
     margin-left: 0px;
   }
-  .filter-btn{
 
+  @media screen and (min-width: 769px) and (max-width:1024px) {
+    margin-left: 0px;
   }
+
+  .filter-btn {}
 }
 
 .download-btns {
   display: flex;
   gap: 10px;
 
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
+
   @media screen and (max-width:768px) {
     margin: 0px;
   }
+
   @media screen and (max-width:340px) {
     flex-direction: column;
     width: 100%;
@@ -43,6 +52,11 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+
+    @media screen and (max-width: 480px) {
+      width: 100%;
+      flex: 1;
+    }
 
     @media screen and (max-width:768px) {
       padding: 7px 10px;
@@ -62,12 +76,13 @@
 
 
 button {
-  
+
   &.filter-btn {
     background: transparent;
     font-size: 12px;
     font-weight: $font-regular;
     color: $grey-color-500;
+
     @media screen and (max-width:768px) {
       flex: 1;
     }
@@ -107,6 +122,9 @@ button {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 15px;
+
     @media screen and (max-width:768px) {
       flex-direction: column;
       align-content: center;
@@ -150,13 +168,14 @@ button {
     overflow-x: auto;
     border-radius: 10px;
     border: 1px solid $grey-color-300;
+    // min-height: 300px;
     // box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   }
 
   &__table {
     width: 100%;
     border-collapse: collapse;
-    
+
     th,
     td {
       padding: 0.6rem 1rem;
@@ -173,14 +192,38 @@ button {
       font-size: 16px;
       font-weight: $font-bold;
       white-space: nowrap;
+
+      &:nth-child(1) {
+        min-width: 200px;
+      }
+
+      &:nth-child(2) {
+        min-width: 300px;
+      }
+
+      &:nth-child(3) {
+        min-width: 150px;
+      }
+
+      &:nth-child(4) {
+        min-width: 150px;
+      }
+
+      &:nth-child(5) {
+        min-width: 150px;
+      }
+
+      &:nth-child(6) {
+        min-width: 250px;
+      }
     }
 
     tbody {
       tr {
         transition: background-color 0.2s ease;
 
-        &:nth-child(even){
-          td{
+        &:nth-child(even) {
+          td {
             background-color: $grey-color-200;
             border-bottom: 1px solid $grey-color-300;
           }
@@ -216,7 +259,7 @@ button {
     transition: all 0.2s ease;
     background-color: $grey-color-300;
 
-    &:hover{
+    &:hover {
       background-color: $grey-color-400;
     }
 
@@ -314,7 +357,6 @@ button {
     padding: 1rem;
 
     &__header {
-      // flex-direction: column;
       align-items: center;
       gap: 1rem;
     }
@@ -334,60 +376,69 @@ button {
 .pagination {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 0rem;
   list-style: none;
   gap: 0.5rem;
 
   li {
     border-radius: 0.5rem;
     overflow: hidden;
-    
+
     &.active {
-      a{
+      a {
         background-color: var(--primary-color);
         color: $white-color !important;
         border-color: var(--primary-color);
-        &:hover{
+
+        &:hover {
           color: $white-color !important;
         }
       }
     }
 
-    a{
+    a {
       padding: 0.5rem 1rem;
       cursor: pointer;
-      background-color: var(--background-light);
-      border: 1px solid var(--border-color);
+      // background-color: var(--background-light);
+      // border: 1px solid var(--border-color);
       font-size: 0.9rem;
       transition: all 0.2s ease;
       line-height: 24px;
       display: block;
-      @media screen and (max-width:768px){
-        padding:0.2rem 0.8rem;
+
+      @media screen and (max-width:768px) {
+        padding: 0.2rem 0.8rem;
       }
     }
 
     &:hover:not(.active) {
-      a{
+      a {
         background-color: rgba(0, 0, 0, 0.05);
       }
     }
   }
 }
 
-.pagination{
+.pagination {
   background: none;
   margin-bottom: 0px;
-  margin-top: 30px;
-  li{
+  margin-top: 15px;
+
+  li {
     background: none;
     color: $grey-color;
-    a{
+
+    a {
       color: $grey-color;
+      &[aria-disabled="true"]{
+        color: $grey-color-400;
+      }
     }
-    &.active{
+
+    &.active {
       background: $blue-color;
-      a{
+
+      a {
         color: $white-color;
       }
     }
@@ -399,43 +450,54 @@ button {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
 
   @media screen and (max-width: 768px) {
-    flex-direction: column;
     gap: 10px;
   }
+
   @media screen and (min-width: 769px) and (max-width:1024px) {
     gap: 5px;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-end; 
   }
 
-  .search-bx{
+  .search-bx {
     position: relative;
     display: flex;
-    gap:10px;
-    @media screen and (max-width: 768px) {
-      margin-bottom: 0px;
+    gap: 10px;
+
+    @media screen and (max-width: 480px) {
       width: 100%;
     }
 
-    .search-field{
+    @media screen and (max-width: 768px) {
+      margin-bottom: 0px;
+    }
+
+    .search-field {
       border: 1px solid $grey-color-300;
       color: $black-color;
       background: white;
       border-radius: 5px;
-      padding: 5px 10px;
+      padding: 5px 20px 5px 10px;
       height: 32px;
       font-size: 12px;
       flex: 0.7;
       display: flex;
-      &:focus{
+      margin-right: 0px;
+      width: 70%;
+
+      &:focus {
         border: 1px solid rgba($black-color, 0.2) !important;
         outline: none;
       }
     }
-    .saerch-btn{
+
+    .saerch-btn {
       position: absolute;
       z-index: 1;
       border-radius: 5px;
@@ -444,8 +506,54 @@ button {
       font-size: 12px;
       height: 32px;
       right: 0px;
-      flex: 0.3;
+      flex: 1;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30%;
+    }
+  }
+}
+
+.page-show {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  padding-top: 30px;
+
+  span {
+    font-size: 14px;
+    font-weight: $font-regular;
+    color: $grey-color;
+
+    strong {
+      color: $black-color;
+      font-weight: $font-regular;
+    }
+  }
+}
+
+.no-text-outer {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 0;
+
+  .no-text {
+    font-size: 20px;
+    color: $black-color;
+    font-weight: $font-medium;
+  }
+}
+
+.invoice-list__table {
+  tr {
+    &:has(.no-text-outer) {
+      &:hover {
+        background: none;
+      }
     }
   }
 }

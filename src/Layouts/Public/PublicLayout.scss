@@ -16,21 +16,31 @@ body,
     .navbar {
         background: none;
         padding: 15px;
-        
+
+        @media screen and (max-width:768px) {
+            padding: 15px 0px;
+        }
+
         .navbar-brand {
             color: $black-color;
             font-weight: $font-medium;
+
             @media screen and (max-width:768px) {
                 font-size: 14px;
                 margin: 0px;
             }
-            span{
+
+            span {
                 color: $blue-color;
                 margin-left: 3px;
             }
         }
-        .sidebtns{
-            .btn{
+
+        .sidebtns {
+            display: flex;
+            gap: 10px;
+
+            .btn {
                 &.bookademo {
                     border: 1.5px solid currentColor;
                     padding: 10px 26px;
@@ -45,16 +55,18 @@ body,
                         font-size: 14px;
                     }
 
-                    &:hover{
+                    &:hover {
                         background: $blue-color;
                         color: $white-color;
                         border-color: $blue-color;
-                        img{
+
+                        img {
                             filter: brightness(0%) contrast(100) invert(1);
                         }
                     }
                 }
-                .btn-icon{
+
+                .btn-icon {
                     width: 12px;
                     height: 12px;
                     display: inline-block;
@@ -65,25 +77,27 @@ body,
     }
 }
 
-.page-title{ 
+.page-title {
     width: 100%;
     text-align: center;
     max-width: 500px;
     display: flex;
     align-items: center;
-    justify-content: center; 
-    h1{
+    justify-content: center;
+
+    h1 {
         font-size: 30px;
         font-weight: $font-medium;
         color: $black-color-900;
         margin-bottom: 16px;
+
         @media screen and (max-width:768px) {
             font-size: 20px;
         }
     }
 }
 
-.file-uploader{
+.file-uploader {
     border-radius: 16px;
     background: $blue-color;
     padding: 10px;
@@ -114,12 +128,13 @@ body,
     height: 100%;
 }
 
-.upload-page{
-    .file-uploader{
-        .text-loader{
+.upload-page {
+    .file-uploader {
+        .text-loader {
             position: relative;
             height: 197px;
-            &__spinner{
+
+            &__spinner {
                 border-top-color: $white-color !important;
                 border-color: rgba($black-color, 0.3);
             }

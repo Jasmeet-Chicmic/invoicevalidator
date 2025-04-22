@@ -258,7 +258,9 @@ const InvoiceList: React.FC = () => {
             ) : (
               <tr>
                 <td colSpan={6} style={{ textAlign: 'center' }}>
-                  No invoices found.
+                  <div className="no-text-outer">
+                    <h5 className="no-text">No invoices found.</h5>
+                  </div>
                 </td>
               </tr>
             )}
@@ -268,7 +270,9 @@ const InvoiceList: React.FC = () => {
 
       {data?.total > ITEMS_PER_PAGE && (
         <>
-          <span>Showing {showingTheListItemCounter()}</span>
+          <div className="page-show">
+            <span>Showing <strong>{showingTheListItemCounter()}</strong></span>
+          </div>
           <ReactPaginate
             previousLabel="Prev"
             nextLabel="Next"

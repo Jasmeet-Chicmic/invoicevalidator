@@ -25,7 +25,7 @@ function NavbarComponent() {
           {/* <Navbar.Collapse id="basic-navbar-nav">
             <div className="sidebtns">
               <Button
-                className="bookademo ms-3"
+                className="bookademo "
                 variant="primary"
                 onClick={() => {
                   navigate(ROUTES.HOMEPAGE);
@@ -39,10 +39,24 @@ function NavbarComponent() {
             </div>
           </Navbar.Collapse> */}
 
-          {showUpload && (
-            <div className="sidebtns">
+
+          <div className="sidebtns">
+
+            <Button
+              className="bookademo "
+              variant="primary"
+              onClick={() => {
+                navigate(ROUTES.HOMEPAGE);
+              }}
+            >
+              {/* <span className="btn-icon me-2">
+                <img src={IMAGES.addIcon} alt="add-icon" />
+              </span> */}
+              Invoice List
+            </Button>
+            {showUpload && (
               <Button
-                className="bookademo ms-3"
+                className="bookademo"
                 variant="primary"
                 onClick={() => {
                   navigate(ROUTES.HOMEPAGE);
@@ -53,8 +67,9 @@ function NavbarComponent() {
                 </span>
                 Upload
               </Button>
-            </div>
-          )}
+            )}
+          </div>
+
         </div>
       </Container>
     </Navbar>
