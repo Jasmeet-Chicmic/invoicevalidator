@@ -5,6 +5,7 @@ import useNotification from '../../../Hooks/useNotification';
 import { CommonErrorResponse } from '../../../Services/Api/Constants';
 import {
   useDeleteInvoiceMutation,
+  useExportToTallyMutation,
   useGetAllInvoiceQuery,
 } from '../../../Services/Api/module/fileApi';
 import {
@@ -64,6 +65,7 @@ const ITEMS_PER_PAGE = 10;
 const InvoiceList: React.FC = () => {
   const navigate = useNavigate();
   const [deleteInvoice] = useDeleteInvoiceMutation();
+  const [exportToTally] = useExportToTallyMutation();
   const [filterStatus, setFilterStatus] = useState<ListingStatus>(
     ListingStatus.All
   );
@@ -239,11 +241,25 @@ const InvoiceList: React.FC = () => {
           notify(MESSAGES.NOTIFICATION.INVOICE_DELETED_SUCCESSFULLY);
           refetch();
           break;
+        case ButtonActions.ExportToTally:
+          if (
+            !confirmationModal.data?.invoiceId &&
+            !confirmationModal.data?.invoiceIds?.length
+          )
+            return;
+          await exportToTally({
+            invoiceId: confirmationModal.data.invoiceId,
+            // invoiceIds: confirmationModal.data.invoiceIds,
+          }).unwrap();
+          notify(MESSAGES.NOTIFICATION.INVOICE_EXPORTED_TO_TALLY_SUCCESSFULLY);
+          refetch();
+          break;
         default:
           setConfirmationModal(ConfirmationPopupDefaultValue);
       }
       setSelectedIds([]);
       setCurrentPage(0);
+      setConfirmationModal(ConfirmationPopupDefaultValue);
     } catch (error) {
       const errorObj = error as unknown as CommonErrorResponse;
       notify(errorObj.data.message, { type: STATUS.error });

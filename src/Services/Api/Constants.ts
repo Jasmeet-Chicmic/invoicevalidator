@@ -8,6 +8,7 @@ export const API_END_POINTS = {
   DELETE_IMAGE: 'bookkeep/invoice/delete/',
   ON_SUBMIT: 'bookkeep/invoice/details/submit/',
   DELETE_INVOICE: 'bookkeep/invoice/data/delete/',
+  EXPORT_TO_TALLY: '/tallyintegration/create/',
   EDIT_DATA: 'bookkeep/invoice/data/edit',
 };
 export const HTTPS_METHODS = {

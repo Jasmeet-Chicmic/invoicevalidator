@@ -60,6 +60,8 @@ const MESSAGES = {
     SAVED: 'Saved',
     INVOICE_ID_NOT_FOUND: 'Invoice ID not found',
     INVOICE_DELETED_SUCCESSFULLY: 'Invoice deleted successfully',
+    INVOICE_EXPORTED_TO_TALLY_SUCCESSFULLY:
+      'Invoice exported to tally successfully',
   },
   FILE_UPLOADER: {
     FILE_DATA_ERROR:

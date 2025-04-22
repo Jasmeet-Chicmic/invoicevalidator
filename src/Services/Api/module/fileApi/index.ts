@@ -31,6 +31,13 @@ export const fileApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    exportToTally: builder.mutation({
+      query: (data: CRUDRequest) => ({
+        url: API_END_POINTS.EXPORT_TO_TALLY,
+        method: HTTPS_METHODS.POST,
+        body: data,
+      }),
+    }),
     onApprove: builder.mutation({
       query: (data: OnApproveRequest) => ({
         url: API_END_POINTS.ON_APPROVE,
@@ -70,6 +77,7 @@ export const fileApi = api.injectEndpoints({
 });
 
 export const {
+  useExportToTallyMutation,
   useFileUploadMutation,
   useOnApproveMutation,
   useLazyGetInvoiceQuery,
