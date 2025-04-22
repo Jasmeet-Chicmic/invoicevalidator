@@ -47,10 +47,13 @@ const ITEMS_PER_PAGE = 10;
 
 const InvoiceList: React.FC = () => {
   const navigate = useNavigate();
+  const [deleteInvoice] = useDeleteInvoiceMutation();
   const [filterStatus, setFilterStatus] = useState<ListingStatus>(
     ListingStatus.All
   );
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
   const notify = useNotification();
   const [confirmationModal, setConfirmationModal] = useState({
     isOpen: false,
@@ -71,8 +74,6 @@ const InvoiceList: React.FC = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const [deleteInvoice] = useDeleteInvoiceMutation();
-
   const handleEdit = (invoiceId: number) => {
     navigate(`${ROUTES.EDIT}/${invoiceId}`);
   };
@@ -82,6 +83,21 @@ const InvoiceList: React.FC = () => {
       isOpen: true,
       data: { invoiceId: id },
     });
+  };
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      const allIds = data?.data?.map((invoice: Invoice) => invoice.id) || [];
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleCheckboxChange = (id: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
   };
 
   const getStatusClass = (status: string): string =>
@@ -128,6 +144,8 @@ const InvoiceList: React.FC = () => {
     return STRINGS.EMPTY_STRING;
   }
 
+  const isAllSelected =
+    data?.data?.length > 0 && selectedIds.length === data?.data.length;
   if (isAllInvoiceError) return <RetryButton onClick={onRetry} />;
   if (isAllInvoiceLoading) return <TextLoader showText={false} />;
 
@@ -162,18 +180,21 @@ const InvoiceList: React.FC = () => {
             ))}
           </div>
           <div className="download-btns">
-            {filterTabs.map(({ className, icon, alt, label }) => (
-              <button
-                key={className}
-                type="button"
-                className={`btn-primary ${className}`}
-              >
-                <span className="btn-icon">
-                  <img src={icon} alt={alt} />
-                </span>
-                {label}
-              </button>
-            ))}
+            {filterTabs(selectedIds).map(
+              ({ className, icon, alt, label, disabled }) => (
+                <button
+                  key={className}
+                  type="button"
+                  className={`btn-primary ${className}`}
+                  disabled={disabled}
+                >
+                  <span className="btn-icon">
+                    <img src={icon} alt={alt} />
+                  </span>
+                  {label}
+                </button>
+              )
+            )}
           </div>
         </div>
       </div>
@@ -182,6 +203,16 @@ const InvoiceList: React.FC = () => {
         <table className="invoice-list__table">
           <thead>
             <tr>
+              <th>
+                <div className="checkbox-invoice custom-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={isAllSelected}
+                    onChange={handleSelectAll}
+                    aria-label="Select all invoices"
+                  />
+                </div>
+              </th>
               <th>Invoice No</th>
               <th>Vendor</th>
               <th>Amount</th>
@@ -194,10 +225,20 @@ const InvoiceList: React.FC = () => {
             {data?.total > 0 ? (
               data?.data?.map((invoice: Invoice) => (
                 <tr key={invoice.id}>
-                  <td>{invoice.invoiceNo}</td>
-                  <td>{invoice.vendor}</td>
+                  <td>
+                    <div className="checkbox-invoice custom-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(invoice.id)}
+                        onChange={() => handleCheckboxChange(invoice.id)}
+                        aria-label={`Select invoice ${invoice.invoiceNo}`}
+                      />
+                    </div>
+                  </td>
+                  <td>{invoice.invoiceNo || STRINGS.HYPHEN}</td>
+                  <td>{invoice.vendor || STRINGS.HYPHEN}</td>
                   <td>{formatCurrency(invoice.amount)}</td>
-                  <td>{invoice.date}</td>
+                  <td>{invoice.date || STRINGS.HYPHEN}</td>
                   <td>
                     <span className={getStatusClass(invoice.status)}>
                       {invoice.status}
@@ -243,7 +284,7 @@ const InvoiceList: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} style={{ textAlign: 'center' }}>
+                <td colSpan={7} style={{ textAlign: 'center' }}>
                   <div className="no-text-outer">
                     <h5 className="no-text">No invoices found.</h5>
                   </div>

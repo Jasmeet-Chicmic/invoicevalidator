@@ -11,6 +11,7 @@ function NavbarComponent() {
   const navigate = useNavigate();
   const location = useLocation();
   const showUpload = location.pathname === ROUTES.LISTING;
+  const showListing = location.pathname === ROUTES.HOMEPAGE;
   return (
     <Navbar expand="lg" className="">
       <Container fluid>
@@ -21,40 +22,20 @@ function NavbarComponent() {
           >
             Bookeep<span>AI</span>
           </Navbar.Brand>
-          {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-          {/* <Navbar.Collapse id="basic-navbar-nav">
-            <div className="sidebtns">
+
+          <div className="sidebtns">
+            {showListing ? (
               <Button
                 className="bookademo "
                 variant="primary"
                 onClick={() => {
-                  navigate(ROUTES.HOMEPAGE);
+                  navigate(ROUTES.LISTING);
                 }}
               >
-                <span className="btn-icon me-2">
-                  <img src={IMAGES.addIcon} alt="add-icon" />
-                </span>
-                Upload
+                Invoice List
               </Button>
-            </div>
-          </Navbar.Collapse> */}
-
-
-          <div className="sidebtns">
-
-            <Button
-              className="bookademo "
-              variant="primary"
-              onClick={() => {
-                navigate(ROUTES.HOMEPAGE);
-              }}
-            >
-              {/* <span className="btn-icon me-2">
-                <img src={IMAGES.addIcon} alt="add-icon" />
-              </span> */}
-              Invoice List
-            </Button>
-            {showUpload && (
+            ) : null}
+            {showUpload ? (
               <Button
                 className="bookademo"
                 variant="primary"
@@ -67,9 +48,8 @@ function NavbarComponent() {
                 </span>
                 Upload
               </Button>
-            )}
+            ) : null}
           </div>
-
         </div>
       </Container>
     </Navbar>

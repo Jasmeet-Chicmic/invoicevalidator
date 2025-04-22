@@ -167,7 +167,7 @@ const EditPage = () => {
 
                 <button
                   onClick={handleSave}
-                  className="draft-save-btn"
+                  className="draft-save-btn ms-auto"
                   type="button"
                 >
                   <span>
