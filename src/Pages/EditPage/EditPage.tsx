@@ -32,6 +32,8 @@ import { STATUS } from '../../Shared/enum';
 
 const EditPage = () => {
   const navigate = useNavigate();
+  const notify = useNotification();
+  const oldStateRef = useRef<ExtractedData | null>(null);
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
@@ -43,25 +45,25 @@ const EditPage = () => {
     data,
     error,
     isFetching: loading,
-    refetch: refetchExtractedData,
   } = useEditDataQuery({ invoiceId: invoiceId! }, { skip: !invoiceId });
+
   const [statusText, setStatusText] = useState({
     buttonText: BUTTON_TEXT.PENDING,
     status: INVOICE_STATUS.PENDING,
   });
-  const oldStateRef = useRef<ExtractedData | null>(null);
-  const notify = useNotification();
   const extractedEditData = useMemo(() => {
     if (data) {
       return data.data;
     }
     return null;
   }, [data]);
+
   useEffect(() => {
     if (invoiceId === undefined) {
       navigate(ROUTES.LISTING);
     }
   }, [invoiceId, navigate]);
+
   useEffect(() => {
     if (extractedData && areAllFieldsApproved(extractedData)) {
       setStatusText({
@@ -75,6 +77,7 @@ const EditPage = () => {
       });
     }
   }, [extractedData]);
+
   useEffect(() => {
     if (data) {
       const editExtractedData = data.data?.data;
@@ -109,12 +112,9 @@ const EditPage = () => {
   };
 
   const handleDiscard = () => {
-    // setExtractedData(oldStateRef.current);
-    // setConfirmationModal(false);
     navigate(ROUTES.LISTING);
   };
   const handleBack = () => {
-    // setConfirmationModal(true);
     handleDiscard();
   };
   return (
@@ -145,7 +145,6 @@ const EditPage = () => {
                   loading={loading}
                   error={!!error}
                   invoiceId={extractedEditData && extractedEditData.id}
-                  onApproveCallback={refetchExtractedData}
                 />
               </div>
             </div>

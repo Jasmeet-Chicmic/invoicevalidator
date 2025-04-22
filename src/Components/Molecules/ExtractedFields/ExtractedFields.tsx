@@ -22,7 +22,6 @@ type ExtractedFieldsProps = {
   oldStateRef: React.MutableRefObject<ExtractedData | null>;
   loading: boolean;
   invoiceId: string;
-  onApproveCallback: () => void;
   error?: boolean;
   onRetry?: () => void;
 };
@@ -33,14 +32,14 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   oldStateRef,
   loading,
   error = true,
-  onApproveCallback = () => {},
   onRetry = () => {},
   invoiceId,
 }) => {
   const notify = useNotification();
-  const [currentField, setCurrentField] = useState<string>('');
-  const [onApprove, { isLoading: approveButtonLoading }] =
-    useOnApproveMutation();
+  const [fieldKeyToApprove, setFieldKeyToApprove] = useState<string | null>(
+    null
+  );
+  const [onApprove] = useOnApproveMutation();
 
   const extractOldValue = (
     field: DynamicField
@@ -163,7 +162,8 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           itemId: id.toString(),
         }).unwrap();
       }
-      onApproveCallback();
+      // await onApproveCallback();
+      setFieldKeyToApprove(null);
       notify(MESSAGES.NOTIFICATION.APPROVED);
     } catch (catchError) {
       const errorObj = catchError as CommonErrorResponse;
@@ -219,7 +219,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
                     )
                   }
                   onApproveClick={(_, newFieldValue) => {
-                    setCurrentField(fieldKey);
+                    setFieldKeyToApprove(`${fieldKey}_${newFieldValue}`);
                     handleOnApprove(
                       sectionKey,
                       fieldKey,
@@ -231,7 +231,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
                   disableApprove={disableApprove}
                   approveButtonText={buttonText}
                   approveButtonLoading={
-                    currentField === fieldKey ? !approveButtonLoading : true
+                    fieldKeyToApprove === `${fieldKey}_${fieldValue?.value}`
                   }
                 />
               ) : null;
@@ -239,7 +239,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
       </FieldWrapper>
     );
   };
-  if (loading) return <TextLoader />;
+  if (loading && !fieldKeyToApprove) return <TextLoader />;
 
   return (
     <div className="extracted-data">

@@ -228,21 +228,11 @@ function Home() {
 
     refetchExtractedData();
   };
+
   return (
     <div className="file-uploadbx">
       {!fileUrl ? (
         <div className="fileupload-page">
-          {/* <button
-            type="button"
-            className="back-btn"
-            onClick={() => navigate(ROUTES.LISTING)}
-          >
-            <span>
-              {' '}
-              <img src={IMAGES.backIcon} alt="back-icon" />
-            </span>{' '}
-            Back
-          </button> */}
           <div className="page-title">
             <h1>Upload File</h1>
           </div>
@@ -291,7 +281,6 @@ function Home() {
                       onRetry={onRetryCallback}
                       error={!!imageDataFetchingError}
                       invoiceId={wholeExtractedData && wholeExtractedData.id}
-                      onApproveCallback={refetchExtractedData}
                     />
                   </div>
                 </div>
