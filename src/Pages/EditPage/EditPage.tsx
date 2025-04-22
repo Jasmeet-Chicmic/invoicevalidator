@@ -145,18 +145,19 @@ const EditPage = () => {
             <div className="fields-top-section">
               <h2>File Fields</h2>
               <div className="top-actions">
-                {extractedData && statusText.status !== INVOICE_STATUS.APPROVED && (
-                  <button
-                    onClick={onApproveAllFields}
-                    className="approve-btn"
-                    type="button"
-                  >
-                    <span>
-                      <img src={IMAGES.tickIcon} alt="save-icon" />
-                    </span>
-                    Approve All
-                  </button>
-                )}
+                {extractedData &&
+                  statusText.status !== INVOICE_STATUS.APPROVED && (
+                    <button
+                      onClick={onApproveAllFields}
+                      className="approve-btn"
+                      type="button"
+                    >
+                      <span>
+                        <img src={IMAGES.tickIcon} alt="save-icon" />
+                      </span>
+                      Approve All
+                    </button>
+                  )}
               </div>
             </div>
             <div className="fields-data">

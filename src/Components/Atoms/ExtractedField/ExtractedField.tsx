@@ -33,8 +33,8 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   approveButtonLoading,
 }) => {
   const borderColor = useMemo(() => {
-    if(!value){
-      return 'score-null'
+    if (!value) {
+      return 'score-null';
     }
     if (confidenceScore < CONFIDENCE_CONFIG.DANGER) {
       return 'score-red';
@@ -43,7 +43,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
       return 'score-yellow';
     }
     return 'score-green';
-  }, [confidenceScore]);
+  }, [confidenceScore, value]);
 
   const handleOnApprove = () => {
     if (value) onApproveClick(true, value);
