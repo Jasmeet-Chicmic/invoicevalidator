@@ -78,17 +78,18 @@ function Home() {
     }
   }, [extractedData]);
 
-  // const dummyData = {
-  //   id: 288,
-  //   mediaUrl: '/media/esi.jpg',
+  // const dummyData: ExtractedDataResponse = {
+  //   id: 16,
+  //   mediaUrl: '/invoice_images/invoice-template-us-neat-750px_fcNDDFm.png',
   //   fileUrl: null,
-  //   uploadedOn: '2025-04-17T07:11:21.431369Z',
+  //   createdAt: '2025-04-22T05:10:48.548303Z',
+  //   type: 'image',
   //   approved: false,
   //   data: {
   //     invoiceDetails: {
   //       invoiceNo: {
-  //         value: '3131',
-  //         confidenceScore: 0.666,
+  //         value: 'US-001',
+  //         confidenceScore: 0.6768,
   //         approved: false,
   //       },
   //       ewayBillNo: {
@@ -97,8 +98,8 @@ function Home() {
   //         approved: false,
   //       },
   //       date: {
-  //         value: '31.07.2024',
-  //         confidenceScore: 0.6606,
+  //         value: '11/02/2019',
+  //         confidenceScore: 0.8311,
   //         approved: false,
   //       },
   //       ackNo: {
@@ -119,29 +120,23 @@ function Home() {
   //     },
   //     supplierDetails: {
   //       name: {
-  //         value: 'Ekonkar Consultancy Services',
-  //         confidenceScore: 0.9688,
+  //         value: 'East Repair Inc.',
+  //         confidenceScore: 0.9365,
   //         approved: false,
   //       },
   //       address: {
-  //         value:
-  //           'B-1309, Golden City, Near Sidhu Dairy, Sector-4, Kharar, SAS NAGAR, MOHALI PB-140301',
+  //         value: '1912 Harvest Lane, New York, NY 12210',
   //         confidenceScore: 1.0,
   //         approved: false,
   //       },
   //       contact: {
-  //         value: '9814085656, 9814585656',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       companyPan: {
-  //         value: 'BEVPS9909C',
-  //         confidenceScore: 1.0,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       gstin: {
-  //         value: '03BEVPS9909C1Z1',
-  //         confidenceScore: 1.0,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       stateName: {
@@ -155,25 +150,30 @@ function Home() {
   //         approved: false,
   //       },
   //       email: {
-  //         value: 'jassalbs1309@gmail.com, baljitjasal@gmail.com',
-  //         confidenceScore: 1.0,
+  //         value: null,
+  //         confidenceScore: 0.0,
+  //         approved: false,
+  //       },
+  //       companyPan: {
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //     },
   //     buyerDetails: {
   //       name: {
-  //         value: 'CHICMIC TECHNOLOGIES LLP',
-  //         confidenceScore: 0.918,
+  //         value: 'John Smith',
+  //         confidenceScore: 0.9038,
   //         approved: false,
   //       },
   //       address: {
-  //         value: 'F-273, INDL. AREA, PHASE-8, MOHALI-PB',
+  //         value: '3787 Pineview Drive, New York, NY 12210',
   //         confidenceScore: 1.0,
   //         approved: false,
   //       },
   //       gstin: {
-  //         value: '03AARFC2070M1ZC',
-  //         confidenceScore: 1.0,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       stateName: {
@@ -214,48 +214,129 @@ function Home() {
   //         approved: false,
   //       },
   //     },
-  //     items: {
-  //       description: {
-  //         value:
-  //           'Legal and Professional Charges\nServices charges of EPF , ESIC and LWF',
-  //         confidenceScore: 1.0,
-  //         approved: false,
+  //     items: [
+  //       {
+  //         id: 11,
+  //         description: {
+  //           value: 'Front and rear brake cables',
+  //           confidenceScore: 0.9839,
+  //           approved: false,
+  //         },
+  //         hsnCode: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         quantity: {
+  //           value: '1',
+  //           confidenceScore: 1.0,
+  //           approved: false,
+  //         },
+  //         unit: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         rate: {
+  //           value: '100.0',
+  //           confidenceScore: 1.0,
+  //           approved: false,
+  //         },
+  //         discount: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         amount: {
+  //           value: '100.0',
+  //           confidenceScore: 1.0,
+  //           approved: false,
+  //         },
+  //         invoice: 6,
   //       },
-  //       hsnCode: {
-  //         value: '9982',
-  //         confidenceScore: 0.4631,
-  //         approved: false,
+  //       {
+  //         id: 12,
+  //         description: {
+  //           value: 'New set of pedal arms',
+  //           confidenceScore: 0.9658,
+  //           approved: false,
+  //         },
+  //         hsnCode: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         quantity: {
+  //           value: '2',
+  //           confidenceScore: 1.0,
+  //           approved: false,
+  //         },
+  //         unit: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         rate: {
+  //           value: '15.0',
+  //           confidenceScore: 1.0,
+  //           approved: false,
+  //         },
+  //         discount: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         amount: {
+  //           value: '30.0',
+  //           confidenceScore: 1.0,
+  //           approved: false,
+  //         },
+  //         invoice: 6,
   //       },
-  //       quantity: {
-  //         value: '1',
-  //         confidenceScore: 0.3643,
-  //         approved: false,
+  //       {
+  //         id: 13,
+  //         description: {
+  //           value: 'Labor 3hrs',
+  //           confidenceScore: 0.8398,
+  //           approved: false,
+  //         },
+  //         hsnCode: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         quantity: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         unit: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         rate: {
+  //           value: '5.0',
+  //           confidenceScore: 1.0,
+  //           approved: false,
+  //         },
+  //         discount: {
+  //           value: null,
+  //           confidenceScore: 0.0,
+  //           approved: false,
+  //         },
+  //         amount: {
+  //           value: '15.0',
+  //           confidenceScore: 1.0,
+  //           approved: false,
+  //         },
+  //         invoice: 6,
   //       },
-  //       unit: {
-  //         value: 'Months',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       rate: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //       discount: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       amount: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //     },
+  //     ],
   //     charges: {
   //       subtotal: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
+  //         value: '145.0',
+  //         confidenceScore: 1.0,
   //         approved: false,
   //       },
   //       discount: {
@@ -269,77 +350,77 @@ function Home() {
   //         approved: false,
   //       },
   //       total: {
-  //         value: '10620.00',
-  //         confidenceScore: 0.6895,
+  //         value: '154.06',
+  //         confidenceScore: 1.0,
   //         approved: false,
   //       },
   //     },
   //     taxDetails: {
   //       taxableValue: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
+  //         value: '145.0',
+  //         confidenceScore: 1.0,
   //         approved: false,
   //       },
   //       cgstRate: {
-  //         value: '9%',
-  //         confidenceScore: 1.0,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       cgstAmount: {
-  //         value: '810',
-  //         confidenceScore: 0.6338,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       sgstRate: {
-  //         value: '9%',
-  //         confidenceScore: 1.0,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       sgstAmount: {
-  //         value: '810',
-  //         confidenceScore: 0.6338,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       igstRate: {
-  //         value: '18%',
+  //         value: '6.25',
   //         confidenceScore: 1.0,
   //         approved: false,
   //       },
   //       igstAmount: {
-  //         value: '1620',
-  //         confidenceScore: 0.5928,
+  //         value: '9.06',
+  //         confidenceScore: 1.0,
   //         approved: false,
   //       },
   //       totalTaxAmount: {
-  //         value: '1620',
-  //         confidenceScore: 0.5928,
+  //         value: '9.06',
+  //         confidenceScore: 1.0,
   //         approved: false,
   //       },
   //       taxAmountInWords: {
-  //         value: 'Ten Thousand Six Hundred and Twenty Only',
-  //         confidenceScore: 0.9951,
+  //         value: 'Nine and six cents',
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //     },
   //     companyBankDetails: {
   //       accountHolderName: {
-  //         value: 'Ekonkar Consultancy Services',
-  //         confidenceScore: 0.9688,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       bankName: {
-  //         value: 'HDFC Bank Ltd',
-  //         confidenceScore: 1.0,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       accountNo: {
-  //         value: '50200026672561',
-  //         confidenceScore: 1.0,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       branchIfsc: {
-  //         value: 'HDFC0002322',
-  //         confidenceScore: 0.6836,
+  //         value: null,
+  //         confidenceScore: 0.0,
   //         approved: false,
   //       },
   //       swiftCode: {
@@ -525,8 +606,7 @@ function Home() {
   const onCloseModal = () => {
     setConfirmationModal(false);
   };
-  const onRetryCallback = () => {
-    resetExtractedData();
+  const refetchExtractedData = () => {
     if (
       fileDataRef.current &&
       fileDataRef.current.filePath &&
@@ -541,6 +621,11 @@ function Home() {
     } else {
       notify(MESSAGES.FILE_UPLOADER.FILE_DATA_ERROR, { type: STATUS.error });
     }
+  };
+  const onRetryCallback = () => {
+    resetExtractedData();
+
+    refetchExtractedData();
   };
   return (
     <div className="file-uploadbx">
@@ -571,13 +656,9 @@ function Home() {
       ) : (
         <div className="invoice_preview">
           <PreviewWrapper
-            onBack={handleBack}
             left={
               <div className="file-previewbx">
-                <FilePreviewer
-                  isImage={file!.type.startsWith('image/')}
-                  fileUrl={fileUrl}
-                />
+                <FilePreviewer isImage fileUrl={fileUrl} />
               </div>
             }
             right={
@@ -586,17 +667,17 @@ function Home() {
                   <h2>File Fields</h2>
                   <div className="top-actions">
                     <button
-                        onClick={handleSave}
-                        className="approve-btn"
-                        type="button"
-                        disabled={extractedFieldLoading || !extractedData}
-                      >
-                        <span>
-                          <img src={IMAGES.tickIcon} alt="save-icon" />
-                        </span>
-                        {/* {statusText.buttonText} */}
-                        Approve All
-                      </button>
+                      onClick={handleSave}
+                      className="approve-btn"
+                      type="button"
+                      disabled={extractedFieldLoading || !extractedData}
+                    >
+                      <span>
+                        <img src={IMAGES.tickIcon} alt="save-icon" />
+                      </span>
+                      {/* {statusText.buttonText} */}
+                      Approve All
+                    </button>
                   </div>
                 </div>
                 <div className="fields-data">
@@ -609,6 +690,7 @@ function Home() {
                       onRetry={onRetryCallback}
                       error={!!imageDataFetchingError}
                       invoiceId={wholeExtractedData && wholeExtractedData.id}
+                      onApproveCallback={refetchExtractedData}
                     />
                   </div>
                 </div>
@@ -620,9 +702,12 @@ function Home() {
                     </span>
                   </h3>
 
-
                   <div className="bottom-actions">
-                    <button type="button" className="back-btn">
+                    <button
+                      type="button"
+                      className="back-btn"
+                      onClick={handleBack}
+                    >
                       <span>
                         {' '}
                         <img src={IMAGES.backIcon} alt="back-icon" />
@@ -642,7 +727,6 @@ function Home() {
                       {statusText.buttonText}
                     </button>
                   </div>
-
                 </div>
               </div>
             }
