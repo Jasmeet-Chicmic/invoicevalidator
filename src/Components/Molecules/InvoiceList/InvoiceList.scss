@@ -289,7 +289,7 @@ button {
         }
 
         &:hover {
-          background-color: rgba(0, 0, 0, 0.02);
+          background-color: rgba(0, 0, 0, 0.05);
         }
 
         &:last-child {
@@ -332,6 +332,11 @@ button {
       padding: 0;
       width: 32px;
       height: 32px;
+      &:hover{
+        img{
+          filter: invert(1) brightness(100); 
+        }
+      }
     }
 
     &--edit {
@@ -341,8 +346,7 @@ button {
       }
     }
 
-    &--delete {
-      // background: rgba($red-color-900, 0.5); 
+    &--delete { 
       &:hover {
         background-color: rgba($red-color-900, 1);
         border-color: rgba($red-color-900, 1);
