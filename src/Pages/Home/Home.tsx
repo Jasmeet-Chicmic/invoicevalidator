@@ -50,7 +50,7 @@ function Home() {
     status: INVOICE_STATUS.PENDING,
   });
   const fileDataRef = useRef<FileUploadData>();
-  const abortControllerRef = useRef<AbortController | null>(null);
+  // const abortControllerRef = useRef<AbortController | null>(null);
 
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
@@ -98,7 +98,7 @@ function Home() {
     }
     try {
       await deleteFile({ invoiceId: fileDataRef.current?.invoiceId });
-      abortControllerRef.current?.abort();
+      // abortControllerRef.current?.abort();
       resetExtractedData();
       setFile(null);
       setFileUrl(null);
@@ -118,15 +118,15 @@ function Home() {
     invoiceId: number,
     fileType: string
   ) => {
-    const controller = new AbortController();
+    // const controller = new AbortController();
     const getInvoicePayload: GetInvoiceRequest = {
       filePath,
       invoiceId,
       fileType,
-      signal: controller.signal,
+      // signal: controller.signal,
     };
 
-    abortControllerRef.current = controller;
+    // abortControllerRef.current = controller;
     // setExtractedData(dummyData.data);
     // oldStateRef.current = JSON.parse(JSON.stringify(dummyData.data));
     try {
@@ -146,7 +146,7 @@ function Home() {
       );
       if (error.status === API_RESPONSE_STATUS_CODE.NOT_ACCEPTABLE) {
         handleRemove();
-      } else if (error.data.errorId === ERRORID.DUPLICATE_INVOICE) {
+      } else if (error.data?.errorId === ERRORID.DUPLICATE_INVOICE) {
         resetExtractedData();
         setFile(null);
         setFileUrl(null);
