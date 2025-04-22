@@ -59,7 +59,9 @@ export const areAllFieldsApproved = (data: ExtractedData): boolean => {
   );
 };
 export const approveAllFields = (data: ExtractedData): ExtractedData => {
-  const approveField = (value: DynamicField | FieldValue): DynamicField | FieldValue => {
+  const approveField = (
+    value: DynamicField | FieldValue
+  ): DynamicField | FieldValue => {
     if (Array.isArray(value)) {
       return value.map((item) => {
         const updatedItem: DynamicFieldArrayItem = { ...item };
@@ -109,7 +111,6 @@ export const approveAllFields = (data: ExtractedData): ExtractedData => {
 
   return updatedData;
 };
-
 
 export const replaceToLowerCase = (text: string): string => {
   return text.replace(/\s+/g, '-').toLowerCase();

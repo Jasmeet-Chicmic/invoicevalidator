@@ -121,12 +121,11 @@ const EditPage = () => {
     handleDiscard();
   };
   const onApproveAllFields = () => {
-      if(extractedData){
-     const updatedState=  approveAllFields(extractedData);
-      setExtractedData(updatedState)
-        
+    if (extractedData) {
+      const updatedState = approveAllFields(extractedData);
+      setExtractedData(updatedState);
     }
-    }
+  };
   return (
     <div className="invoice_preview">
       <PreviewWrapper
@@ -146,18 +145,19 @@ const EditPage = () => {
             <div className="fields-top-section">
               <h2>File Fields</h2>
               <div className="top-actions">
-                                 {statusText.status !== INVOICE_STATUS.APPROVED && <button
-                                    onClick={onApproveAllFields}
-                                    className="approve-btn"
-                                    type="button"
-                                   
-                                  >
-                                    <span>
-                                      <img src={IMAGES.tickIcon} alt="save-icon" />
-                                    </span>
-                                    Approve All
-                                  </button>}
-                                </div>
+                {extractedData && statusText.status !== INVOICE_STATUS.APPROVED && (
+                  <button
+                    onClick={onApproveAllFields}
+                    className="approve-btn"
+                    type="button"
+                  >
+                    <span>
+                      <img src={IMAGES.tickIcon} alt="save-icon" />
+                    </span>
+                    Approve All
+                  </button>
+                )}
+              </div>
             </div>
             <div className="fields-data">
               <div className="fields">

@@ -33,7 +33,11 @@ import {
   MODAL_MESSAGES,
   ROUTES,
 } from '../../Shared/Constants';
-import { approveAllFields, areAllFieldsApproved, checkFileType } from '../../Shared/functions';
+import {
+  approveAllFields,
+  areAllFieldsApproved,
+  checkFileType,
+} from '../../Shared/functions';
 import IMAGES from '../../Shared/Images';
 import { ERRORID, STATUS } from '../../Shared/enum';
 
@@ -229,12 +233,11 @@ function Home() {
     refetchExtractedData();
   };
   const onApproveAllFields = () => {
-    if(extractedData){
-   const updatedState=  approveAllFields(extractedData);
-      console.log("updated state",updatedState);
-      
-  }
-  }
+    if (extractedData) {
+      const updatedState = approveAllFields(extractedData);
+      setExtractedData(updatedState);
+    }
+  };
 
   return (
     <div className="file-uploadbx">
@@ -264,17 +267,16 @@ function Home() {
                 <div className="fields-top-section">
                   <h2>File Fields</h2>
                   <div className="top-actions">
-                    <button
+                  {extractedData && statusText.status !== INVOICE_STATUS.APPROVED && (  <button
                       onClick={onApproveAllFields}
                       className="approve-btn"
                       type="button"
-                      
                     >
                       <span>
                         <img src={IMAGES.tickIcon} alt="save-icon" />
                       </span>
                       Approve All
-                    </button>
+                    </button>)}
                   </div>
                 </div>
                 <div className="fields-data">

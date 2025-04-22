@@ -33,6 +33,9 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   approveButtonLoading,
 }) => {
   const borderColor = useMemo(() => {
+    if(!value){
+      return 'score-null'
+    }
     if (confidenceScore < CONFIDENCE_CONFIG.DANGER) {
       return 'score-red';
     }
