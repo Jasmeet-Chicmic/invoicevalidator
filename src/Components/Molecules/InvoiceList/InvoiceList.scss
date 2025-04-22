@@ -55,6 +55,21 @@
 
     &.deletebtntop{
       background: $red-color-800;
+      border: none;
+
+      &:disabled{
+        background: rgba($red-color-800, 0.3);
+        &:hover{
+          background: rgba($red-color-800, 0.3);
+          border: none;
+        }
+      }
+
+
+      &:hover{
+        background: rgba($red-color-800, 0.8);
+        border: none;
+      }
     }
 
     @media screen and (max-width: 480px) {
@@ -650,9 +665,10 @@ button {
         width: 16px;
         position: relative;
         border-radius: 4px;
-        border: 1px solid $grey-color-300;
+        border: 1px solid rgba($grey-color-500, 0.3);
         display: flex;
         align-items: center;
+        cursor: pointer;
 
         input[type=checkbox] {
           position: absolute;
@@ -660,6 +676,7 @@ button {
           opacity: 0;
           top: 0px;
           left: 0px;
+          cursor: pointer;
         }
 
         &:has(input:checked) {

@@ -89,7 +89,7 @@
     }
 
     &:disabled {
-      background: $grey-color-300;
+      background: rgba($green-color-900, 0.2);
       pointer-events: none;
     }
   }
