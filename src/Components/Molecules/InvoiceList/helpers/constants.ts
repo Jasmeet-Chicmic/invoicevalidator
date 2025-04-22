@@ -19,7 +19,7 @@ export const filterTabs = (selectedIds: number[]) => [
     actionType: ButtonActions.ExportToLocal,
   },
   {
-    className: 'deletebtntop',
+    className: 'btn-primary  deletebtntop',
     icon: IMAGES.deleteIcon,
     alt: 'Delete',
     label: 'Delete',
