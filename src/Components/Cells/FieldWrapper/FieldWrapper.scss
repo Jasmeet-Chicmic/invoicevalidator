@@ -1,17 +1,48 @@
+@import "../../../Assets/SCSS/main";
+
 .field-wrapper {
-    margin-bottom: 0;
-    background-color: #fff;
-    &__title {
-      margin-bottom: 12px;
-      font-size: 18px;
-      font-weight: 600;
-      background: #f3f3f3;
-      padding: 10px 16px;
-    }
-  
-    &__content {
-      // Content styling (optional)
-      padding: 16px;
+  margin-bottom: 0;
+  background-color: #fff;
+
+  &__title {
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    background: #f3f3f3;
+    padding: 10px 16px;
+  }
+
+  &__content {
+    // Content styling (optional)
+    padding: 16px;
+  }
+}
+
+
+.bottom-actions {
+  display: flex;
+  gap: 10px;
+
+  button {
+    &.back-btn {
+      border-radius: 8px;
+      font-size: 16px;
+      padding: 8px 16px;
+      color: $white-color;
     }
   }
-  
+}
+
+.top-actions {
+  display: flex;
+  gap: 10px;
+
+  button {
+    &.back-btn {
+      border-radius: 8px;
+      font-size: 16px;
+      padding: 8px 16px;
+      color: $white-color;
+    }
+  }
+}

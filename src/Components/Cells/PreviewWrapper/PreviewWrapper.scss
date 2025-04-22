@@ -32,6 +32,11 @@ $section-gapping:22px 30px;
       height: 100%;
       position: relative;
 
+      @media screen and (min-width:1024.98px) and (max-width: 1300.98px) {
+        // width: 50%;
+        flex: 1;
+      }
+
       @media screen and (max-width:1024px) {
         width: 100%;
         flex: 0;
@@ -59,24 +64,26 @@ $section-gapping:22px 30px;
       }
 
       .file-previewbx {
-        min-width: 500px;
+        width: 500px;
         height: 600px;
         background: rgba($blue-color-700, 1);
         border-radius: 10px;
         box-shadow: $shadow2;
 
-        @media screen and (max-width:1024px) {
-          min-width: 60%;
-          height: 60vh;
-        }
+        // @media screen and (max-width:1024px) {
+        //   min-width: 60%;
+        //   height: 60vh;
+        //   width: 70vw;
+        //   max-width: 580px;
+        // }
         @media screen and (max-width:480px) {
-          min-width: 70%;
+          width: 70%;
           height: 340px;
         }
-        @media screen and (max-width:640px) {
-          min-width: 70%;
-          height: 340px;
-        }
+        // @media screen and (max-width:640px) {
+        //   min-width: 70%;
+        //   height: 340px;
+        // }
 
         .invoice-preview {
           margin: 10px;
@@ -112,11 +119,26 @@ $section-gapping:22px 30px;
       flex: 1;
       max-width: 472px;
       background: $white-color;
-      height: calc(100vh - 70px);
+      height: calc(100vh - 78px);
       position: relative;
       box-shadow: -4px 0px 10px rgb(0 0 0 / 1%);
 
-      @media screen and (max-width:1024px) {
+      @media screen and (min-width:1024.98px) {
+        // width: 50%;
+        flex: 1;
+      }
+
+      @media screen and (min-width:1301.98px) {
+        width: 50%;
+        max-width: unset;
+      }
+
+      @media screen and (min-width:1025px) and (max-width:1300.98px) {
+        // width: 50%;
+        // max-width: unset;
+      }
+
+      @media screen and (max-width:1024.98px) {
         width: 100%;
         max-width: 100%;
       }
@@ -136,9 +158,20 @@ $section-gapping:22px 30px;
             font-size: 16px;
             font-weight: $font-medium;
             padding:0px 30px 3px 30px;
+
+            @media screen and (min-width:320px) and (max-width:640px) {
+              padding-inline:20px;
+            }
           }
           &__content{
             padding:11px 30px;
+            display: grid;
+            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+            @media screen and (min-width:320px) and (max-width:680px) {
+              padding: 11px 20px;
+              grid-template-columns: 1fr;
+            }
           }
         }
 
@@ -165,11 +198,44 @@ $section-gapping:22px 30px;
           background: $white-color;
           border-bottom: 1px solid $grey-color-300;
           width: 100%;
+          display: flex;
+          justify-content: space-between;
+          z-index: 1;
+          align-items: center;
+
+          @media screen and (min-width:320px) {
+            padding: 22px 20px;
+          }
+          
           h2{
             font-size: 22px;
             font-weight: $font-medium;
             color: $black-color-900;
             margin: 0px;
+            @media screen and (min-width:320px) and (max-width:640px) {
+              font-size: 16px;
+            }
+          }
+
+
+          .approve-btn{
+            color: $white-color;
+            gap: 10px;
+            display: flex;
+            background: $green-color-500;
+            span{
+              img{
+                width: 17px;
+                @media screen and (min-width:320px) and (max-width:640px) {
+                  width: 14px;
+                }
+              }
+            }
+
+            @media screen and (min-width:320px) and (max-width:640px) {
+              font-size: 12px;
+            }
+
           }
       }
 
@@ -185,6 +251,13 @@ $section-gapping:22px 30px;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        z-index: 1;
+
+        @media screen and (min-width:320px) and (max-width:640px) {
+          padding: 20px 20px;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
 
         h3{
           font-size: 14px;
@@ -241,4 +314,10 @@ $section-gapping:22px 30px;
     height: 100%;
   }
 
+}
+
+.fields-data {
+  &:has(.text-loader){
+    min-height: 300px;
+  }
 }

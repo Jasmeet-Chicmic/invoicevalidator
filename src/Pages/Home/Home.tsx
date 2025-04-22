@@ -584,6 +584,20 @@ function Home() {
               <div className="extracted-filedsbx">
                 <div className="fields-top-section">
                   <h2>File Fields</h2>
+                  <div className="top-actions">
+                    <button
+                        onClick={handleSave}
+                        className="approve-btn"
+                        type="button"
+                        disabled={extractedFieldLoading || !extractedData}
+                      >
+                        <span>
+                          <img src={IMAGES.tickIcon} alt="save-icon" />
+                        </span>
+                        {/* {statusText.buttonText} */}
+                        Approve All
+                      </button>
+                  </div>
                 </div>
                 <div className="fields-data">
                   <div className="fields">
@@ -605,17 +619,30 @@ function Home() {
                       {statusText.status}
                     </span>
                   </h3>
-                  <button
-                    onClick={handleSave}
-                    className="draft-save-btn"
-                    type="button"
-                    disabled={extractedFieldLoading || !extractedData}
-                  >
-                    <span>
-                      <img src={IMAGES.saveIcon} alt="save-icon" />
-                    </span>
-                    {statusText.buttonText}
-                  </button>
+
+
+                  <div className="bottom-actions">
+                    <button type="button" className="back-btn">
+                      <span>
+                        {' '}
+                        <img src={IMAGES.backIcon} alt="back-icon" />
+                      </span>{' '}
+                      Back
+                    </button>
+
+                    <button
+                      onClick={handleSave}
+                      className="draft-save-btn"
+                      type="button"
+                      disabled={extractedFieldLoading || !extractedData}
+                    >
+                      <span>
+                        <img src={IMAGES.saveIcon} alt="save-icon" />
+                      </span>
+                      {statusText.buttonText}
+                    </button>
+                  </div>
+
                 </div>
               </div>
             }

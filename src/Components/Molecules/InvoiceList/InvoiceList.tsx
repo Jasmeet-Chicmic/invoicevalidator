@@ -121,25 +121,11 @@ const InvoiceList: React.FC = () => {
     return `${startIndex}-${endIndex} of ${data?.total}`;
   };
 
-  function getFilterStatusClass(
-    currentStatus: string,
-    targetStatus: string
-  ): string {
-    let className = '';
-
-    if (targetStatus === ListingStatus.Approved) {
-      className = 'approved';
-    } else if (targetStatus === ListingStatus.Pending) {
-      className = 'pending';
-    } else {
-      className = 'all';
-    }
-
+  function getFilterStatusClass(currentStatus: string, targetStatus: string) {
     if (currentStatus === targetStatus) {
-      className = `active ${className}`;
+      return `active ${currentStatus}`;
     }
-
-    return className;
+    return STRINGS.EMPTY_STRING;
   }
 
   if (isAllInvoiceError) return <RetryButton onClick={onRetry} />;
@@ -269,9 +255,11 @@ const InvoiceList: React.FC = () => {
       </div>
 
       {data?.total > ITEMS_PER_PAGE && (
-        <>
+        <div className="listing-pagination">
           <div className="page-show">
-            <span>Showing <strong>{showingTheListItemCounter()}</strong></span>
+            <span>
+              Showing <strong>{showingTheListItemCounter()}</strong>
+            </span>
           </div>
           <ReactPaginate
             previousLabel="Prev"
@@ -284,7 +272,7 @@ const InvoiceList: React.FC = () => {
             marginPagesDisplayed={1}
             forcePage={currentPage}
           />
-        </>
+        </div>
       )}
 
       <CommonModal
