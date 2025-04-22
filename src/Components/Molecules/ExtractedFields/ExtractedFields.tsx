@@ -185,7 +185,11 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     arrParentKey?: string | undefined
   ) => {
     return (
-      <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
+      <FieldWrapper
+        key={sectionKey}
+        title={formatCamelCase(sectionKey)}
+        id={id}
+      >
         {Array.isArray(fields)
           ? fields?.map((nestedField, i) =>
               renderFields(

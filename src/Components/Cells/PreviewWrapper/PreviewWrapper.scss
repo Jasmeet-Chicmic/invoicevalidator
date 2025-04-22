@@ -1,7 +1,7 @@
 @import "../../../Assets/SCSS/main";
 
 
-$section-gapping:22px 30px;
+$section-gapping: 22px 30px;
 
 .two-pane-wrapper {
   .back-btn {
@@ -40,7 +40,7 @@ $section-gapping:22px 30px;
       @media screen and (max-width:1024px) {
         width: 100%;
         flex: 0;
-        padding-block:50px;
+        padding-block: 50px;
         // flex: 0.7;
       }
 
@@ -55,6 +55,7 @@ $section-gapping:22px 30px;
         color: $white-color;
         font-weight: $font-medium;
         background: $black-color-700;
+
         @media screen and (max-width:1024px) {
           top: 10px;
           left: 10px;
@@ -68,19 +69,21 @@ $section-gapping:22px 30px;
         height: 600px;
         background: rgba($blue-color-700, 1);
         border-radius: 10px;
-        box-shadow: $shadow2; 
+        box-shadow: $shadow2;
 
         @media screen and (max-width:768px) {
           width: 70%;
           height: auto;
         }
+
         .invoice-preview {
-          margin: 10px; 
+          margin: 10px;
           background: $white-color;
           border-radius: 5px;
           height: calc(100% - 20px);
           overflow: hidden;
-          img{
+
+          img {
             height: 100%;
             max-height: unset !important;
           }
@@ -96,7 +99,7 @@ $section-gapping:22px 30px;
           align-items: center;
           display: flex;
 
-          span{
+          span {
             line-height: initial;
           }
         }
@@ -135,27 +138,34 @@ $section-gapping:22px 30px;
         height: calc(100% - 142px);
         overflow: auto;
         margin-top: 71px;
-        padding: 30px 0 0px 0;
+        padding: 0px 0 0px 0;
 
-        .field-wrapper{
+        .field-wrapper {
           background: transparent;
           margin: 0px;
-          &__title{
+
+          &__title {
             background: none;
             margin: 0px;
             font-size: 16px;
             font-weight: $font-medium;
-            padding:0px 30px 3px 30px;
+            padding: 16px 22px;
+            background: $grey-color-300;
+            border-top: 1px solid $grey-color-400;
+            border-bottom: 1px solid $grey-color-400;
+            margin-bottom: 15px;
 
             @media screen and (min-width:320px) and (max-width:640px) {
-              padding-inline:20px;
+              padding-inline: 20px;
             }
           }
-          &__content{
-            padding:11px 30px;
+
+          &__content {
+            padding: 11px 30px;
             display: grid;
             gap: 15px;
             grid-template-columns: 1fr 1fr;
+
             @media screen and (min-width:320px) and (max-width:680px) {
               padding: 11px 20px;
               grid-template-columns: 1fr;
@@ -179,52 +189,55 @@ $section-gapping:22px 30px;
       }
 
       .fields-top-section {
-          position: absolute;
-          top: 0px;
-          left: 0px;
-          padding: $section-gapping;
-          background: $white-color;
-          border-bottom: 1px solid $grey-color-300;
-          width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        padding: $section-gapping;
+        background: $white-color;
+        border-bottom: 1px solid $grey-color-300;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        z-index: 1;
+        align-items: center;
+
+        @media screen and (min-width:320px) {
+          padding: 22px 20px;
+        }
+
+        h2 {
+          font-size: 22px;
+          font-weight: $font-medium;
+          color: $black-color-900;
+          margin: 0px;
+
+          @media screen and (min-width:320px) and (max-width:640px) {
+            font-size: 16px;
+          }
+        }
+
+
+        .approve-btn {
+          color: $white-color;
+          gap: 10px;
           display: flex;
-          justify-content: space-between;
-          z-index: 1;
-          align-items: center;
+          background: $green-color-500;
 
-          @media screen and (min-width:320px) {
-            padding: 22px 20px;
-          }
-          
-          h2{
-            font-size: 22px;
-            font-weight: $font-medium;
-            color: $black-color-900;
-            margin: 0px;
-            @media screen and (min-width:320px) and (max-width:640px) {
-              font-size: 16px;
-            }
-          }
+          span {
+            img {
+              width: 17px;
 
-
-          .approve-btn{
-            color: $white-color;
-            gap: 10px;
-            display: flex;
-            background: $green-color-500;
-            span{
-              img{
-                width: 17px;
-                @media screen and (min-width:320px) and (max-width:640px) {
-                  width: 14px;
-                }
+              @media screen and (min-width:320px) and (max-width:640px) {
+                width: 14px;
               }
             }
-
-            @media screen and (min-width:320px) and (max-width:640px) {
-              font-size: 12px;
-            }
-
           }
+
+          @media screen and (min-width:320px) and (max-width:640px) {
+            font-size: 12px;
+          }
+
+        }
       }
 
       .fields-bottom-section {
@@ -247,27 +260,29 @@ $section-gapping:22px 30px;
           gap: 10px;
         }
 
-        h3{
+        h3 {
           font-size: 14px;
           font-weight: $font-bold;
           color: $black-color;
           display: inline-flex;
           margin-bottom: 0px;
 
-          span{
+          span {
             font-weight: $font-medium;
             margin-left: 5px;
-            &.Approved{
+
+            &.Approved {
               color: $green-color-1000;
             }
-            &.Pending{
-                color: $yellow-color-900;
+
+            &.Pending {
+              color: $yellow-color-900;
             }
           }
- 
+
         }
 
-        .draft-save-btn{
+        .draft-save-btn {
           background: $blue-color-900;
           color: $white-color;
           border-radius: 8px;
@@ -277,16 +292,17 @@ $section-gapping:22px 30px;
           display: flex;
           align-items: center;
 
-          span{
+          span {
             display: inline;
             margin-right: 8px;
             line-height: initial;
           }
-          &:hover{
+
+          &:hover {
             background: $blue-color-800;
           }
         }
-        
+
       }
 
     }
@@ -305,7 +321,27 @@ $section-gapping:22px 30px;
 }
 
 .fields-data {
-  &:has(.text-loader){
+  &:has(.text-loader) {
     min-height: 300px;
+  }
+}
+
+.two-pane-wrapper .panes .right-pane .extracted-filedsbx {
+  .field-wrapper__content {
+    &:has(.stepForm) {
+      grid-template-columns: 1fr;
+      margin-bottom: 15px;
+    }
+
+    .stepForm {
+      background: $white-color;
+      border: 1px solid $grey-color-400;
+      border-radius: 10px 10px;
+
+      .field-wrapper__title {
+        border-radius: 10px 10px 0 0;
+        background: $grey-color-200;
+      }
+    }
   }
 }

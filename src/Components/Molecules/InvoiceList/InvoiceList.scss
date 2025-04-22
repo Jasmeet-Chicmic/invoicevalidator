@@ -53,6 +53,25 @@
     justify-content: center;
     gap: 8px;
 
+    &.deletebtntop{
+      background: $red-color-800;
+      border: none;
+
+      &:disabled{
+        background: rgba($red-color-800, 0.3);
+        &:hover{
+          background: rgba($red-color-800, 0.3);
+          border: none;
+        }
+      }
+
+
+      &:hover{
+        background: rgba($red-color-800, 0.8);
+        border: none;
+      }
+    }
+
     @media screen and (max-width: 480px) {
       width: 100%;
       flex: 1;
@@ -319,7 +338,7 @@ button {
         }
 
         &:hover {
-          background-color: rgba(0, 0, 0, 0.02);
+          background-color: rgba(0, 0, 0, 0.05);
         }
 
         &:last-child {
@@ -347,7 +366,7 @@ button {
     cursor: pointer;
     transition: all 0.2s ease;
     // background-color: $grey-color-300;
-    border:1px solid $grey-color-300;
+    border: 1px solid $grey-color-300;
     background: rgba($white-color, 1);
 
     &:hover {
@@ -357,11 +376,17 @@ button {
     &--edit,
     &--delete,
     &--export,
-    &--download{
+    &--download {
       transform: translateY(-1px);
       padding: 0;
       width: 32px;
       height: 32px;
+
+      &:hover {
+        img {
+          filter: invert(1) brightness(100);
+        }
+      }
     }
 
     &--edit {
@@ -372,20 +397,20 @@ button {
     }
 
     &--delete {
-      // background: rgba($red-color-900, 0.5); 
       &:hover {
         background-color: rgba($red-color-900, 1);
         border-color: rgba($red-color-900, 1);
       }
     }
 
-    &--export { 
+    &--export {
       &:hover {
         background-color: rgba($blue-color-900, 1);
         border-color: rgba($blue-color-900, 1);
       }
     }
-    &--download { 
+
+    &--download {
       &:hover {
         background-color: rgba($blue-color-900, 1);
         border-color: rgba($blue-color-900, 1);
@@ -654,12 +679,14 @@ button {
 }
 
 
-.invoice-list__table{ 
-  th:nth-child(1), td:nth-child(1) {
+.invoice-list__table {
+
+  th:nth-child(1),
+  td:nth-child(1) {
     position: relative;
 
-    .checkbox-invoice{
-      &.custom-checkbox{ 
+    .checkbox-invoice {
+      &.custom-checkbox {
         background: rgba($white-color, 1);
         display: block;
         opacity: 1;
@@ -668,25 +695,27 @@ button {
         width: 16px;
         position: relative;
         border-radius: 4px;
-        border: 1px solid $grey-color-300;
+        border: 1px solid rgba($grey-color-500, 0.3);
         display: flex;
         align-items: center;
-    
-        input[type=checkbox]{
+        cursor: pointer;
+
+        input[type=checkbox] {
           position: absolute;
           z-index: 10;
           opacity: 0;
           top: 0px;
           left: 0px;
+          cursor: pointer;
         }
 
-        &:has(input:checked){
-          &::before{
+        &:has(input:checked) {
+          &::before {
             display: block;
           }
         }
-    
-        &::before{
+
+        &::before {
           content: "";
           height: 5px;
           width: 9px;
@@ -699,7 +728,7 @@ button {
           transform: rotate(-45deg);
           display: none;
         }
-         
+
       }
     }
 

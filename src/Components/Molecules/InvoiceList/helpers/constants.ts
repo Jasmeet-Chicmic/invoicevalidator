@@ -19,7 +19,7 @@ export const filterTabs = (selectedIds: number[]) => [
     actionType: ButtonActions.ExportToLocal,
   },
   {
-    className: 'btn-danger deletejson',
+    className: 'deletebtntop',
     icon: IMAGES.deleteIcon,
     alt: 'Delete',
     label: 'Delete',
