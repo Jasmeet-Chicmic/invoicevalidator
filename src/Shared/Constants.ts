@@ -73,7 +73,9 @@ const SNACKBAR_CONFIG = {
 };
 
 const MODAL_MESSAGES = {
-  DELETE_CONFIRMATION: 'Are you sure you want to delete?',
+  DELETE_CONFIRMATION: 'Are you sure you want to delete this invoice?',
+  DELETE_ALL_CONFIRMATION:
+    'Are you sure you want to delete the selected invoices?',
   CANCLE_INVOICE_CONFIRMATION: 'Are you sure you want to cancel this invoice?',
   EDIT_INVOICE_CONFIRMATION: 'Are you sure you want to discard changes?',
 };

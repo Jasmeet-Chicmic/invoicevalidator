@@ -108,7 +108,7 @@ function Home() {
   };
   const fetchImageData = async (
     filePath: string,
-    invoiceId: string,
+    invoiceId: number,
     fileType: string
   ) => {
     const getInvoicePayload: GetInvoiceRequest = {
@@ -224,17 +224,6 @@ function Home() {
     <div className="file-uploadbx">
       {!fileUrl ? (
         <div className="fileupload-page">
-          {/* <button
-            type="button"
-            className="back-btn"
-            onClick={() => navigate(ROUTES.LISTING)}
-          >
-            <span>
-              {' '}
-              <img src={IMAGES.backIcon} alt="back-icon" />
-            </span>{' '}
-            Back
-          </button> */}
           <div className="page-title">
             <h1>Upload File</h1>
           </div>

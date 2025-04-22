@@ -23,7 +23,7 @@ export interface FileUploadRequest {
 }
 export interface FileUploadData {
   filePath: string;
-  invoiceId: string;
+  invoiceId: number;
 }
 export interface FileUploadResponse {
   message?: string;
@@ -40,7 +40,7 @@ export interface OnApproveRequest {
 
 export interface GetInvoiceRequest {
   filePath: string;
-  invoiceId: string;
+  invoiceId: number;
   fileType: string;
 }
 
@@ -81,10 +81,11 @@ export interface CommonErrorResponse {
 }
 
 export interface CRUDRequest {
-  invoiceId: string;
+  invoiceId?: number;
+  invoiceIds?: number[];
 }
 export interface SubmitRequest {
-  invoiceId: string;
+  invoiceId: number;
   isApproved: boolean;
   data: ExtractedData;
 }

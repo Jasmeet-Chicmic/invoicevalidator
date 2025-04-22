@@ -1,11 +1,11 @@
 // Third-party libraries
 import React, { useCallback, useMemo } from 'react';
 // constants
+import { CONFIDENCE_CONFIG } from '../../../Shared/Constants';
 import { formatCamelCase, replaceToLowerCase } from '../../../Shared/functions';
-import { CONFIDENCE_CONFIG, STRINGS } from '../../../Shared/Constants';
 // styles
-import './ExtractedField.scss';
 import IMAGES from '../../../Shared/Images';
+import './ExtractedField.scss';
 
 type ExtractedFieldProps = {
   title: string;
@@ -33,7 +33,7 @@ const ExtractedField: React.FC<ExtractedFieldProps> = ({
   approveButtonLoading,
 }) => {
   const borderColor = useMemo(() => {
-    if (!value) return STRINGS.EMPTY_STRING;
+    if (!value) return 'score-null';
     if (confidenceScore < CONFIDENCE_CONFIG.DANGER) {
       return 'score-red';
     }

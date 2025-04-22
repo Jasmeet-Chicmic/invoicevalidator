@@ -64,6 +64,13 @@
         border-color: rgba($blue-color-900, 0.9) !important;
       }
     }
+    &.score-null {
+      border-color: $black-color-900 !important;
+
+      &:focus {
+        border-color: rgba($blue-color-900, 0.9) !important;
+      }
+    }
 
     &:focus {
       // border-color: $blue-color-900;

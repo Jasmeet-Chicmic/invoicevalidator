@@ -72,6 +72,36 @@
       }
     }
   }
+  .btn-danger {
+    background: $red-color-800;
+    color: $white-color;
+    padding: 7px 20px;
+    font-size: 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    @media screen and (max-width: 480px) {
+      width: 100%;
+      flex: 1;
+    }
+
+    @media screen and (max-width:768px) {
+      padding: 7px 10px;
+    }
+
+    .btn-icon {
+      width: 16px;
+      display: inline-flex;
+
+      img {
+        filter: brightness(0%) contrast(100) invert(1);
+        max-width: 100%;
+      }
+    }
+  }
 }
 
 

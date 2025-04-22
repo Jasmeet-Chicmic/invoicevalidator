@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
+import useNotification from '../../../Hooks/useNotification';
+import { CommonErrorResponse } from '../../../Services/Api/Constants';
+import {
+  useDeleteInvoiceMutation,
+  useGetAllInvoiceQuery,
+} from '../../../Services/Api/module/fileApi';
 import {
   MESSAGES,
   MODAL_MESSAGES,
   ROUTES,
   STRINGS,
 } from '../../../Shared/Constants';
-import './InvoiceList.scss';
-import CommonModal from '../CommonModal';
-import IMAGES from '../../../Shared/Images';
-import {
-  useDeleteInvoiceMutation,
-  useGetAllInvoiceQuery,
-} from '../../../Services/Api/module/fileApi';
-import TextLoader from '../../Atoms/TextLoader';
-import RetryButton from '../../Atoms/RetryButton';
-import { CommonErrorResponse } from '../../../Services/Api/Constants';
-import useNotification from '../../../Hooks/useNotification';
 import { STATUS } from '../../../Shared/enum';
 import { formatCurrency } from '../../../Shared/functions';
-import { filterTabs } from './helpers/constants';
-import { ListingStatus } from './helpers/enum';
+import RetryButton from '../../Atoms/RetryButton';
+import TextLoader from '../../Atoms/TextLoader';
+import CommonModal from '../CommonModal';
+import { actionButtons, filterTabs } from './helpers/constants';
+import { ButtonActions, ListingStatus } from './helpers/enum';
 import { generateStatusPayload } from './helpers/utils';
+import './InvoiceList.scss';
 
 export interface Invoice {
-  id: string;
+  id: number;
   invoiceNo: string;
   vendor: string;
   amount: number;
@@ -37,6 +36,14 @@ export interface StatusType {
   PENDING: 'Pending';
 }
 
+interface PopupType {
+  isOpen: boolean;
+  title: string;
+  data: {
+    invoiceId?: number;
+    invoiceIds?: number[];
+  };
+}
 const filterList = [
   ListingStatus.All,
   ListingStatus.Pending,
@@ -52,12 +59,13 @@ const InvoiceList: React.FC = () => {
     ListingStatus.All
   );
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const notify = useNotification();
-  const [confirmationModal, setConfirmationModal] = useState({
+  const [confirmationModal, setConfirmationModal] = useState<PopupType>({
     isOpen: false,
-    data: { invoiceId: STRINGS.EMPTY_STRING },
+    title: STRINGS.EMPTY_STRING,
+    data: {},
   });
 
   const {
@@ -78,11 +86,29 @@ const InvoiceList: React.FC = () => {
     navigate(`${ROUTES.EDIT}/${invoiceId}`);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     setConfirmationModal({
       isOpen: true,
-      data: { invoiceId: id },
+      title: MODAL_MESSAGES.DELETE_CONFIRMATION,
+      data: {
+        invoiceId: id,
+      },
     });
+  };
+
+  const handleAction = (action: ButtonActions, id: number) => {
+    switch (action) {
+      case ButtonActions.Edit:
+        return handleEdit(id);
+      case ButtonActions.Delete:
+        return handleDelete(id);
+      // case ButtonActions.ExportToTally:
+      //   return handleExport(id);
+      // case ButtonActions.ExportToLocal:
+      //   return handleDownload(id);
+      default:
+        return null;
+    }
   };
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,10 +120,32 @@ const InvoiceList: React.FC = () => {
     }
   };
 
-  const handleCheckboxChange = (id: string) => {
+  const handleCheckboxChange = (id: number) => {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
+  };
+
+  const handleActionClick = (actionType: ButtonActions) => {
+    switch (actionType) {
+      case ButtonActions.Delete:
+        if (selectedIds.length > 0) {
+          setConfirmationModal({
+            isOpen: true,
+            title: MODAL_MESSAGES.DELETE_ALL_CONFIRMATION,
+            data: {
+              invoiceIds: selectedIds,
+            },
+          });
+        }
+        break;
+      default:
+        setConfirmationModal({
+          isOpen: false,
+          title: STRINGS.EMPTY_STRING,
+          data: {},
+        });
+    }
   };
 
   const getStatusClass = (status: string): string =>
@@ -113,10 +161,18 @@ const InvoiceList: React.FC = () => {
 
   const onModalOk = async () => {
     try {
+      if (
+        !confirmationModal.data?.invoiceId &&
+        !confirmationModal.data?.invoiceIds?.length
+      )
+        return;
       await deleteInvoice({
         invoiceId: confirmationModal.data.invoiceId,
+        invoiceIds: confirmationModal.data.invoiceIds,
       }).unwrap();
       refetch();
+      setSelectedIds([]);
+      setCurrentPage(0);
       setConfirmationModal({ ...confirmationModal, isOpen: false });
       notify(MESSAGES.NOTIFICATION.INVOICE_DELETED_SUCCESSFULLY);
     } catch (error) {
@@ -181,12 +237,13 @@ const InvoiceList: React.FC = () => {
           </div>
           <div className="download-btns">
             {filterTabs(selectedIds).map(
-              ({ className, icon, alt, label, disabled }) => (
+              ({ className, icon, alt, label, disabled, actionType }) => (
                 <button
                   key={className}
                   type="button"
-                  className={`btn-primary ${className}`}
+                  className={`${className}`}
                   disabled={disabled}
+                  onClick={() => handleActionClick(actionType)}
                 >
                   <span className="btn-icon">
                     <img src={icon} alt={alt} />
@@ -245,40 +302,16 @@ const InvoiceList: React.FC = () => {
                     </span>
                   </td>
                   <td className="invoice-list__actions">
-                    <button
-                      type="button"
-                      className="invoice-list__action-button invoice-list__action-button--edit"
-                      onClick={() =>
-                        handleEdit(invoice.id as unknown as number)
-                      }
-                      aria-label={`Edit invoice ${invoice.invoiceNo}`}
-                    >
-                      <img src={IMAGES.editIcon} alt="edit-icon" />
-                    </button>
-                    <button
-                      type="button"
-                      className="invoice-list__action-button invoice-list__action-button--delete"
-                      onClick={() => handleDelete(invoice.id)}
-                      aria-label={`Delete invoice ${invoice.invoiceNo}`}
-                    >
-                      <img src={IMAGES.deleteIcon} alt="delete-icon" />
-                    </button>
-                    <button
-                      type="button"
-                      className="invoice-list__action-button invoice-list__action-button--export"
-                      onClick={() => handleDelete(invoice.id)}
-                      aria-label={`Export to Telly ${invoice.invoiceNo}`}
-                    >
-                      <img src={IMAGES.exportIcon} alt="export-icon" />
-                    </button>
-
-                    <button
-                      type="button"
-                      className="invoice-list__action-button invoice-list__action-button--download"
-                      aria-label={`Download JSON ${invoice.invoiceNo}`}
-                    >
-                      <img src={IMAGES.downloadIcon} alt="download-icon" />
-                    </button>
+                    {actionButtons.map(({ key, icon, alt, className }) => (
+                      <button
+                        key={key}
+                        type="button"
+                        className={`invoice-list__action-button ${className}`}
+                        onClick={() => handleAction(key, invoice.id)}
+                      >
+                        <img src={icon} alt={alt} />
+                      </button>
+                    ))}
                   </td>
                 </tr>
               ))
@@ -320,7 +353,7 @@ const InvoiceList: React.FC = () => {
         isOpen={confirmationModal.isOpen}
         onRequestClose={onModalClose}
         onOk={onModalOk}
-        message={MODAL_MESSAGES.DELETE_CONFIRMATION}
+        message={confirmationModal.title}
       />
     </div>
   );

@@ -44,7 +44,7 @@ const EditPage = () => {
     error,
     isFetching: loading,
     refetch: refetchExtractedData,
-  } = useEditDataQuery({ invoiceId: invoiceId! }, { skip: !invoiceId });
+  } = useEditDataQuery({ invoiceId: Number(invoiceId) }, { skip: !invoiceId });
   const [statusText, setStatusText] = useState({
     buttonText: BUTTON_TEXT.PENDING,
     status: INVOICE_STATUS.PENDING,
