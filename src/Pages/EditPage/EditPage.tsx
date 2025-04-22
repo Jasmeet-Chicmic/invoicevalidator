@@ -22,7 +22,7 @@ import CommonModal from '../../Components/Molecules/CommonModal';
 // Hooks
 import useNotification from '../../Hooks/useNotification';
 // Utils
-import { areAllFieldsApproved } from '../../Shared/functions';
+import { approveAllFields, areAllFieldsApproved } from '../../Shared/functions';
 import IMAGES from '../../Shared/Images';
 import {
   useEditDataQuery,
@@ -120,6 +120,13 @@ const EditPage = () => {
   const handleBack = () => {
     handleDiscard();
   };
+  const onApproveAllFields = () => {
+      if(extractedData){
+     const updatedState=  approveAllFields(extractedData);
+      setExtractedData(updatedState)
+        
+    }
+    }
   return (
     <div className="invoice_preview">
       <PreviewWrapper
@@ -138,6 +145,19 @@ const EditPage = () => {
           <div className="extracted-filedsbx">
             <div className="fields-top-section">
               <h2>File Fields</h2>
+              <div className="top-actions">
+                                 {statusText.status !== INVOICE_STATUS.APPROVED && <button
+                                    onClick={onApproveAllFields}
+                                    className="approve-btn"
+                                    type="button"
+                                   
+                                  >
+                                    <span>
+                                      <img src={IMAGES.tickIcon} alt="save-icon" />
+                                    </span>
+                                    Approve All
+                                  </button>}
+                                </div>
             </div>
             <div className="fields-data">
               <div className="fields">

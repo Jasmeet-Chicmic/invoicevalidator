@@ -33,7 +33,7 @@ import {
   MODAL_MESSAGES,
   ROUTES,
 } from '../../Shared/Constants';
-import { areAllFieldsApproved, checkFileType } from '../../Shared/functions';
+import { approveAllFields, areAllFieldsApproved, checkFileType } from '../../Shared/functions';
 import IMAGES from '../../Shared/Images';
 import { ERRORID, STATUS } from '../../Shared/enum';
 
@@ -94,6 +94,7 @@ function Home() {
     }
     try {
       await deleteFile({ invoiceId: fileDataRef.current?.invoiceId });
+      console.log(abortControllerRef.current, 'controller');
       abortControllerRef.current?.abort();
       resetExtractedData();
       setFile(null);
@@ -227,6 +228,13 @@ function Home() {
 
     refetchExtractedData();
   };
+  const onApproveAllFields = () => {
+    if(extractedData){
+   const updatedState=  approveAllFields(extractedData);
+      console.log("updated state",updatedState);
+      
+  }
+  }
 
   return (
     <div className="file-uploadbx">
@@ -257,15 +265,14 @@ function Home() {
                   <h2>File Fields</h2>
                   <div className="top-actions">
                     <button
-                      onClick={handleSave}
+                      onClick={onApproveAllFields}
                       className="approve-btn"
                       type="button"
-                      disabled={extractedFieldLoading || !extractedData}
+                      
                     >
                       <span>
                         <img src={IMAGES.tickIcon} alt="save-icon" />
                       </span>
-                      {/* {statusText.buttonText} */}
                       Approve All
                     </button>
                   </div>
