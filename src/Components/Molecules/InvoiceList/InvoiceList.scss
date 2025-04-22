@@ -53,6 +53,10 @@
     justify-content: center;
     gap: 8px;
 
+    &.deletebtntop{
+      background: $red-color-800;
+    }
+
     @media screen and (max-width: 480px) {
       width: 100%;
       flex: 1;
@@ -317,7 +321,7 @@ button {
     cursor: pointer;
     transition: all 0.2s ease;
     // background-color: $grey-color-300;
-    border:1px solid $grey-color-300;
+    border: 1px solid $grey-color-300;
     background: rgba($white-color, 1);
 
     &:hover {
@@ -327,14 +331,15 @@ button {
     &--edit,
     &--delete,
     &--export,
-    &--download{
+    &--download {
       transform: translateY(-1px);
       padding: 0;
       width: 32px;
       height: 32px;
-      &:hover{
-        img{
-          filter: invert(1) brightness(100); 
+
+      &:hover {
+        img {
+          filter: invert(1) brightness(100);
         }
       }
     }
@@ -346,20 +351,21 @@ button {
       }
     }
 
-    &--delete { 
+    &--delete {
       &:hover {
         background-color: rgba($red-color-900, 1);
         border-color: rgba($red-color-900, 1);
       }
     }
 
-    &--export { 
+    &--export {
       &:hover {
         background-color: rgba($blue-color-900, 1);
         border-color: rgba($blue-color-900, 1);
       }
     }
-    &--download { 
+
+    &--download {
       &:hover {
         background-color: rgba($blue-color-900, 1);
         border-color: rgba($blue-color-900, 1);
@@ -628,12 +634,14 @@ button {
 }
 
 
-.invoice-list__table{ 
-  th:nth-child(1), td:nth-child(1) {
+.invoice-list__table {
+
+  th:nth-child(1),
+  td:nth-child(1) {
     position: relative;
 
-    .checkbox-invoice{
-      &.custom-checkbox{ 
+    .checkbox-invoice {
+      &.custom-checkbox {
         background: rgba($white-color, 1);
         display: block;
         opacity: 1;
@@ -645,8 +653,8 @@ button {
         border: 1px solid $grey-color-300;
         display: flex;
         align-items: center;
-    
-        input[type=checkbox]{
+
+        input[type=checkbox] {
           position: absolute;
           z-index: 10;
           opacity: 0;
@@ -654,13 +662,13 @@ button {
           left: 0px;
         }
 
-        &:has(input:checked){
-          &::before{
+        &:has(input:checked) {
+          &::before {
             display: block;
           }
         }
-    
-        &::before{
+
+        &::before {
           content: "";
           height: 5px;
           width: 9px;
@@ -673,7 +681,7 @@ button {
           transform: rotate(-45deg);
           display: none;
         }
-         
+
       }
     }
 

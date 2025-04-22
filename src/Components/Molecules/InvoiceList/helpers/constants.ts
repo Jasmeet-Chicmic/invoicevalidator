@@ -16,7 +16,7 @@ export const filterTabs = (selectedIds: string[]) => [
     disabled: false,
   },
   {
-    className: 'downloadjson',
+    className: 'deletebtntop',
     icon: IMAGES.deleteIcon,
     alt: 'Delete',
     label: 'Delete',
