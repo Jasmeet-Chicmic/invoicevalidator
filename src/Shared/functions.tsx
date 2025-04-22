@@ -29,14 +29,12 @@ export const areAllFieldsApproved = (data: ExtractedData): boolean => {
     if (Array.isArray(value)) {
       return value.every((item) =>
         Object.entries(item).every(([_, nested]) => {
-          // Only check nested if it's not a number (e.g., skip `id`)
           if (typeof nested === 'number') return true;
           return checkApproval(nested);
         })
       );
     }
 
-    // Check for FieldValue
     if (
       typeof value === 'object' &&
       value !== null &&
@@ -46,12 +44,11 @@ export const areAllFieldsApproved = (data: ExtractedData): boolean => {
       return (value as FieldValue).approved;
     }
 
-    // Check for nested ExtractedData
     if (typeof value === 'object' && value !== null) {
       return Object.values(value).every((nested) => checkApproval(nested));
     }
 
-    return true; // For anything else (like null/undefined/number), treat as approved
+    return true;
   };
 
   return Object.values(data).every((section) =>
