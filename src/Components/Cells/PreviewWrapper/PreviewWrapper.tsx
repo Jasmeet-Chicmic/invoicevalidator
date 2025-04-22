@@ -2,19 +2,13 @@
 import React from 'react';
 // Styles
 import './PreviewWrapper.scss';
-import IMAGES from '../../../Shared/Images';
 
 type PreviewWrapperProps = {
-  onBack: () => void;
   left: React.ReactNode;
   right: React.ReactNode;
 };
 
-const PreviewWrapper: React.FC<PreviewWrapperProps> = ({
-  onBack,
-  left,
-  right,
-}) => {
+const PreviewWrapper: React.FC<PreviewWrapperProps> = ({ left, right }) => {
   return (
     <div className="two-pane-wrapper">
       <div className="previewbx">

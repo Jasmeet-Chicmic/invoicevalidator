@@ -78,278 +78,6 @@ function Home() {
     }
   }, [extractedData]);
 
-  // const dummyData = {
-  //   id: 288,
-  //   mediaUrl: '/media/esi.jpg',
-  //   fileUrl: null,
-  //   uploadedOn: '2025-04-17T07:11:21.431369Z',
-  //   approved: false,
-  //   data: {
-  //     invoiceDetails: {
-  //       invoiceNo: {
-  //         value: '3131',
-  //         confidenceScore: 0.666,
-  //         approved: false,
-  //       },
-  //       ewayBillNo: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       date: {
-  //         value: '31.07.2024',
-  //         confidenceScore: 0.6606,
-  //         approved: false,
-  //       },
-  //       ackNo: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       ackDate: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       modeOfPayment: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //     },
-  //     supplierDetails: {
-  //       name: {
-  //         value: 'Ekonkar Consultancy Services',
-  //         confidenceScore: 0.9688,
-  //         approved: false,
-  //       },
-  //       address: {
-  //         value:
-  //           'B-1309, Golden City, Near Sidhu Dairy, Sector-4, Kharar, SAS NAGAR, MOHALI PB-140301',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       contact: {
-  //         value: '9814085656, 9814585656',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       companyPan: {
-  //         value: 'BEVPS9909C',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       gstin: {
-  //         value: '03BEVPS9909C1Z1',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       stateName: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       code: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       email: {
-  //         value: 'jassalbs1309@gmail.com, baljitjasal@gmail.com',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //     },
-  //     buyerDetails: {
-  //       name: {
-  //         value: 'CHICMIC TECHNOLOGIES LLP',
-  //         confidenceScore: 0.918,
-  //         approved: false,
-  //       },
-  //       address: {
-  //         value: 'F-273, INDL. AREA, PHASE-8, MOHALI-PB',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       gstin: {
-  //         value: '03AARFC2070M1ZC',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       stateName: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       code: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //     },
-  //     consigneeDetails: {
-  //       name: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       address: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       gstin: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       stateName: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       code: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //     },
-  //     items: {
-  //       description: {
-  //         value:
-  //           'Legal and Professional Charges\nServices charges of EPF , ESIC and LWF',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       hsnCode: {
-  //         value: '9982',
-  //         confidenceScore: 0.4631,
-  //         approved: false,
-  //       },
-  //       quantity: {
-  //         value: '1',
-  //         confidenceScore: 0.3643,
-  //         approved: false,
-  //       },
-  //       unit: {
-  //         value: 'Months',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       rate: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //       discount: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       amount: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //     },
-  //     charges: {
-  //       subtotal: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //       discount: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       shipping: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //       total: {
-  //         value: '10620.00',
-  //         confidenceScore: 0.6895,
-  //         approved: false,
-  //       },
-  //     },
-  //     taxDetails: {
-  //       taxableValue: {
-  //         value: '9000',
-  //         confidenceScore: 0.7344,
-  //         approved: false,
-  //       },
-  //       cgstRate: {
-  //         value: '9%',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       cgstAmount: {
-  //         value: '810',
-  //         confidenceScore: 0.6338,
-  //         approved: false,
-  //       },
-  //       sgstRate: {
-  //         value: '9%',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       sgstAmount: {
-  //         value: '810',
-  //         confidenceScore: 0.6338,
-  //         approved: false,
-  //       },
-  //       igstRate: {
-  //         value: '18%',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       igstAmount: {
-  //         value: '1620',
-  //         confidenceScore: 0.5928,
-  //         approved: false,
-  //       },
-  //       totalTaxAmount: {
-  //         value: '1620',
-  //         confidenceScore: 0.5928,
-  //         approved: false,
-  //       },
-  //       taxAmountInWords: {
-  //         value: 'Ten Thousand Six Hundred and Twenty Only',
-  //         confidenceScore: 0.9951,
-  //         approved: false,
-  //       },
-  //     },
-  //     companyBankDetails: {
-  //       accountHolderName: {
-  //         value: 'Ekonkar Consultancy Services',
-  //         confidenceScore: 0.9688,
-  //         approved: false,
-  //       },
-  //       bankName: {
-  //         value: 'HDFC Bank Ltd',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       accountNo: {
-  //         value: '50200026672561',
-  //         confidenceScore: 1.0,
-  //         approved: false,
-  //       },
-  //       branchIfsc: {
-  //         value: 'HDFC0002322',
-  //         confidenceScore: 0.6836,
-  //         approved: false,
-  //       },
-  //       swiftCode: {
-  //         value: null,
-  //         confidenceScore: 0.0,
-  //         approved: false,
-  //       },
-  //     },
-  //   },
-  // };
   const resetExtractedData = () => {
     setExtractedData(null);
     oldStateRef.current = null;
@@ -415,60 +143,6 @@ function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     const fetchedData: ExtractedData = {
-  //       invoiceDetails: {
-  //         invoiceNo: { value: 'INV-123', confidenceScore: 85, approved: false },
-  //         date: { value: '2024-04-01', confidenceScore: 90, approved: true },
-  //         modeOfPayment: {
-  //           value: 'Credit Card',
-  //           confidenceScore: 75,
-  //           approved: false,
-  //         },
-  //       },
-  //       supplierDetails: {
-  //         name: { value: 'ABC Pvt Ltd', confidenceScore: 95, approved: true },
-  //         address: { value: '123 Street', confidenceScore: 80, approved: true },
-  //         contact: { value: '9876543210', confidenceScore: 70, approved: true },
-  //         gstin: {
-  //           value: '22AAAAA0000A1Z5',
-  //           confidenceScore: 85,
-  //           approved: true,
-  //         },
-  //         stateName: {
-  //           value: 'Karnataka',
-  //           confidenceScore: 88,
-  //           approved: true,
-  //         },
-  //         code: { value: 'KA01', confidenceScore: 60, approved: true },
-  //         email: {
-  //           value: 'abc@example.com',
-  //           confidenceScore: 92,
-  //           approved: true,
-  //         },
-  //       },
-  //       buyerDetails: {
-  //         name: { value: 'XYZ Traders', confidenceScore: 93, approved: true },
-  //         address: { value: '456 Avenue', confidenceScore: 78, approved: true },
-  //         gstin: {
-  //           value: '29BBBBB1111B2Z6',
-  //           confidenceScore: 82,
-  //           approved: true,
-  //         },
-  //         stateName: {
-  //           value: 'Maharashtra',
-  //           confidenceScore: 87,
-  //           approved: true,
-  //         },
-  //         code: { value: 'MH02', confidenceScore: 65, approved: true },
-  //       },
-  //     };
-  //     setExtractedData(fetchedData);
-  //     oldStateRef.current = JSON.parse(JSON.stringify(fetchedData));
-  //     setExtractedFieldLoading(false);
-  //   }, 1000);
-  // }, [oldStateRef, setExtractedData]);
   const handleUpload = async (newFile: File) => {
     setFile(newFile);
     const formData = new FormData();
@@ -571,7 +245,6 @@ function Home() {
       ) : (
         <div className="invoice_preview">
           <PreviewWrapper
-            onBack={handleBack}
             left={
               <div className="file-previewbx">
                 <FilePreviewer
@@ -586,17 +259,17 @@ function Home() {
                   <h2>File Fields</h2>
                   <div className="top-actions">
                     <button
-                        onClick={handleSave}
-                        className="approve-btn"
-                        type="button"
-                        disabled={extractedFieldLoading || !extractedData}
-                      >
-                        <span>
-                          <img src={IMAGES.tickIcon} alt="save-icon" />
-                        </span>
-                        {/* {statusText.buttonText} */}
-                        Approve All
-                      </button>
+                      onClick={handleSave}
+                      className="approve-btn"
+                      type="button"
+                      disabled={extractedFieldLoading || !extractedData}
+                    >
+                      <span>
+                        <img src={IMAGES.tickIcon} alt="save-icon" />
+                      </span>
+                      {/* {statusText.buttonText} */}
+                      Approve All
+                    </button>
                   </div>
                 </div>
                 <div className="fields-data">
@@ -620,9 +293,12 @@ function Home() {
                     </span>
                   </h3>
 
-
                   <div className="bottom-actions">
-                    <button type="button" className="back-btn">
+                    <button
+                      type="button"
+                      className="back-btn"
+                      onClick={handleBack}
+                    >
                       <span>
                         {' '}
                         <img src={IMAGES.backIcon} alt="back-icon" />
@@ -642,7 +318,6 @@ function Home() {
                       {statusText.buttonText}
                     </button>
                   </div>
-
                 </div>
               </div>
             }

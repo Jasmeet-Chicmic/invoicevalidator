@@ -225,8 +225,6 @@ button {
     overflow-x: auto;
     border-radius: 10px;
     border: 1px solid $grey-color-300;
-    // min-height: 300px;
-    // box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
   }
 
   &__table {
@@ -251,15 +249,15 @@ button {
       white-space: nowrap;
 
       &:nth-child(1) {
-        min-width: 200px;
+        min-width: 50px;
       }
 
       &:nth-child(2) {
-        min-width: 300px;
+        min-width: 200px;
       }
 
       &:nth-child(3) {
-        min-width: 150px;
+        min-width: 300px;
       }
 
       &:nth-child(4) {
@@ -271,7 +269,11 @@ button {
       }
 
       &:nth-child(6) {
-        min-width: 250px;
+        min-width: 130px;
+      }
+
+      &:nth-child(7) {
+        min-width: 200px;
       }
     }
 
@@ -314,40 +316,50 @@ button {
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    background-color: $grey-color-300;
+    // background-color: $grey-color-300;
+    border:1px solid $grey-color-300;
+    background: rgba($white-color, 1);
 
     &:hover {
       background-color: $grey-color-400;
     }
 
-    &--edit {
-      // color: var(--primary-color);
-
-
-      // background-color: rgba(37, 99, 235, 0.1);
+    &--edit,
+    &--delete,
+    &--export,
+    &--download{
       transform: translateY(-1px);
-      color: var(--primary-hover);
-      // box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
-      // border: 1px solid rgba(37, 99, 235, 0.2);
       padding: 0;
       width: 32px;
       height: 32px;
+    }
 
+    &--edit {
+      &:hover {
+        background-color: rgba($blue-color-900, 1);
+        border-color: rgba($blue-color-900, 1);
+      }
     }
 
     &--delete {
-      color: var(--error-color);
+      // background: rgba($red-color-900, 0.5); 
+      &:hover {
+        background-color: rgba($red-color-900, 1);
+        border-color: rgba($red-color-900, 1);
+      }
+    }
 
-
-      // background-color: rgba(239, 68, 68, 0.1);
-      transform: translateY(-1px);
-      color: #dc2626;
-      // box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
-      // border: 1px solid rgba(239, 68, 68, 0.2);
-      padding: 0;
-      width: 32px;
-      height: 32px;
-
+    &--export { 
+      &:hover {
+        background-color: rgba($blue-color-900, 1);
+        border-color: rgba($blue-color-900, 1);
+      }
+    }
+    &--download { 
+      &:hover {
+        background-color: rgba($blue-color-900, 1);
+        border-color: rgba($blue-color-900, 1);
+      }
     }
 
     &:focus {
@@ -379,34 +391,10 @@ button {
 
   &.status-rejected {
     background-color: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
+    color: rgba($red-color-800, 1);
     border: 1px solid rgba(239, 68, 68, 0.2);
   }
 }
-
-// /* Dark mode styles */
-// @media (prefers-color-scheme: dark) {
-//   .invoice-list {
-//     background-color: var(--background-dark);
-
-//     &__table {
-//       background-color: var(--background-dark);
-
-//       th {
-//         background-color: var(--background-light);
-//         color: var(--text-primary);
-//       }
-
-//       tbody {
-//         tr {
-//           &:hover {
-//             background-color: rgba(255, 255, 255, 0.05);
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
 
 /* Responsive styles */
 @media (max-width: 768px) {
@@ -456,8 +444,6 @@ button {
     a {
       padding: 0.5rem 1rem;
       cursor: pointer;
-      // background-color: var(--background-light);
-      // border: 1px solid var(--border-color);
       font-size: 0.9rem;
       transition: all 0.2s ease;
       line-height: 24px;
@@ -578,6 +564,7 @@ button {
   justify-content: space-between;
   align-items: center;
   margin-top: 15px;
+  gap: 15px;
 
   @media screen and (min-width:320px) and (max-width:640px) {
     flex-wrap: wrap;
@@ -634,4 +621,57 @@ button {
 
 .fields {
   min-height: 280px;
+}
+
+
+.invoice-list__table{ 
+  th:nth-child(1), td:nth-child(1) {
+    position: relative;
+
+    .checkbox-invoice{
+      &.custom-checkbox{ 
+        background: rgba($white-color, 1);
+        display: block;
+        opacity: 1;
+        z-index: 10;
+        height: 16px;
+        width: 16px;
+        position: relative;
+        border-radius: 4px;
+        border: 1px solid $grey-color-300;
+        display: flex;
+        align-items: center;
+    
+        input[type=checkbox]{
+          position: absolute;
+          z-index: 10;
+          opacity: 0;
+          top: 0px;
+          left: 0px;
+        }
+
+        &:has(input:checked){
+          &::before{
+            display: block;
+          }
+        }
+    
+        &::before{
+          content: "";
+          height: 5px;
+          width: 9px;
+          position: absolute;
+          z-index: 10;
+          border-left: 2px solid rgba($blue-color-900, 1);
+          border-bottom: 2px solid rgba($blue-color-900, 1);
+          top: 4px;
+          left: 3px;
+          transform: rotate(-45deg);
+          display: none;
+        }
+         
+      }
+    }
+
+  }
 }
