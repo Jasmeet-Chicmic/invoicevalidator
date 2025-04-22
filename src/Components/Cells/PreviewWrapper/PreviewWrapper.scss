@@ -68,26 +68,14 @@ $section-gapping:22px 30px;
         height: 600px;
         background: rgba($blue-color-700, 1);
         border-radius: 10px;
-        box-shadow: $shadow2;
+        box-shadow: $shadow2; 
 
-        // @media screen and (max-width:1024px) {
-        //   min-width: 60%;
-        //   height: 60vh;
-        //   width: 70vw;
-        //   max-width: 580px;
-        // }
-        @media screen and (max-width:480px) {
+        @media screen and (max-width:768px) {
           width: 70%;
-          height: 340px;
+          height: auto;
         }
-        // @media screen and (max-width:640px) {
-        //   min-width: 70%;
-        //   height: 340px;
-        // }
-
         .invoice-preview {
-          margin: 10px;
-          // background: $black-color-700;
+          margin: 10px; 
           background: $white-color;
           border-radius: 5px;
           height: calc(100% - 20px);
