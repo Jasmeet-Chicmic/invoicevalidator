@@ -69,6 +69,7 @@ const InvoiceList: React.FC = () => {
   );
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [selectedApprovedIds, setSelectedApprovedIds] = useState<number[]>([]);
 
   const notify = useNotification();
   const [confirmationModal, setConfirmationModal] = useState<PopupType>(
@@ -153,16 +154,40 @@ const InvoiceList: React.FC = () => {
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       const allIds = data?.data?.map((invoice: Invoice) => invoice.id) || [];
+      const approvedIds = data?.data?.fileter(
+        (invoice: Invoice) => invoice.status === ListingStatusPayload.approved
+      );
       setSelectedIds(allIds);
+      setSelectedApprovedIds(approvedIds);
     } else {
       setSelectedIds([]);
+      setSelectedApprovedIds([]);
     }
   };
 
   const handleCheckboxChange = (id: number) => {
+    const invoice = data?.data?.find((inv: Invoice) => inv.id === id);
+    const isApproved = invoice?.status === ListingStatusPayload.approved;
+
+    // Toggle selectedIds
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
+
+    // Toggle selectedApprovedIds without nested ternary
+    setSelectedApprovedIds((prev) => {
+      const isAlreadySelected = prev.includes(id);
+
+      if (isAlreadySelected) {
+        return prev.filter((i) => i !== id);
+      }
+
+      if (isApproved) {
+        return [...prev, id];
+      }
+
+      return prev;
+    });
   };
 
   const handleHeaderActions = (actionType: ButtonActions) => {
@@ -187,7 +212,7 @@ const InvoiceList: React.FC = () => {
             : MODAL_MESSAGES.EXPORT_ALL_APPROVED_CONFIRMATION,
           type: actionType,
           data: {
-            invoiceIds: selectedIds,
+            invoiceIds: selectedApprovedIds,
           },
         });
         break;
@@ -239,10 +264,15 @@ const InvoiceList: React.FC = () => {
           notify(MESSAGES.NOTIFICATION.INVOICE_DELETED_SUCCESSFULLY);
           refetch();
           break;
+        case ButtonActions.ExportToTally:
+          console.log('Export to tally', confirmationModal.data.invoiceIds);
+          break;
+
         default:
           setConfirmationModal(ConfirmationPopupDefaultValue);
       }
       setSelectedIds([]);
+      setSelectedApprovedIds([]);
       setCurrentPage(0);
     } catch (error) {
       const errorObj = error as unknown as CommonErrorResponse;
@@ -306,7 +336,7 @@ const InvoiceList: React.FC = () => {
             ))}
           </div>
           <div className="download-btns">
-            {filterTabs(selectedIds).map(
+            {filterTabs(selectedIds, selectedApprovedIds).map(
               ({ className, icon, alt, label, disabled, actionType }) => (
                 <button
                   key={className}

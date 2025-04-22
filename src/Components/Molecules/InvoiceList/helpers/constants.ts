@@ -2,13 +2,16 @@ import { STRINGS } from '../../../../Shared/Constants';
 import IMAGES from '../../../../Shared/Images';
 import { ButtonActions } from './enum';
 
-export const filterTabs = (selectedIds: number[]) => [
+export const filterTabs = (
+  selectedIds: number[],
+  selectedApprovedIds: number[]
+) => [
   {
     className: 'btn-primary exporttotelly',
     icon: IMAGES.exportIcon,
     alt: 'Export to Tally',
     label: 'Export to Tally',
-    disabled: false,
+    disabled: !selectedApprovedIds.length,
     actionType: ButtonActions.ExportToTally,
   },
   {
