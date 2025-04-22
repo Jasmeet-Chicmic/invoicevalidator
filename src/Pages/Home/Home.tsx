@@ -46,6 +46,8 @@ function Home() {
     status: INVOICE_STATUS.PENDING,
   });
   const fileDataRef = useRef<FileUploadData>();
+  const abortControllerRef = useRef<AbortController | null>(null);
+
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
@@ -92,6 +94,8 @@ function Home() {
     }
     try {
       await deleteFile({ invoiceId: fileDataRef.current?.invoiceId });
+      console.log(abortControllerRef.current, 'controller');
+      abortControllerRef.current?.abort();
       resetExtractedData();
       setFile(null);
       setFileUrl(null);
@@ -111,11 +115,15 @@ function Home() {
     invoiceId: number,
     fileType: string
   ) => {
+    const controller = new AbortController();
     const getInvoicePayload: GetInvoiceRequest = {
       filePath,
       invoiceId,
       fileType,
+      signal: controller.signal,
     };
+
+    abortControllerRef.current = controller;
     // setExtractedData(dummyData.data);
     // oldStateRef.current = JSON.parse(JSON.stringify(dummyData.data));
     try {
@@ -220,6 +228,7 @@ function Home() {
 
     refetchExtractedData();
   };
+
   return (
     <div className="file-uploadbx">
       {!fileUrl ? (
@@ -272,7 +281,6 @@ function Home() {
                       onRetry={onRetryCallback}
                       error={!!imageDataFetchingError}
                       invoiceId={wholeExtractedData && wholeExtractedData.id}
-                      onApproveCallback={refetchExtractedData}
                     />
                   </div>
                 </div>

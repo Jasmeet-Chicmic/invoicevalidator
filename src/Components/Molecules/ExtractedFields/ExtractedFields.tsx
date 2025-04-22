@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useNotification from '../../../Hooks/useNotification';
 import {
   CommonErrorResponse,
@@ -21,7 +22,6 @@ type ExtractedFieldsProps = {
   oldStateRef: React.MutableRefObject<ExtractedData | null>;
   loading: boolean;
   invoiceId: string;
-  onApproveCallback: () => void;
   error?: boolean;
   onRetry?: () => void;
 };
@@ -32,13 +32,14 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   oldStateRef,
   loading,
   error = true,
-  onApproveCallback = () => {},
   onRetry = () => {},
   invoiceId,
 }) => {
   const notify = useNotification();
-  const [onApprove, { isLoading: approveButtonLoading }] =
-    useOnApproveMutation();
+  const [fieldKeyToApprove, setFieldKeyToApprove] = useState<string | null>(
+    null
+  );
+  const [onApprove] = useOnApproveMutation();
 
   const extractOldValue = (
     field: DynamicField
@@ -161,7 +162,8 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           itemId: id.toString(),
         }).unwrap();
       }
-      onApproveCallback();
+      // await onApproveCallback();
+      setFieldKeyToApprove(null);
       notify(MESSAGES.NOTIFICATION.APPROVED);
     } catch (catchError) {
       const errorObj = catchError as CommonErrorResponse;
@@ -216,25 +218,28 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
                       id
                     )
                   }
-                  onApproveClick={(_, newFieldValue) =>
+                  onApproveClick={(_, newFieldValue) => {
+                    setFieldKeyToApprove(`${fieldKey}_${newFieldValue}`);
                     handleOnApprove(
                       sectionKey,
                       fieldKey,
                       newFieldValue,
                       arrParentKey,
                       id
-                    )
-                  }
+                    );
+                  }}
                   disableApprove={disableApprove}
                   approveButtonText={buttonText}
-                  approveButtonLoading={!approveButtonLoading}
+                  approveButtonLoading={
+                    fieldKeyToApprove === `${fieldKey}_${fieldValue?.value}`
+                  }
                 />
               ) : null;
             })}
       </FieldWrapper>
     );
   };
-  if (loading) return <TextLoader />;
+  if (loading && !fieldKeyToApprove) return <TextLoader />;
 
   return (
     <div className="extracted-data">
