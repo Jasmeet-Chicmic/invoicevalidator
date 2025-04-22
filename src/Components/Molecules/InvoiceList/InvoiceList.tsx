@@ -159,7 +159,7 @@ const InvoiceList: React.FC = () => {
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       const allIds = data?.data?.map((invoice: Invoice) => invoice.id) || [];
-      const approvedIds = data?.data?.fileter(
+      const approvedIds = data?.data?.filter(
         (invoice: Invoice) => invoice.status === ListingStatusPayload.approved
       );
       setSelectedIds(allIds);
@@ -373,7 +373,7 @@ const InvoiceList: React.FC = () => {
         <h1 className="invoice-list__title">{STRINGS.INVOICES}</h1>
 
         <div className="hdrright-actions">
-          <div className="search-bx">
+          {/* <div className="search-bx">
             <input
               type="text"
               alt="search"
@@ -381,7 +381,7 @@ const InvoiceList: React.FC = () => {
               className="search-field"
             />
             <button className="saerch-btn">Search</button>
-          </div>
+          </div> */}
           <div className="invoice-list__filters">
             {filterList.map((status) => (
               <button
@@ -398,7 +398,7 @@ const InvoiceList: React.FC = () => {
             ))}
           </div>
           <div className="download-btns">
-            {filterTabs(selectedIds, selectedApprovedIds).map(
+            {filterTabs(selectedIds).map(
               ({ className, icon, alt, label, disabled, actionType }) => (
                 <button
                   key={className}
