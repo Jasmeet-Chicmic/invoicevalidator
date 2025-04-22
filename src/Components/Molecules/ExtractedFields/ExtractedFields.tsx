@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useNotification from '../../../Hooks/useNotification';
 import {
   CommonErrorResponse,
@@ -37,6 +38,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   invoiceId,
 }) => {
   const notify = useNotification();
+  const [currentField, setCurrentField] = useState<string>('');
   const [onApprove, { isLoading: approveButtonLoading }] =
     useOnApproveMutation();
 
@@ -216,18 +218,21 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
                       id
                     )
                   }
-                  onApproveClick={(_, newFieldValue) =>
+                  onApproveClick={(_, newFieldValue) => {
+                    setCurrentField(fieldKey);
                     handleOnApprove(
                       sectionKey,
                       fieldKey,
                       newFieldValue,
                       arrParentKey,
                       id
-                    )
-                  }
+                    );
+                  }}
                   disableApprove={disableApprove}
                   approveButtonText={buttonText}
-                  approveButtonLoading={!approveButtonLoading}
+                  approveButtonLoading={
+                    currentField === fieldKey ? !approveButtonLoading : true
+                  }
                 />
               ) : null;
             })}

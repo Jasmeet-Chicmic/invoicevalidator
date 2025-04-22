@@ -42,6 +42,7 @@ export interface GetInvoiceRequest {
   filePath: string;
   invoiceId: string;
   fileType: string;
+  signal?: AbortSignal;
 }
 
 export interface FieldValue {
