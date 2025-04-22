@@ -21,8 +21,9 @@ module.exports = {
   plugins: ['react', '@typescript-eslint', 'prettier'],
   ignorePatterns: ['*.config*.ts', '*.d*.ts'],
   rules: {
+    'default-case': 'off',
     'no-param-reassign': ['off'],
-    '@typescript-eslint/no-unused-vars':['off'],
+    '@typescript-eslint/no-unused-vars': ['off'],
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/accessible-emoji': 'off',

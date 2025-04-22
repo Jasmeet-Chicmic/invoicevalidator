@@ -74,6 +74,13 @@ const SNACKBAR_CONFIG = {
 
 const MODAL_MESSAGES = {
   DELETE_CONFIRMATION: 'Are you sure you want to delete this invoice?',
+  EXPORT_CONFIRMATION: 'Are you sure you want to export this invoice to tally?',
+  EXPORT_ALL_APPROVED_CONFIRMATION:
+    'Are you sure you want to export all approved invoices to tally?',
+  EXPORT_SELECTED_APPROVED_CONFIRMATION:
+    'Are you sure you want to export selected approved invoices to tally?',
+  DOWNLOAD_CONFIRMATION:
+    'Are you sure you want to export this invoice to local?',
   DELETE_ALL_CONFIRMATION:
     'Are you sure you want to delete the selected invoices?',
   CANCLE_INVOICE_CONFIRMATION: 'Are you sure you want to cancel this invoice?',

@@ -1,4 +1,8 @@
-import { DynamicField, ExtractedData, FieldValue } from '../Services/Api/Constants';
+import {
+  DynamicField,
+  ExtractedData,
+  FieldValue,
+} from '../Services/Api/Constants';
 import { FILE_TYPES } from './Constants';
 
 export const firstLetterUpperCase = (message: string) => {

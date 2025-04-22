@@ -94,7 +94,6 @@ function Home() {
     }
     try {
       await deleteFile({ invoiceId: fileDataRef.current?.invoiceId });
-      console.log(abortControllerRef.current, 'controller');
       abortControllerRef.current?.abort();
       resetExtractedData();
       setFile(null);

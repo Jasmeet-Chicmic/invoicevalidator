@@ -162,10 +162,8 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
       };
       const updatedArray = [...arrayItems];
       updatedArray[index] = updatedItem;
-      
-      
+
       oldStateRef.current[arrParentKey] = updatedArray;
-      
     }
     setData((prevData) => {
       if (!prevData) return prevData;
@@ -202,14 +200,14 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     newValue: string,
     approvedValue: boolean
   ) => {
-    console.log("oldRefState",oldStateRef);
-    
     if (oldStateRef.current) {
       const oldRefState = oldStateRef.current as ExtractedData;
-      const oldRefCurrentSection =  oldRefState[sectionKey] as DynamicField;
-      ((oldRefCurrentSection  as ExtractedData)[fieldKey] as FieldValue).approved = approvedValue;
-      ((oldRefCurrentSection  as ExtractedData)[fieldKey] as FieldValue).value = newValue;
-      
+      const oldRefCurrentSection = oldRefState[sectionKey] as DynamicField;
+      (
+        (oldRefCurrentSection as ExtractedData)[fieldKey] as FieldValue
+      ).approved = approvedValue;
+      ((oldRefCurrentSection as ExtractedData)[fieldKey] as FieldValue).value =
+        newValue;
     }
     setData((prevData) => {
       if (!prevData) return prevData;
@@ -235,7 +233,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     sectionKey: string,
     fieldKey: string,
     newFieldValue: string,
-    approvedValue:boolean,
+    approvedValue: boolean,
     arrParentKey?: string,
     id?: number
   ) => {
@@ -248,7 +246,12 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           invoiceId,
           itemId: null,
         }).unwrap();
-        updateObjectFieldOnApprove(sectionKey, fieldKey, newFieldValue,approvedValue);
+        updateObjectFieldOnApprove(
+          sectionKey,
+          fieldKey,
+          newFieldValue,
+          approvedValue
+        );
       } else {
         await onApprove({
           category: arrParentKey?.toString() || sectionKey,
@@ -261,15 +264,14 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           arrParentKey?.toString() || sectionKey,
           id,
           fieldKey,
-          newFieldValue,approvedValue
+          newFieldValue,
+          approvedValue
         );
       }
       // await onApproveCallback();
       setFieldKeyToApprove(null);
       notify(MESSAGES.NOTIFICATION.APPROVED);
     } catch (catchError) {
-      console.log(catchError,"catchError");
-      
       const errorObj = catchError as CommonErrorResponse;
       notify(errorObj.data.message, { type: STATUS.error });
     }

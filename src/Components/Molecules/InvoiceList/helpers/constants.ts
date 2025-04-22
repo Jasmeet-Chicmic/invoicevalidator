@@ -1,3 +1,4 @@
+import { STRINGS } from '../../../../Shared/Constants';
 import IMAGES from '../../../../Shared/Images';
 import { ButtonActions } from './enum';
 
@@ -54,3 +55,10 @@ export const actionButtons = [
     className: 'invoice-list__action-button--download',
   },
 ];
+
+export const ConfirmationPopupDefaultValue = {
+  isOpen: false,
+  title: STRINGS.EMPTY_STRING,
+  type: null,
+  data: {},
+};

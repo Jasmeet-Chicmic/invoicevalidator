@@ -18,8 +18,16 @@ import { formatCurrency } from '../../../Shared/functions';
 import RetryButton from '../../Atoms/RetryButton';
 import TextLoader from '../../Atoms/TextLoader';
 import CommonModal from '../CommonModal';
-import { actionButtons, filterTabs } from './helpers/constants';
-import { ButtonActions, ListingStatus } from './helpers/enum';
+import {
+  actionButtons,
+  ConfirmationPopupDefaultValue,
+  filterTabs,
+} from './helpers/constants';
+import {
+  ButtonActions,
+  ListingStatus,
+  ListingStatusPayload,
+} from './helpers/enum';
 import { generateStatusPayload } from './helpers/utils';
 import './InvoiceList.scss';
 
@@ -29,7 +37,7 @@ export interface Invoice {
   vendor: string;
   amount: number;
   date: string;
-  status: 'Approved' | 'Pending';
+  status: ListingStatusPayload;
 }
 export interface StatusType {
   APPROVED: 'Approved';
@@ -39,6 +47,7 @@ export interface StatusType {
 interface PopupType {
   isOpen: boolean;
   title: string;
+  type: ButtonActions | null;
   data: {
     invoiceId?: number;
     invoiceIds?: number[];
@@ -62,11 +71,9 @@ const InvoiceList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   const notify = useNotification();
-  const [confirmationModal, setConfirmationModal] = useState<PopupType>({
-    isOpen: false,
-    title: STRINGS.EMPTY_STRING,
-    data: {},
-  });
+  const [confirmationModal, setConfirmationModal] = useState<PopupType>(
+    ConfirmationPopupDefaultValue
+  );
 
   const {
     data,
@@ -86,28 +93,60 @@ const InvoiceList: React.FC = () => {
     navigate(`${ROUTES.EDIT}/${invoiceId}`);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number, action: ButtonActions) => {
     setConfirmationModal({
       isOpen: true,
       title: MODAL_MESSAGES.DELETE_CONFIRMATION,
+      type: action,
       data: {
         invoiceId: id,
       },
     });
   };
 
-  const handleAction = (action: ButtonActions, id: number) => {
+  const handleExport = (id: number, action: ButtonActions) => {
+    setConfirmationModal({
+      isOpen: true,
+      title: MODAL_MESSAGES.EXPORT_CONFIRMATION,
+      type: action,
+      data: {
+        invoiceId: id,
+      },
+    });
+  };
+
+  const handleDownload = (id: number, action: ButtonActions) => {
+    setConfirmationModal({
+      isOpen: true,
+      title: MODAL_MESSAGES.DOWNLOAD_CONFIRMATION,
+      type: action,
+      data: {
+        invoiceId: id,
+      },
+    });
+  };
+
+  const handleListAction = (action: ButtonActions, id: number) => {
     switch (action) {
       case ButtonActions.Edit:
         return handleEdit(id);
       case ButtonActions.Delete:
-        return handleDelete(id);
-      // case ButtonActions.ExportToTally:
-      //   return handleExport(id);
-      // case ButtonActions.ExportToLocal:
-      //   return handleDownload(id);
+        return handleDelete(id, action);
+      case ButtonActions.ExportToTally:
+        return handleExport(id, action);
+      case ButtonActions.ExportToLocal:
+        return handleDownload(id, action);
       default:
         return null;
+    }
+  };
+
+  const handleActionBtnDisablity = (action: ButtonActions, status: number) => {
+    switch (action) {
+      case ButtonActions.ExportToTally:
+        return status === ListingStatusPayload.pending;
+      default:
+        return false;
     }
   };
 
@@ -126,30 +165,55 @@ const InvoiceList: React.FC = () => {
     );
   };
 
-  const handleActionClick = (actionType: ButtonActions) => {
+  const handleHeaderActions = (actionType: ButtonActions) => {
     switch (actionType) {
       case ButtonActions.Delete:
         if (selectedIds.length > 0) {
           setConfirmationModal({
             isOpen: true,
             title: MODAL_MESSAGES.DELETE_ALL_CONFIRMATION,
+            type: actionType,
             data: {
               invoiceIds: selectedIds,
             },
           });
         }
         break;
+      case ButtonActions.ExportToTally:
+        setConfirmationModal({
+          isOpen: true,
+          title: selectedIds?.length
+            ? MODAL_MESSAGES.EXPORT_SELECTED_APPROVED_CONFIRMATION
+            : MODAL_MESSAGES.EXPORT_ALL_APPROVED_CONFIRMATION,
+          type: actionType,
+          data: {
+            invoiceIds: selectedIds,
+          },
+        });
+        break;
       default:
         setConfirmationModal({
           isOpen: false,
           title: STRINGS.EMPTY_STRING,
+          type: null,
           data: {},
         });
     }
   };
-
-  const getStatusClass = (status: string): string =>
-    `status-badge status-${status.toLowerCase()}`;
+  const getStatusText = (status: number): string => {
+    switch (status) {
+      case ListingStatusPayload.approved:
+        return ListingStatus.Approved;
+      case ListingStatusPayload.pending:
+        return ListingStatus.Pending;
+      default:
+        return '';
+    }
+  };
+  const getStatusClass = (status: number): string => {
+    return `status-badge status-${getStatusText(status).toLowerCase()}`;
+  };
+  // `status-badge status-${status.toLowerCase()}`;
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -161,20 +225,25 @@ const InvoiceList: React.FC = () => {
 
   const onModalOk = async () => {
     try {
-      if (
-        !confirmationModal.data?.invoiceId &&
-        !confirmationModal.data?.invoiceIds?.length
-      )
-        return;
-      await deleteInvoice({
-        invoiceId: confirmationModal.data.invoiceId,
-        invoiceIds: confirmationModal.data.invoiceIds,
-      }).unwrap();
-      refetch();
+      switch (confirmationModal.type) {
+        case ButtonActions.Delete:
+          if (
+            !confirmationModal.data?.invoiceId &&
+            !confirmationModal.data?.invoiceIds?.length
+          )
+            return;
+          await deleteInvoice({
+            invoiceId: confirmationModal.data.invoiceId,
+            invoiceIds: confirmationModal.data.invoiceIds,
+          }).unwrap();
+          notify(MESSAGES.NOTIFICATION.INVOICE_DELETED_SUCCESSFULLY);
+          refetch();
+          break;
+        default:
+          setConfirmationModal(ConfirmationPopupDefaultValue);
+      }
       setSelectedIds([]);
       setCurrentPage(0);
-      setConfirmationModal({ ...confirmationModal, isOpen: false });
-      notify(MESSAGES.NOTIFICATION.INVOICE_DELETED_SUCCESSFULLY);
     } catch (error) {
       const errorObj = error as unknown as CommonErrorResponse;
       notify(errorObj.data.message, { type: STATUS.error });
@@ -182,8 +251,9 @@ const InvoiceList: React.FC = () => {
   };
 
   const onModalClose = () => {
-    setConfirmationModal({ ...confirmationModal, isOpen: false });
+    setConfirmationModal(ConfirmationPopupDefaultValue);
   };
+
   const showingTheListItemCounter = () => {
     const startIndex = currentPage * ITEMS_PER_PAGE + 1;
     const endIndex = Math.min(
@@ -243,7 +313,7 @@ const InvoiceList: React.FC = () => {
                   type="button"
                   className={`${className}`}
                   disabled={disabled}
-                  onClick={() => handleActionClick(actionType)}
+                  onClick={() => handleHeaderActions(actionType)}
                 >
                   <span className="btn-icon">
                     <img src={icon} alt={alt} />
@@ -298,7 +368,7 @@ const InvoiceList: React.FC = () => {
                   <td>{invoice.date || STRINGS.HYPHEN}</td>
                   <td>
                     <span className={getStatusClass(invoice.status)}>
-                      {invoice.status}
+                      {getStatusText(invoice.status)}
                     </span>
                   </td>
                   <td className="invoice-list__actions">
@@ -307,7 +377,8 @@ const InvoiceList: React.FC = () => {
                         key={key}
                         type="button"
                         className={`invoice-list__action-button ${className}`}
-                        onClick={() => handleAction(key, invoice.id)}
+                        onClick={() => handleListAction(key, invoice.id)}
+                        disabled={handleActionBtnDisablity(key, invoice.status)}
                       >
                         <img src={icon} alt={alt} />
                       </button>
