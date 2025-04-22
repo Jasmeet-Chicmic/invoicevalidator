@@ -199,8 +199,7 @@ function Home() {
   const onCloseModal = () => {
     setConfirmationModal(false);
   };
-  const onRetryCallback = () => {
-    resetExtractedData();
+  const refetchExtractedData = () => {
     if (
       fileDataRef.current &&
       fileDataRef.current.filePath &&
@@ -215,6 +214,11 @@ function Home() {
     } else {
       notify(MESSAGES.FILE_UPLOADER.FILE_DATA_ERROR, { type: STATUS.error });
     }
+  };
+  const onRetryCallback = () => {
+    resetExtractedData();
+
+    refetchExtractedData();
   };
   return (
     <div className="file-uploadbx">
@@ -247,10 +251,7 @@ function Home() {
           <PreviewWrapper
             left={
               <div className="file-previewbx">
-                <FilePreviewer
-                  isImage={file!.type.startsWith('image/')}
-                  fileUrl={fileUrl}
-                />
+                <FilePreviewer isImage fileUrl={fileUrl} />
               </div>
             }
             right={
@@ -282,6 +283,7 @@ function Home() {
                       onRetry={onRetryCallback}
                       error={!!imageDataFetchingError}
                       invoiceId={wholeExtractedData && wholeExtractedData.id}
+                      onApproveCallback={refetchExtractedData}
                     />
                   </div>
                 </div>

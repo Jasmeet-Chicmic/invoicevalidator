@@ -43,6 +43,7 @@ const EditPage = () => {
     data,
     error,
     isFetching: loading,
+    refetch: refetchExtractedData,
   } = useEditDataQuery({ invoiceId: invoiceId! }, { skip: !invoiceId });
   const [statusText, setStatusText] = useState({
     buttonText: BUTTON_TEXT.PENDING,
@@ -144,6 +145,7 @@ const EditPage = () => {
                   loading={loading}
                   error={!!error}
                   invoiceId={extractedEditData && extractedEditData.id}
+                  onApproveCallback={refetchExtractedData}
                 />
               </div>
             </div>
@@ -154,7 +156,6 @@ const EditPage = () => {
                   {statusText.status}
                 </span>
               </h3>
-
               <div className="bottom-actions">
                 <button type="button" className="back-btn" onClick={handleBack}>
                   <span>
