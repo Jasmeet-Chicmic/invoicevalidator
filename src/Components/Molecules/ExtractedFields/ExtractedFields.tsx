@@ -1,7 +1,10 @@
 import useNotification from '../../../Hooks/useNotification';
 import {
   CommonErrorResponse,
+  DynamicField,
+  DynamicFieldArrayItem,
   ExtractedData,
+  FieldValue,
 } from '../../../Services/Api/Constants';
 import { useOnApproveMutation } from '../../../Services/Api/module/fileApi';
 import { MESSAGES } from '../../../Shared/Constants';
@@ -17,9 +20,10 @@ type ExtractedFieldsProps = {
   data: ExtractedData | null;
   oldStateRef: React.MutableRefObject<ExtractedData | null>;
   loading: boolean;
+  invoiceId: string;
+  onApproveCallback: () => void;
   error?: boolean;
   onRetry?: () => void;
-  invoiceId: string;
 };
 
 const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
@@ -28,87 +32,136 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   oldStateRef,
   loading,
   error = true,
+  onApproveCallback = () => {},
   onRetry = () => {},
   invoiceId,
 }) => {
   const notify = useNotification();
   const [onApprove, { isLoading: approveButtonLoading }] =
     useOnApproveMutation();
-  const handleChange = (
-    sectionKey: string,
+
+  const extractOldValue = (
+    field: DynamicField
+  ): string | null | DynamicField | undefined => {
+    return typeof field === 'object' && field !== null && 'value' in field
+      ? field.value
+      : undefined;
+  };
+
+  const handleArrayFieldChange = (
+    arrParentKey: string,
+    id: number,
     fieldKey: string,
     newValue: string
   ) => {
     if (!data) return;
-    if (
-      oldStateRef.current &&
-      oldStateRef.current[sectionKey][fieldKey].value !== newValue
-    ) {
-      setData((prevData) => ({
-        ...prevData!,
-        [sectionKey]: {
-          ...prevData![sectionKey],
-          [fieldKey]: {
-            ...prevData![sectionKey][fieldKey],
-            approved: false, // Only update `approved` status here
-          },
-        },
-      }));
-    } else if (
-      oldStateRef.current &&
-      oldStateRef.current[sectionKey][fieldKey].approved
-    ) {
-      setData((prevData) => ({
-        ...prevData!,
-        [sectionKey]: {
-          ...prevData![sectionKey],
-          [fieldKey]: {
-            ...prevData![sectionKey][fieldKey],
-            approved: true, // Only update `approved` status here
-          },
-        },
-      }));
-    }
 
-    setData((prevData) => ({
-      ...prevData!,
-      [sectionKey]: {
-        ...prevData![sectionKey],
+    setData((prevData) => {
+      if (!prevData) return prevData;
+
+      const arrayItems = prevData[arrParentKey] as DynamicFieldArrayItem[];
+      const prevArrayItems = oldStateRef.current?.[
+        arrParentKey
+      ] as DynamicFieldArrayItem[];
+      const index = arrayItems.findIndex((item) => item.id === id);
+      if (index === -1) return prevData;
+
+      const targetItem = arrayItems[index];
+      const prevItem = prevArrayItems?.[index];
+      const oldValue = extractOldValue(prevItem?.[fieldKey] as DynamicField);
+      const fieldObj = targetItem[fieldKey] as FieldValue;
+
+      const updatedItem: DynamicFieldArrayItem = {
+        ...targetItem,
         [fieldKey]: {
-          ...prevData![sectionKey][fieldKey],
-          value: newValue, // Do NOT touch `approved` here
+          ...fieldObj,
+          value: newValue,
+          approved: newValue === oldValue,
         },
-      },
-    }));
+      };
+
+      const updatedArray = [...arrayItems];
+      updatedArray[index] = updatedItem;
+
+      return {
+        ...prevData,
+        [arrParentKey]: updatedArray,
+      };
+    });
+  };
+
+  const handleObjectFieldChange = (
+    sectionKey: string,
+    fieldKey: string,
+    newValue: string
+  ) => {
+    const oldField = (oldStateRef.current?.[sectionKey] as ExtractedData)?.[
+      fieldKey
+    ];
+    const oldValue = extractOldValue(oldField);
+
+    setData((prevData) => {
+      if (!prevData) return prevData;
+
+      const currentSection = prevData[sectionKey] as DynamicField;
+      const currentField = (currentSection as ExtractedData)?.[fieldKey];
+
+      return {
+        ...prevData,
+        [sectionKey]: {
+          ...currentSection,
+          [fieldKey]: {
+            ...currentField,
+            value: newValue,
+            approved: newValue === oldValue,
+          },
+        } as DynamicField,
+      };
+    });
+  };
+
+  const handleChange = (
+    sectionKey: string,
+    fieldKey: string,
+    newValue: string,
+    arrParentKey?: string,
+    id?: number
+  ) => {
+    if (!data) return;
+
+    if (arrParentKey && id !== undefined) {
+      handleArrayFieldChange(arrParentKey, id, fieldKey, newValue);
+    } else {
+      handleObjectFieldChange(sectionKey, fieldKey, newValue);
+    }
   };
 
   const handleOnApprove = async (
     sectionKey: string,
     fieldKey: string,
-    value: boolean,
-    newFieldValue: string
+    newFieldValue: string,
+    arrParentKey?: string,
+    id?: number
   ) => {
     try {
-      await onApprove({
-        category: sectionKey,
-        title: fieldKey,
-        value: newFieldValue,
-        invoiceId,
-      }).unwrap();
-      setData((prevData) => ({
-        ...prevData!,
-        [sectionKey]: {
-          ...prevData![sectionKey],
-          [fieldKey]: {
-            ...prevData![sectionKey][fieldKey],
-            approved: value, // Only update `approved` status here
-          },
-        },
-      }));
-      if (oldStateRef.current) {
-        oldStateRef.current[sectionKey][fieldKey].approved = value;
-        oldStateRef.current[sectionKey][fieldKey].value = newFieldValue;
+      if (id === undefined) {
+        await onApprove({
+          category: sectionKey,
+          title: fieldKey,
+          value: newFieldValue,
+          invoiceId,
+          itemId: null,
+        }).unwrap();
+      } else {
+        await onApprove({
+          category: arrParentKey?.toString() || sectionKey,
+          title: fieldKey,
+          value: newFieldValue,
+          invoiceId,
+          itemId: id.toString(),
+        }).unwrap();
       }
+      onApproveCallback();
       notify(MESSAGES.NOTIFICATION.APPROVED);
     } catch (catchError) {
       const errorObj = catchError as CommonErrorResponse;
@@ -123,40 +176,71 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
         <RetryButton onClick={onRetry} />
       </div>
     );
+  const renderFields = (
+    sectionKey: string,
+    fields: DynamicField | DynamicFieldArrayItem,
+    id?: number,
+    arrParentKey?: string | undefined
+  ) => {
+    return (
+      <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
+        {Array.isArray(fields)
+          ? fields?.map((nestedField, i) =>
+              renderFields(
+                `Item ${i + 1}`,
+                nestedField,
+                nestedField?.id,
+                Array.isArray(fields) ? sectionKey : undefined
+              )
+            )
+          : Object.entries(fields || {}).map(([fieldKey, fieldValue]) => {
+              const isApproved = fieldValue?.approved;
+              const disableApprove = isApproved;
+              const buttonText = isApproved
+                ? MESSAGES.NOTIFICATION.APPROVED
+                : MESSAGES.NOTIFICATION.APPROVE;
+              const isFieldObject = typeof fieldValue === 'object';
+              return isFieldObject ? (
+                <ExtractedField
+                  key={fieldKey}
+                  title={formatCamelCase(fieldKey)}
+                  placeholder={`Enter ${formatCamelCase(fieldKey)}`}
+                  value={fieldValue?.value || ''}
+                  confidenceScore={fieldValue?.confidenceScore}
+                  onChange={(e) =>
+                    handleChange(
+                      sectionKey,
+                      fieldKey,
+                      e.target.value,
+                      arrParentKey,
+                      id
+                    )
+                  }
+                  onApproveClick={(_, newFieldValue) =>
+                    handleOnApprove(
+                      sectionKey,
+                      fieldKey,
+                      newFieldValue,
+                      arrParentKey,
+                      id
+                    )
+                  }
+                  disableApprove={disableApprove}
+                  approveButtonText={buttonText}
+                  approveButtonLoading={!approveButtonLoading}
+                />
+              ) : null;
+            })}
+      </FieldWrapper>
+    );
+  };
   if (loading) return <TextLoader />;
 
   return (
     <div className="extracted-data">
-      {Object.entries(data || {}).map(([sectionKey, fields]) => (
-        <FieldWrapper key={sectionKey} title={formatCamelCase(sectionKey)}>
-          {Object.entries(fields || {}).map(([fieldKey, fieldValue]) => {
-            const isApproved = fieldValue.approved;
-            const disableApprove = isApproved;
-            const buttonText = isApproved
-              ? MESSAGES.NOTIFICATION.APPROVED
-              : MESSAGES.NOTIFICATION.APPROVE;
-
-            return (
-              <ExtractedField
-                key={fieldKey}
-                title={formatCamelCase(fieldKey)}
-                placeholder={`Enter ${formatCamelCase(fieldKey)}`}
-                value={fieldValue.value || ''}
-                confidenceScore={fieldValue.confidenceScore}
-                onChange={(e) =>
-                  handleChange(sectionKey, fieldKey, e.target.value)
-                }
-                onApproveClick={(value: boolean, newFieldValue) =>
-                  handleOnApprove(sectionKey, fieldKey, value, newFieldValue)
-                }
-                disableApprove={disableApprove}
-                approveButtonText={buttonText}
-                approveButtonLoading={!approveButtonLoading}
-              />
-            );
-          })}
-        </FieldWrapper>
-      ))}
+      {Object.entries(data || {}).map(([sectionKey, fields]) =>
+        renderFields(sectionKey, fields)
+      )}
     </div>
   );
 };

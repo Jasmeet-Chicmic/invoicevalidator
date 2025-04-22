@@ -43,6 +43,7 @@ const EditPage = () => {
     data,
     error,
     isFetching: loading,
+    refetch: refetchExtractedData,
   } = useEditDataQuery({ invoiceId: invoiceId! }, { skip: !invoiceId });
   const [statusText, setStatusText] = useState({
     buttonText: BUTTON_TEXT.PENDING,
@@ -119,7 +120,6 @@ const EditPage = () => {
   return (
     <div className="invoice_preview">
       <PreviewWrapper
-        onBack={handleBack}
         left={
           <div className="file-previewbx">
             <FilePreviewer
@@ -145,6 +145,7 @@ const EditPage = () => {
                   loading={loading}
                   error={!!error}
                   invoiceId={extractedEditData && extractedEditData.id}
+                  onApproveCallback={refetchExtractedData}
                 />
               </div>
             </div>
@@ -155,16 +156,26 @@ const EditPage = () => {
                   {statusText.status}
                 </span>
               </h3>
-              <button
-                onClick={handleSave}
-                className="draft-save-btn ms-auto"
-                type="button"
-              >
-                <span>
-                  <img src={IMAGES.saveIcon} alt="save-icon" />
-                </span>
-                {statusText.buttonText}
-              </button>
+              <div className="bottom-actions">
+                <button type="button" className="back-btn" onClick={handleBack}>
+                  <span>
+                    {' '}
+                    <img src={IMAGES.backIcon} alt="back-icon" />
+                  </span>{' '}
+                  Back
+                </button>
+
+                <button
+                  onClick={handleSave}
+                  className="draft-save-btn"
+                  type="button"
+                >
+                  <span>
+                    <img src={IMAGES.saveIcon} alt="save-icon" />
+                  </span>
+                  {statusText.buttonText}
+                </button>
+              </div>
             </div>
           </div>
         }

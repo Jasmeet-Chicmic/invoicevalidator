@@ -35,6 +35,7 @@ export interface OnApproveRequest {
   category: string;
   title: string;
   value: string;
+  itemId: string | null;
 }
 
 export interface GetInvoiceRequest {
@@ -43,25 +44,29 @@ export interface GetInvoiceRequest {
   fileType: string;
 }
 
-type Field = {
+export interface FieldValue {
   value: string | null;
   confidenceScore: number;
   approved: boolean;
-};
+}
 
-type SectionData = {
-  [key: string]: Field;
-};
+export interface ExtractedData {
+  [sectionKey: string]: DynamicField;
+}
 
-export type ExtractedData = {
-  [sectionKey: string]: SectionData;
-};
+export interface DynamicFieldArrayItem {
+  id: number;
+  [key: string]: DynamicField | number;
+}
+
+export type DynamicField = FieldValue | ExtractedData | DynamicFieldArrayItem[];
 
 export interface ExtractedDataResponse {
   id: number;
   mediaUrl: string;
   fileUrl: string | null;
-  uploadedOn: string; // ISO format string
+  createdAt: string;
+  type: string;
   approved: boolean;
   data: ExtractedData;
 }
