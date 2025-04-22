@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import React, { useState } from 'react';
+import moment from 'moment';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 import useNotification from '../../../Hooks/useNotification';
@@ -40,6 +41,7 @@ export interface Invoice {
   vendor: string;
   amount: number;
   date: string;
+  createdAt: string;
   status: ListingStatusPayload;
 }
 export interface StatusType {
@@ -432,10 +434,12 @@ const InvoiceList: React.FC = () => {
                   />
                 </div>
               </th>
+              <th>Invoice Id</th>
               <th>Invoice No</th>
               <th>Vendor</th>
               <th>Amount</th>
-              <th>Date</th>
+              <th>Invoice Date</th>
+              <th>Uploaded At</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -454,10 +458,14 @@ const InvoiceList: React.FC = () => {
                       />
                     </div>
                   </td>
+                  <td>{invoice.id || STRINGS.HYPHEN}</td>
                   <td>{invoice.invoiceNo || STRINGS.HYPHEN}</td>
                   <td>{invoice.vendor || STRINGS.HYPHEN}</td>
                   <td>{formatCurrency(invoice.amount)}</td>
                   <td>{invoice.date || STRINGS.HYPHEN}</td>
+                  <td>
+                    {moment(invoice.createdAt).format('D MMM YYYY h:mma')}
+                  </td>
                   <td>
                     <span className={getStatusClass(invoice.status)}>
                       {getStatusText(invoice.status)}
