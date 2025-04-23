@@ -17,8 +17,8 @@ export const filterTabs = (
   {
     className: 'btn-primary downloadjson',
     icon: IMAGES.downloadIcon,
-    alt: 'Download JSON',
-    label: 'Download JSON',
+    alt: 'Download',
+    label: 'Download',
     disabled: !selectedIds.length,
     actionType: ButtonActions.ExportToLocal,
   },

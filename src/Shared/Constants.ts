@@ -19,35 +19,35 @@ const WILDCARD_ROUTES = {
   PUBLIC: ROUTES.HOMEPAGE,
   PRIVATE: ROUTES.LOGIN,
 };
-
+const MainTitle = 'Bookeep AI';
 const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
-    title: 'Book Keep AI',
+    title: MainTitle,
   },
   LISTING: {
     path: ROUTES.LISTING,
-    title: 'Book Keep AI',
+    title: MainTitle,
   },
   EDIT: {
     path: ROUTES.EDIT,
-    title: 'Book Keep AI',
+    title: MainTitle,
   },
   LOGIN: {
     path: ROUTES.LOGIN,
-    title: 'Book Keep AI',
+    title: MainTitle,
   },
   REGISTER: {
     path: ROUTES.REGISTER,
-    title: 'Book Keep AI',
+    title: MainTitle,
   },
   ABOUT: {
     path: ROUTES.ABOUT,
-    title: 'Book Keep AI',
+    title: MainTitle,
   },
   INVOICES: {
     path: ROUTES.INVOICES,
-    title: 'Book Keep AI',
+    title: MainTitle,
   },
 };
 
@@ -68,7 +68,7 @@ const MESSAGES = {
   FILE_UPLOADER: {
     FILE_DATA_ERROR:
       'Error extracting data. Please go back and re-upload the image.',
-    MESSAGE: 'Click or drag and drop a PDF or image here.',
+    MESSAGE: 'Click or drag and drop a image here.',
   },
 };
 const SNACKBAR_CONFIG = {
