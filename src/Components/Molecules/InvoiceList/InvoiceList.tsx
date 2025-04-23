@@ -68,6 +68,8 @@ const InvoiceList: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState<ListingStatus>(
     ListingStatus.All
   );
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchParam, setSearchParam] = useState<string>('');
   const [sortKey, setSortKey] = useState<keyof Invoice | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirections | null>(
     null
@@ -92,6 +94,7 @@ const InvoiceList: React.FC = () => {
       sortKey,
       sortDirection,
       status: generateStatusPayload(filterStatus),
+      search: String(searchParam),
     },
     { refetchOnMountOrArgChange: true }
   );
@@ -413,6 +416,18 @@ const InvoiceList: React.FC = () => {
     ]
   );
 
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchText = e.target.value;
+    setSearchValue(searchText);
+    if (!searchText && searchParam) {
+      setSearchParam('');
+    }
+  };
+  const handleSearch = (value: string) => {
+    setSearchParam(value);
+    setCurrentPage(0);
+  };
+
   if (isAllInvoiceError) return <RetryButton onClick={onRetry} />;
   if (isAllInvoiceLoading) return <TextLoader showText={false} />;
 
@@ -427,9 +442,16 @@ const InvoiceList: React.FC = () => {
               type="text"
               alt="search"
               placeholder="Search"
+              value={searchValue}
               className="search-field"
+              onChange={onSearchChange}
             />
-            <button className="saerch-btn">Search</button>
+            <button
+              className="saerch-btn"
+              onClick={() => handleSearch(searchValue)}
+            >
+              Search
+            </button>
           </div>
           <div className="invoice-list__filters">
             {filterList.map((status) => (
