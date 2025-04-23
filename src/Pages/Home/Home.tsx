@@ -33,7 +33,11 @@ import {
   MODAL_MESSAGES,
   ROUTES,
 } from '../../Shared/Constants';
-import { areAllFieldsApproved, checkFileType } from '../../Shared/functions';
+import {
+  approveAllFields,
+  areAllFieldsApproved,
+  checkFileType,
+} from '../../Shared/functions';
 import IMAGES from '../../Shared/Images';
 import { ERRORID, STATUS } from '../../Shared/enum';
 
@@ -41,6 +45,7 @@ function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const [isSubmitDisable, setIsSubmitDisable] = useState<boolean>(false);
   const [statusText, setStatusText] = useState({
     buttonText: BUTTON_TEXT.PENDING,
     status: INVOICE_STATUS.PENDING,
@@ -79,7 +84,11 @@ function Home() {
       });
     }
   }, [extractedData]);
-
+  useEffect(() => {
+    if (wholeExtractedData) {
+      setIsSubmitDisable(wholeExtractedData.data?.approved);
+    }
+  }, [wholeExtractedData]);
   const resetExtractedData = () => {
     setExtractedData(null);
     oldStateRef.current = null;
@@ -227,7 +236,12 @@ function Home() {
 
     refetchExtractedData();
   };
-
+  const onApproveAllFields = () => {
+    if (extractedData) {
+      const updatedState = approveAllFields(extractedData);
+      setExtractedData(updatedState);
+    }
+  };
   return (
     <div className="file-uploadbx">
       {!fileUrl ? (
@@ -256,7 +270,7 @@ function Home() {
                 <div className="fields-top-section">
                   <h2>File Fields</h2>
                   <div className="top-actions">
-                    {/* {extractedData &&
+                    {extractedData &&
                       statusText.status !== INVOICE_STATUS.APPROVED && (
                         <button
                           onClick={onApproveAllFields}
@@ -268,7 +282,7 @@ function Home() {
                           </span>
                           Approve All
                         </button>
-                      )} */}
+                      )}
                   </div>
                 </div>
                 <div className="fields-data">
@@ -281,6 +295,7 @@ function Home() {
                       onRetry={onRetryCallback}
                       error={!!imageDataFetchingError}
                       invoiceId={wholeExtractedData && wholeExtractedData.id}
+                      setIsSubmitDisable={setIsSubmitDisable}
                     />
                   </div>
                 </div>
@@ -309,13 +324,7 @@ function Home() {
                       onClick={handleSave}
                       className="draft-save-btn"
                       type="button"
-                      disabled={
-                        extractedFieldLoading ||
-                        !extractedData ||
-                        (wholeExtractedData &&
-                          wholeExtractedData.data?.approved &&
-                          statusText.status === INVOICE_STATUS.APPROVED)
-                      }
+                      disabled={isSubmitDisable}
                     >
                       <span>
                         <img src={IMAGES.saveIcon} alt="save-icon" />
