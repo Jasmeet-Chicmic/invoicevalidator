@@ -51,7 +51,7 @@ function Home() {
     status: INVOICE_STATUS.PENDING,
   });
   const fileDataRef = useRef<FileUploadData>();
-  // const abortControllerRef = useRef<AbortController | null>(null);
+  const getInvoiceApiRef = useRef<(() => void) | null>(null);
 
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
@@ -102,6 +102,9 @@ function Home() {
       return;
     }
     try {
+      if (getInvoiceApiRef.current) {
+        getInvoiceApiRef.current();
+      }
       await deleteFile({ invoiceId: fileDataRef.current?.invoiceId });
       // abortControllerRef.current?.abort();
       resetExtractedData();
@@ -123,20 +126,18 @@ function Home() {
     invoiceId: number,
     fileType: string
   ) => {
-    // const controller = new AbortController();
     const getInvoicePayload: GetInvoiceRequest = {
       filePath,
       invoiceId,
       fileType,
-      // signal: controller.signal,
     };
 
-    // abortControllerRef.current = controller;
     // setExtractedData(dummyData.data);
     // oldStateRef.current = JSON.parse(JSON.stringify(dummyData.data));
     try {
-      const extractedDataResponse: ExtractedDataResponse =
-        await getInvoice(getInvoicePayload).unwrap();
+      const { unwrap, abort } = getInvoice(getInvoicePayload);
+      getInvoiceApiRef.current = abort;
+      const extractedDataResponse: ExtractedDataResponse = await unwrap();
       setExtractedData(extractedDataResponse.data);
       oldStateRef.current = JSON.parse(
         JSON.stringify(extractedDataResponse.data)
