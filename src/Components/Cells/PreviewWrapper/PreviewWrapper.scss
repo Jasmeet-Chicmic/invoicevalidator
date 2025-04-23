@@ -3,6 +3,7 @@
 
 $section-gapping: 22px 30px;
 
+
 .two-pane-wrapper {
   .back-btn {
     // background-color: $white-color;
@@ -66,21 +67,20 @@ $section-gapping: 22px 30px;
       }
 
       .file-previewbx {
-        max-width: 90%;
-        width: auto;
-        height: 85vh;
         background: rgba($blue-color-700, 1);
         border-radius: 10px;
         box-shadow: $shadow2;
+        width: 100%;
+        max-width: $box-width;
+        aspect-ratio: 435 / 610;
+        margin: 20px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 0;
 
-        @media only screen and (max-width:1680px) {
-          width: auto;
-        height: 76vh;
-        }
-
-        @media screen and (max-width:768px) {
-          width: 70%;
-          height: auto;
+        @media (max-width: 600px) {
+          width: 90%;
         }
 
         .invoice-preview {

@@ -5,7 +5,7 @@
     max-height: 400px;
 }
 
-;
+
 
 .file-previewer-pdf {
     width: 100%;
@@ -17,8 +17,10 @@
 }
 
 .zoom-wrapper {
-    width: 100% !important;
-    height: 100% !important;
+    // width: 100% !important;
+    // height: 100% !important;
+    width: calc($box-width - 20px) !important;
+    height: calc($box-height - 20px) !important;
 
     .react-transform-component.transform-component-module_content__FBWxo {
         width: 100%;
@@ -49,8 +51,11 @@
         line-height: initial;
 
         img {
-            height: 16px;
-            width: 16px;
+            height: 16px !important;
+            width: 16px !important;
+            min-height: 16px !important;
+            min-width: 16px !important;
+            background: transparent !important;
         }
 
         &:disabled {
