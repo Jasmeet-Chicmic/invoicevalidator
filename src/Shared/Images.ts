@@ -10,8 +10,16 @@ import tickIcon from '../Assets/icons/tick-icon.svg';
 import uploadIcon from '../Assets/icons/upload-icon.svg';
 import retryIcon from '../Assets/icons/retry-icon.svg';
 
+import resetIcon from '../Assets/icons/reset-icon.svg';
+import zoomoutIcon from '../Assets/icons/minus-icon.svg';
+import zoominIcon from '../Assets/icons/plus-icon.svg';
+import Default from '../Assets/defaults/default.jpg';
+
 const IMAGES = {
   Attention,
+  resetIcon,
+  zoomoutIcon,
+  zoominIcon,
   addIcon,
   backIcon,
   deleteIcon,
@@ -22,6 +30,7 @@ const IMAGES = {
   tickIcon,
   uploadIcon,
   retryIcon,
+  Default,
 };
 
 export default IMAGES;
