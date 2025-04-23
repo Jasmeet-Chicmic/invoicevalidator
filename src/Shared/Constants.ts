@@ -23,31 +23,31 @@ const WILDCARD_ROUTES = {
 const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
-    title: 'home',
+    title: 'Book Keep AI',
   },
   LISTING: {
     path: ROUTES.LISTING,
-    title: 'listing',
+    title: 'Book Keep AI',
   },
   EDIT: {
     path: ROUTES.EDIT,
-    title: 'edit',
+    title: 'Book Keep AI',
   },
   LOGIN: {
     path: ROUTES.LOGIN,
-    title: 'login',
+    title: 'Book Keep AI',
   },
   REGISTER: {
     path: ROUTES.REGISTER,
-    title: 'Register',
+    title: 'Book Keep AI',
   },
   ABOUT: {
     path: ROUTES.ABOUT,
-    title: 'About us',
+    title: 'Book Keep AI',
   },
   INVOICES: {
     path: ROUTES.INVOICES,
-    title: 'Invoices',
+    title: 'Book Keep AI',
   },
 };
 

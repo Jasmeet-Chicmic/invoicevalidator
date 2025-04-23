@@ -33,11 +33,7 @@ import {
   MODAL_MESSAGES,
   ROUTES,
 } from '../../Shared/Constants';
-import {
-  approveAllFields,
-  areAllFieldsApproved,
-  checkFileType,
-} from '../../Shared/functions';
+import { areAllFieldsApproved, checkFileType } from '../../Shared/functions';
 import IMAGES from '../../Shared/Images';
 import { ERRORID, STATUS } from '../../Shared/enum';
 
@@ -231,12 +227,6 @@ function Home() {
 
     refetchExtractedData();
   };
-  const onApproveAllFields = () => {
-    if (extractedData) {
-      const updatedState = approveAllFields(extractedData);
-      setExtractedData(updatedState);
-    }
-  };
 
   return (
     <div className="file-uploadbx">
@@ -266,7 +256,7 @@ function Home() {
                 <div className="fields-top-section">
                   <h2>File Fields</h2>
                   <div className="top-actions">
-                    {extractedData &&
+                    {/* {extractedData &&
                       statusText.status !== INVOICE_STATUS.APPROVED && (
                         <button
                           onClick={onApproveAllFields}
@@ -278,7 +268,7 @@ function Home() {
                           </span>
                           Approve All
                         </button>
-                      )}
+                      )} */}
                   </div>
                 </div>
                 <div className="fields-data">
@@ -319,7 +309,13 @@ function Home() {
                       onClick={handleSave}
                       className="draft-save-btn"
                       type="button"
-                      disabled={extractedFieldLoading || !extractedData}
+                      disabled={
+                        extractedFieldLoading ||
+                        !extractedData ||
+                        (wholeExtractedData &&
+                          wholeExtractedData.data?.approved &&
+                          statusText.status === INVOICE_STATUS.APPROVED)
+                      }
                     >
                       <span>
                         <img src={IMAGES.saveIcon} alt="save-icon" />

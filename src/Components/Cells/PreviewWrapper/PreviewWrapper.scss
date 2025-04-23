@@ -297,9 +297,15 @@ $section-gapping: 22px 30px;
             margin-right: 8px;
             line-height: initial;
           }
-
           &:hover {
             background: $blue-color-800;
+          }
+          &:disabled {
+            background: rgba($blue-color-900, 0.3);
+    
+            &:hover {
+              background: rgba($blue-color-900, 0.3);
+            }
           }
         }
 
