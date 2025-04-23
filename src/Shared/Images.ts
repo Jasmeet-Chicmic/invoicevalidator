@@ -13,6 +13,7 @@ import retryIcon from '../Assets/icons/retry-icon.svg';
 import resetIcon from '../Assets/icons/reset-icon.svg';
 import zoomoutIcon from '../Assets/icons/minus-icon.svg';
 import zoominIcon from '../Assets/icons/plus-icon.svg';
+import Default from '../Assets/defaults/default.jpg';
 
 const IMAGES = {
   Attention,
@@ -29,6 +30,7 @@ const IMAGES = {
   tickIcon,
   uploadIcon,
   retryIcon,
+  Default,
 };
 
 export default IMAGES;

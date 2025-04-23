@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import './FilePreviewer.scss';
 import IMAGES from '../../../Shared/Images';
@@ -9,6 +9,7 @@ type FilePreviewerProps = {
 };
 
 const FilePreviewer: React.FC<FilePreviewerProps> = ({ fileUrl, isImage }) => {
+  const [imgSrc, setImgSrc] = useState(fileUrl);
   return (
     <div className="invoice-preview">
       <TransformWrapper
@@ -43,9 +44,10 @@ const FilePreviewer: React.FC<FilePreviewerProps> = ({ fileUrl, isImage }) => {
               <TransformComponent wrapperClass="zoom-wrapper">
                 {isImage ? (
                   <img
-                    src={fileUrl}
+                    src={imgSrc}
                     alt="Preview"
                     className="file-previewer-image"
+                    onError={() => setImgSrc(IMAGES.Default)}
                   />
                 ) : (
                   <iframe
