@@ -1,6 +1,5 @@
 /* eslint-disable no-case-declarations */
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useCallback, useMemo, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 import useNotification from '../../../Hooks/useNotification';
@@ -22,6 +21,7 @@ import { formatCurrency } from '../../../Shared/functions';
 import RetryButton from '../../Atoms/RetryButton';
 import TextLoader from '../../Atoms/TextLoader';
 import CommonModal from '../CommonModal';
+import { CustomTable } from '../CustomTable';
 import {
   actionButtons,
   ConfirmationPopupDefaultValue,
@@ -32,18 +32,11 @@ import {
   ListingStatus,
   ListingStatusPayload,
 } from './helpers/enum';
-import { generateStatusPayload } from './helpers/utils';
+import { generateStatusPayload, getInvoiceTableColumns } from './helpers/utils';
 import './InvoiceList.scss';
+import { Invoice } from './helpers/interface';
+import { SortDirections } from '../CustomTable/helpers/interface';
 
-export interface Invoice {
-  id: number;
-  invoiceNo: string;
-  vendor: string;
-  amount: number;
-  date: string;
-  createdAt: string;
-  status: ListingStatusPayload;
-}
 export interface StatusType {
   APPROVED: 'Approved';
   PENDING: 'Pending';
@@ -71,14 +64,18 @@ const InvoiceList: React.FC = () => {
   const [deleteInvoice] = useDeleteInvoiceMutation();
   const [exportToTally] = useExportToTallyMutation();
   const [exportToLocal] = useExportToLocalMutation();
+  const notify = useNotification();
   const [filterStatus, setFilterStatus] = useState<ListingStatus>(
     ListingStatus.All
+  );
+  const [sortKey, setSortKey] = useState<keyof Invoice | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirections | null>(
+    null
   );
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [selectedApprovedIds, setSelectedApprovedIds] = useState<number[]>([]);
 
-  const notify = useNotification();
   const [confirmationModal, setConfirmationModal] = useState<PopupType>(
     ConfirmationPopupDefaultValue
   );
@@ -92,14 +89,19 @@ const InvoiceList: React.FC = () => {
     {
       page: currentPage + 1,
       limit: ITEMS_PER_PAGE,
+      sortKey,
+      sortDirection,
       status: generateStatusPayload(filterStatus),
     },
     { refetchOnMountOrArgChange: true }
   );
 
-  const handleEdit = (invoiceId: number) => {
-    navigate(`${ROUTES.EDIT}/${invoiceId}`);
-  };
+  const handleEdit = useCallback(
+    (invoiceId: number) => {
+      navigate(`${ROUTES.EDIT}/${invoiceId}`);
+    },
+    [navigate]
+  );
 
   const handleDelete = (id: number, action: ButtonActions) => {
     setConfirmationModal({
@@ -134,20 +136,23 @@ const InvoiceList: React.FC = () => {
     });
   };
 
-  const handleListAction = (action: ButtonActions, id: number) => {
-    switch (action) {
-      case ButtonActions.Edit:
-        return handleEdit(id);
-      case ButtonActions.Delete:
-        return handleDelete(id, action);
-      case ButtonActions.ExportToTally:
-        return handleExport(id, action);
-      case ButtonActions.ExportToLocal:
-        return handleDownload(id, action);
-      default:
-        return null;
-    }
-  };
+  const handleListAction = useCallback(
+    (action: ButtonActions, id: number) => {
+      switch (action) {
+        case ButtonActions.Edit:
+          return handleEdit(id);
+        case ButtonActions.Delete:
+          return handleDelete(id, action);
+        case ButtonActions.ExportToTally:
+          return handleExport(id, action);
+        case ButtonActions.ExportToLocal:
+          return handleDownload(id, action);
+        default:
+          return null;
+      }
+    },
+    [handleEdit]
+  );
 
   const handleActionBtnDisablity = (action: ButtonActions, status: number) => {
     switch (action) {
@@ -158,44 +163,50 @@ const InvoiceList: React.FC = () => {
     }
   };
 
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      const allIds = data?.data?.map((invoice: Invoice) => invoice.id) || [];
-      const approvedIds = data?.data?.filter(
-        (invoice: Invoice) => invoice.status === ListingStatusPayload.approved
+  const handleSelectAll = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.checked) {
+        const allIds = data?.data?.map((invoice: Invoice) => invoice.id) || [];
+        const approvedIds = data?.data?.filter(
+          (invoice: Invoice) => invoice.status === ListingStatusPayload.approved
+        );
+        setSelectedIds(allIds);
+        setSelectedApprovedIds(approvedIds);
+      } else {
+        setSelectedIds([]);
+        setSelectedApprovedIds([]);
+      }
+    },
+    [data?.data]
+  );
+
+  const handleCheckboxChange = useCallback(
+    (id: number) => {
+      const invoice = data?.data?.find((inv: Invoice) => inv.id === id);
+      const isApproved = invoice?.status === ListingStatusPayload.approved;
+
+      // Toggle selectedIds
+      setSelectedIds((prev) =>
+        prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
       );
-      setSelectedIds(allIds);
-      setSelectedApprovedIds(approvedIds);
-    } else {
-      setSelectedIds([]);
-      setSelectedApprovedIds([]);
-    }
-  };
 
-  const handleCheckboxChange = (id: number) => {
-    const invoice = data?.data?.find((inv: Invoice) => inv.id === id);
-    const isApproved = invoice?.status === ListingStatusPayload.approved;
+      // Toggle selectedApprovedIds without nested ternary
+      setSelectedApprovedIds((prev) => {
+        const isAlreadySelected = prev.includes(id);
 
-    // Toggle selectedIds
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
+        if (isAlreadySelected) {
+          return prev.filter((i) => i !== id);
+        }
 
-    // Toggle selectedApprovedIds without nested ternary
-    setSelectedApprovedIds((prev) => {
-      const isAlreadySelected = prev.includes(id);
+        if (isApproved) {
+          return [...prev, id];
+        }
 
-      if (isAlreadySelected) {
-        return prev.filter((i) => i !== id);
-      }
-
-      if (isApproved) {
-        return [...prev, id];
-      }
-
-      return prev;
-    });
-  };
+        return prev;
+      });
+    },
+    [data?.data]
+  );
 
   const handleHeaderActions = (actionType: ButtonActions) => {
     switch (actionType) {
@@ -244,20 +255,23 @@ const InvoiceList: React.FC = () => {
         });
     }
   };
-  const getStatusText = (status: number): string => {
+  const getStatusText = useCallback((status: ListingStatusPayload): string => {
     switch (status) {
       case ListingStatusPayload.approved:
         return ListingStatus.Approved;
       case ListingStatusPayload.pending:
         return ListingStatus.Pending;
       default:
-        return '';
+        return STRINGS.EMPTY_STRING;
     }
-  };
-  const getStatusClass = (status: number): string => {
-    return `status-badge status-${getStatusText(status).toLowerCase()}`;
-  };
-  // `status-badge status-${status.toLowerCase()}`;
+  }, []);
+
+  const getStatusClass = useCallback(
+    (status: ListingStatusPayload): string => {
+      return `status-badge status-${getStatusText(status).toLowerCase()}`;
+    },
+    [getStatusText]
+  );
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setCurrentPage(selectedItem.selected);
@@ -291,7 +305,6 @@ const InvoiceList: React.FC = () => {
             return;
           await exportToTally({
             invoiceId: confirmationModal.data.invoiceId,
-            // invoiceIds: confirmationModal.data.invoiceIds,
           }).unwrap();
           notify(MESSAGES.NOTIFICATION.INVOICE_EXPORTED_TO_TALLY_SUCCESSFULLY);
           break;
@@ -363,8 +376,43 @@ const InvoiceList: React.FC = () => {
     return STRINGS.EMPTY_STRING;
   }
 
+  const handleSort = (
+    sortingKey: keyof Invoice,
+    sortingdirection: SortDirections
+  ) => {
+    setSortKey(sortingKey);
+    setSortDirection(sortingdirection);
+    setCurrentPage(0);
+  };
+
   const isAllSelected =
     data?.data?.length > 0 && selectedIds.length === data?.data.length;
+
+  const columns = useMemo(
+    () =>
+      getInvoiceTableColumns({
+        isAllSelected,
+        selectedIds,
+        handleSelectAll,
+        handleCheckboxChange,
+        handleListAction,
+        handleActionBtnDisablity,
+        formatCurrency,
+        getStatusText,
+        getStatusClass,
+        actionButtons,
+      }),
+    [
+      getStatusClass,
+      getStatusText,
+      handleCheckboxChange,
+      handleListAction,
+      handleSelectAll,
+      isAllSelected,
+      selectedIds,
+    ]
+  );
+
   if (isAllInvoiceError) return <RetryButton onClick={onRetry} />;
   if (isAllInvoiceLoading) return <TextLoader showText={false} />;
 
@@ -374,7 +422,7 @@ const InvoiceList: React.FC = () => {
         <h1 className="invoice-list__title">{STRINGS.INVOICES}</h1>
 
         <div className="hdrright-actions">
-          {/* <div className="search-bx">
+          <div className="search-bx">
             <input
               type="text"
               alt="search"
@@ -382,7 +430,7 @@ const InvoiceList: React.FC = () => {
               className="search-field"
             />
             <button className="saerch-btn">Search</button>
-          </div> */}
+          </div>
           <div className="invoice-list__filters">
             {filterList.map((status) => (
               <button
@@ -419,84 +467,12 @@ const InvoiceList: React.FC = () => {
         </div>
       </div>
 
-      <div className="invoice-list__table-container">
-        <table className="invoice-list__table">
-          <thead>
-            <tr>
-              <th>
-                <div className="checkbox-invoice custom-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={isAllSelected}
-                    onChange={handleSelectAll}
-                    aria-label="Select all invoices"
-                  />
-                </div>
-              </th>
-              <th>Invoice Id</th>
-              <th>Invoice No</th>
-              <th>Vendor</th>
-              <th>Amount</th>
-              <th>Invoice Date</th>
-              <th>Uploaded At</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.total > 0 ? (
-              data?.data?.map((invoice: Invoice) => (
-                <tr key={invoice.id}>
-                  <td>
-                    <div className="checkbox-invoice custom-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={selectedIds.includes(invoice.id)}
-                        onChange={() => handleCheckboxChange(invoice.id)}
-                        aria-label={`Select invoice ${invoice.invoiceNo}`}
-                      />
-                    </div>
-                  </td>
-                  <td>{invoice.id || STRINGS.HYPHEN}</td>
-                  <td>{invoice.invoiceNo || STRINGS.HYPHEN}</td>
-                  <td>{invoice.vendor || STRINGS.HYPHEN}</td>
-                  <td>{formatCurrency(invoice.amount)}</td>
-                  <td>{invoice.date || STRINGS.HYPHEN}</td>
-                  <td>
-                    {moment(invoice.createdAt).format('D MMM YYYY h:mma')}
-                  </td>
-                  <td>
-                    <span className={getStatusClass(invoice.status)}>
-                      {getStatusText(invoice.status)}
-                    </span>
-                  </td>
-                  <td className="invoice-list__actions">
-                    {actionButtons.map(({ key, icon, alt, className }) => (
-                      <button
-                        key={key}
-                        type="button"
-                        className={`invoice-list__action-button ${className}`}
-                        onClick={() => handleListAction(key, invoice.id)}
-                        disabled={handleActionBtnDisablity(key, invoice.status)}
-                      >
-                        <img src={icon} alt={alt} />
-                      </button>
-                    ))}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={9} style={{ textAlign: 'center' }}>
-                  <div className="no-text-outer">
-                    <h5 className="no-text">No invoices found.</h5>
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <CustomTable
+        columns={columns}
+        data={data?.data || []}
+        rowKey={(row: Invoice) => row.id}
+        handleSort={handleSort}
+      />
 
       {data?.total > ITEMS_PER_PAGE && (
         <div className="listing-pagination">
