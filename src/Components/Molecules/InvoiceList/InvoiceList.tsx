@@ -316,15 +316,14 @@ const InvoiceList: React.FC = () => {
 
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = `invoice_${invoice.invoice_id}.txt`;
+                link.download = `invoice_${invoice.invoice_id}.json`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
                 window.URL.revokeObjectURL(url); // Clean up
               } catch (err) {
-                console.error(
-                  `Failed to download invoice ${invoice.invoice_id}`,
-                  err
+                notify(
+                  `${MESSAGES.NOTIFICATION.FILE_TYPE_NOT_ALLOWED} ${invoice.invoice_id}`
                 );
               }
             }
@@ -488,7 +487,7 @@ const InvoiceList: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={7} style={{ textAlign: 'center' }}>
+                <td colSpan={9} style={{ textAlign: 'center' }}>
                   <div className="no-text-outer">
                     <h5 className="no-text">No invoices found.</h5>
                   </div>

@@ -78,13 +78,15 @@ export const approveAllFields = (data: ExtractedData): ExtractedData => {
       typeof value === 'object' &&
       value !== null &&
       'value' in value &&
-      'approved' in value
+      'approved' in value &&
+      'confidenceScore' in value
     ) {
       const field = value as FieldValue;
       const isEmpty = field.value === null || field.value === '';
       return {
         ...field,
         approved: !isEmpty,
+        confidenceScore: !isEmpty ? 1 : field.confidenceScore,
       };
     }
 
@@ -102,11 +104,15 @@ export const approveAllFields = (data: ExtractedData): ExtractedData => {
   const updatedData: ExtractedData = {};
 
   Object.entries(data).forEach(([sectionKey, section]) => {
-    const updatedSection: { [key: string]: DynamicField | FieldValue } = {};
-    Object.entries(section).forEach(([fieldKey, fieldValue]) => {
-      updatedSection[fieldKey] = approveField(fieldValue);
-    });
-    updatedData[sectionKey] = updatedSection as DynamicField;
+    if (Array.isArray(section)) {
+      updatedData[sectionKey] = approveField(section) as DynamicField;
+    } else {
+      const updatedSection: { [key: string]: DynamicField | FieldValue } = {};
+      Object.entries(section).forEach(([fieldKey, fieldValue]) => {
+        updatedSection[fieldKey] = approveField(fieldValue);
+      });
+      updatedData[sectionKey] = updatedSection as DynamicField;
+    }
   });
 
   return updatedData;

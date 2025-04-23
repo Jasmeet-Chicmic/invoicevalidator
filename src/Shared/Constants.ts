@@ -64,6 +64,7 @@ const MESSAGES = {
       'Invoice exported to tally successfully',
     INVOICE_EXPORTED_TO_LOCAL_SUCCESSFULLY:
       'Invoice exported to local successfully',
+    FAILED_TO_DOWNLOAD: 'Failed to download',
   },
   FILE_UPLOADER: {
     FILE_DATA_ERROR:
