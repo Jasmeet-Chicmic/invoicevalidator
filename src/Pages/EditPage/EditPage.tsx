@@ -37,6 +37,7 @@ const EditPage = () => {
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
+  const [isSubmitDisable, setIsSubmitDisable] = useState<boolean>(false);
   const [onSubmit] = useOnSubmitMutation();
   const [confirmationModal, setConfirmationModal] = useState(false);
   const { invoiceId } = useParams();
@@ -84,6 +85,7 @@ const EditPage = () => {
   useEffect(() => {
     if (data) {
       const editExtractedData = data.data?.data;
+      setIsSubmitDisable(data.data?.approved);
       setExtractedData(editExtractedData);
       oldStateRef.current = JSON.parse(JSON.stringify(editExtractedData));
     }
@@ -164,6 +166,7 @@ const EditPage = () => {
                   loading={loading}
                   error={!!error}
                   invoiceId={extractedEditData && extractedEditData.id}
+                  setIsSubmitDisable={setIsSubmitDisable}
                 />
               </div>
             </div>
@@ -187,11 +190,7 @@ const EditPage = () => {
                   onClick={handleSave}
                   className="draft-save-btn ms-auto"
                   type="button"
-                  disabled={
-                    data &&
-                    data.data?.approved &&
-                    statusText.status === INVOICE_STATUS.APPROVED
-                  }
+                  disabled={isSubmitDisable}
                 >
                   <span>
                     <img src={IMAGES.saveIcon} alt="save-icon" />

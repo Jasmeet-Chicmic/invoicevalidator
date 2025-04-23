@@ -41,6 +41,7 @@ function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [confirmationModal, setConfirmationModal] = useState(false);
+  const [isSubmitDisable, setIsSubmitDisable] = useState<boolean>(false);
   const [statusText, setStatusText] = useState({
     buttonText: BUTTON_TEXT.PENDING,
     status: INVOICE_STATUS.PENDING,
@@ -79,7 +80,11 @@ function Home() {
       });
     }
   }, [extractedData]);
-
+  useEffect(() => {
+    if (wholeExtractedData) {
+      setIsSubmitDisable(wholeExtractedData.data?.approved);
+    }
+  }, [wholeExtractedData]);
   const resetExtractedData = () => {
     setExtractedData(null);
     oldStateRef.current = null;
@@ -281,6 +286,7 @@ function Home() {
                       onRetry={onRetryCallback}
                       error={!!imageDataFetchingError}
                       invoiceId={wholeExtractedData && wholeExtractedData.id}
+                      setIsSubmitDisable={setIsSubmitDisable}
                     />
                   </div>
                 </div>
@@ -309,13 +315,7 @@ function Home() {
                       onClick={handleSave}
                       className="draft-save-btn"
                       type="button"
-                      disabled={
-                        extractedFieldLoading ||
-                        !extractedData ||
-                        (wholeExtractedData &&
-                          wholeExtractedData.data?.approved &&
-                          statusText.status === INVOICE_STATUS.APPROVED)
-                      }
+                      disabled={isSubmitDisable}
                     >
                       <span>
                         <img src={IMAGES.saveIcon} alt="save-icon" />

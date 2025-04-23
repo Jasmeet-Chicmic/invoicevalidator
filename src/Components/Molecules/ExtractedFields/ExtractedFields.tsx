@@ -10,7 +10,10 @@ import {
 import { useOnApproveMutation } from '../../../Services/Api/module/fileApi';
 import { MESSAGES } from '../../../Shared/Constants';
 import { STATUS } from '../../../Shared/enum';
-import { formatCamelCase } from '../../../Shared/functions';
+import {
+  areAllFieldsApproved,
+  formatCamelCase,
+} from '../../../Shared/functions';
 import ExtractedField from '../../Atoms/ExtractedField';
 import RetryButton from '../../Atoms/RetryButton';
 import TextLoader from '../../Atoms/TextLoader';
@@ -22,6 +25,7 @@ type ExtractedFieldsProps = {
   oldStateRef: React.MutableRefObject<ExtractedData | null>;
   loading: boolean;
   invoiceId: string;
+  setIsSubmitDisable: React.Dispatch<React.SetStateAction<boolean>>;
   error?: boolean;
   onRetry?: () => void;
 };
@@ -32,6 +36,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   oldStateRef,
   loading,
   error = true,
+  setIsSubmitDisable,
   onRetry = () => {},
   invoiceId,
 }) => {
@@ -71,7 +76,11 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
       const prevItem = prevArrayItems?.[index];
       const oldValue = extractOldValue(prevItem?.[fieldKey] as DynamicField);
       const fieldObj = targetItem[fieldKey] as FieldValue;
-
+      if (newValue !== oldValue) {
+        setIsSubmitDisable(false);
+      } else {
+        setIsSubmitDisable(true);
+      }
       const updatedItem: DynamicFieldArrayItem = {
         ...targetItem,
         [fieldKey]: {
@@ -84,10 +93,14 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
       const updatedArray = [...arrayItems];
       updatedArray[index] = updatedItem;
 
-      return {
+      const updatedState = {
         ...prevData,
         [arrParentKey]: updatedArray,
       };
+      if (areAllFieldsApproved(updatedState)) {
+        setIsSubmitDisable(true);
+      }
+      return updatedState;
     });
   };
 
@@ -106,8 +119,12 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
 
       const currentSection = prevData[sectionKey] as DynamicField;
       const currentField = (currentSection as ExtractedData)?.[fieldKey];
-
-      return {
+      if (newValue !== oldValue) {
+        setIsSubmitDisable(false);
+      } else {
+        setIsSubmitDisable(true);
+      }
+      const updatedState = {
         ...prevData,
         [sectionKey]: {
           ...currentSection,
@@ -118,6 +135,10 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           },
         } as DynamicField,
       };
+      if (areAllFieldsApproved(updatedState)) {
+        setIsSubmitDisable(true);
+      }
+      return updatedState;
     });
   };
 
