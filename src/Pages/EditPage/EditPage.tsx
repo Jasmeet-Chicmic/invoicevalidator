@@ -7,28 +7,17 @@ import {
   CommonErrorResponse,
   ExtractedData,
 } from '../../Services/Api/Constants';
-import {
-  BUTTON_TEXT,
-  INVOICE_STATUS,
-  MESSAGES,
-  MODAL_MESSAGES,
-  ROUTES,
-} from '../../Shared/Constants';
-// Custom components
-import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
-import FilePreviewer from '../../Components/Atoms/FilePreviewer';
-import ExtractedFields from '../../Components/Molecules/ExtractedFields';
-import CommonModal from '../../Components/Molecules/CommonModal';
+import { MESSAGES, MODAL_MESSAGES, ROUTES } from '../../Shared/Constants';
+
 // Hooks
 import useNotification from '../../Hooks/useNotification';
 // Utils
-import { approveAllFields, areAllFieldsApproved } from '../../Shared/functions';
-import IMAGES from '../../Shared/Images';
 import {
   useEditDataQuery,
   useOnSubmitMutation,
 } from '../../Services/Api/module/fileApi';
 import { STATUS } from '../../Shared/enum';
+import PreviewPageTemplate from '../../Components/Template/PreviewPageTemplate';
 
 const EditPage = () => {
   const navigate = useNavigate();
@@ -37,6 +26,8 @@ const EditPage = () => {
   const [extractedData, setExtractedData] = useState<ExtractedData | null>(
     null
   );
+
+  const [isApproved, setIsApproved] = useState<boolean>(false);
   const [isSubmitDisable, setIsSubmitDisable] = useState<boolean>(false);
   const [onSubmit] = useOnSubmitMutation();
   const [confirmationModal, setConfirmationModal] = useState(false);
@@ -51,10 +42,6 @@ const EditPage = () => {
     { skip: !invoiceId, refetchOnMountOrArgChange: true }
   );
 
-  const [statusText, setStatusText] = useState({
-    buttonText: BUTTON_TEXT.PENDING,
-    status: INVOICE_STATUS.PENDING,
-  });
   const extractedEditData = useMemo(() => {
     if (data) {
       return data.data;
@@ -67,20 +54,6 @@ const EditPage = () => {
       navigate(ROUTES.LISTING);
     }
   }, [invoiceId, navigate]);
-
-  useEffect(() => {
-    if (extractedData && areAllFieldsApproved(extractedData)) {
-      setStatusText({
-        buttonText: BUTTON_TEXT.SAVE,
-        status: INVOICE_STATUS.APPROVED,
-      });
-    } else {
-      setStatusText({
-        buttonText: BUTTON_TEXT.PENDING,
-        status: INVOICE_STATUS.PENDING,
-      });
-    }
-  }, [extractedData]);
 
   useEffect(() => {
     if (data) {
@@ -99,7 +72,7 @@ const EditPage = () => {
     try {
       await onSubmit({
         invoiceId: extractedEditData.id,
-        isApproved: statusText.status === INVOICE_STATUS.APPROVED,
+        isApproved,
         data: extractedData!,
       });
       oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
@@ -119,103 +92,124 @@ const EditPage = () => {
   const handleDiscard = () => {
     navigate(ROUTES.LISTING);
   };
-  const handleBack = () => {
+
+  const onCloseModal = () => {
+    setConfirmationModal(false);
+  };
+
+  const onConfirmModal = () => {
     handleDiscard();
   };
-  const onApproveAllFields = () => {
-    if (extractedData) {
-      const updatedState = approveAllFields(extractedData);
-      setExtractedData(updatedState);
-    }
-  };
-  return (
-    <div className="invoice_preview">
-      <PreviewWrapper
-        left={
-          <div className="file-previewbx">
-            <FilePreviewer
-              isImage={extractedEditData && extractedEditData.type}
-              fileUrl={
-                extractedEditData &&
-                `${API_BASE_URL}/${extractedEditData.mediaUrl}`
-              }
-            />
-          </div>
-        }
-        right={
-          <div className="extracted-filedsbx">
-            <div className="fields-top-section">
-              <h2>File Fields</h2>
-              <div className="top-actions">
-                {extractedData &&
-                  statusText.status !== INVOICE_STATUS.APPROVED && (
-                    <button
-                      onClick={onApproveAllFields}
-                      className="approve-btn"
-                      type="button"
-                    >
-                      <span>
-                        <img src={IMAGES.tickIcon} alt="save-icon" />
-                      </span>
-                      Approve All
-                    </button>
-                  )}
-              </div>
-            </div>
-            <div className="fields-data">
-              <div className="fields">
-                <ExtractedFields
-                  data={extractedData}
-                  setData={setExtractedData}
-                  oldStateRef={oldStateRef}
-                  loading={loading}
-                  error={!!error}
-                  invoiceId={extractedEditData && extractedEditData.id}
-                  setIsSubmitDisable={setIsSubmitDisable}
-                />
-              </div>
-            </div>
-            <div className="fields-bottom-section">
-              <h3>
-                Status:{' '}
-                <span className={`${statusText.status}`}>
-                  {statusText.status}
-                </span>
-              </h3>
-              <div className="bottom-actions">
-                <button type="button" className="back-btn" onClick={handleBack}>
-                  <span>
-                    {' '}
-                    <img src={IMAGES.backIcon} alt="back-icon" />
-                  </span>{' '}
-                  Back
-                </button>
 
-                <button
-                  onClick={handleSave}
-                  className="draft-save-btn ms-auto"
-                  type="button"
-                  disabled={isSubmitDisable}
-                >
-                  <span>
-                    <img src={IMAGES.saveIcon} alt="save-icon" />
-                  </span>
-                  {statusText.buttonText}
-                </button>
-              </div>
-            </div>
-          </div>
-        }
-      />
-      <CommonModal
-        isOpen={confirmationModal}
-        onRequestClose={() => setConfirmationModal(false)}
-        onOk={() => {
-          handleDiscard();
-        }}
-        message={MODAL_MESSAGES.EDIT_INVOICE_CONFIRMATION}
-      />
-    </div>
+  return (
+    <PreviewPageTemplate
+      isImage={extractedEditData && extractedEditData.type}
+      fileUrl={
+        extractedEditData && `${API_BASE_URL}/${extractedEditData.mediaUrl}`
+      }
+      extractedData={extractedData}
+      setExtractedData={setExtractedData}
+      oldStateRef={oldStateRef}
+      loading={loading}
+      error={!!error}
+      wholeExtractedData={extractedEditData}
+      handleSave={handleSave}
+      confirmationModalMsg={MODAL_MESSAGES.EDIT_INVOICE_CONFIRMATION}
+      onCloseModal={onCloseModal}
+      onConfirmModal={onConfirmModal}
+      confirmModal={confirmationModal}
+      setConfirmationModal={setConfirmationModal}
+      isSubmitDisable={isSubmitDisable}
+      setIsSubmitDisable={setIsSubmitDisable}
+      setIsApproved={setIsApproved}
+    />
+    // <div className="invoice_preview">
+    //   <PreviewWrapper
+    //     left={
+    //       <div className="file-previewbx">
+    //         <FilePreviewer
+    //           isImage={extractedEditData && extractedEditData.type}
+    //           fileUrl={
+    //             extractedEditData &&
+    //             `${API_BASE_URL}/${extractedEditData.mediaUrl}`
+    //           }
+    //         />
+    //       </div>
+    //     }
+    //     right={
+    //       <div className="extracted-filedsbx">
+    //         <div className="fields-top-section">
+    //           <h2>File Fields</h2>
+    //           <div className="top-actions">
+    //             {extractedData &&
+    //               statusText.status !== INVOICE_STATUS.APPROVED && (
+    //                 <button
+    //                   onClick={onApproveAllFields}
+    //                   className="approve-btn"
+    //                   type="button"
+    //                 >
+    //                   <span>
+    //                     <img src={IMAGES.tickIcon} alt="save-icon" />
+    //                   </span>
+    //                   Approve All
+    //                 </button>
+    //               )}
+    //           </div>
+    //         </div>
+    //         <div className="fields-data">
+    //           <div className="fields">
+    //             <ExtractedFields
+    //               data={extractedData}
+    //               setData={setExtractedData}
+    //               oldStateRef={oldStateRef}
+    //               loading={loading}
+    //               error={!!error}
+    //               invoiceId={extractedEditData && extractedEditData.id}
+    //               setIsSubmitDisable={setIsSubmitDisable}
+    //             />
+    //           </div>
+    //         </div>
+    //         <div className="fields-bottom-section">
+    //           <h3>
+    //             Status:{' '}
+    //             <span className={`${statusText.status}`}>
+    //               {statusText.status}
+    //             </span>
+    //           </h3>
+    //           <div className="bottom-actions">
+    //             <button type="button" className="back-btn" onClick={handleBack}>
+    //               <span>
+    //                 {' '}
+    //                 <img src={IMAGES.backIcon} alt="back-icon" />
+    //               </span>{' '}
+    //               Back
+    //             </button>
+
+    //             <button
+    //               onClick={handleSave}
+    //               className="draft-save-btn ms-auto"
+    //               type="button"
+    //               disabled={isSubmitDisable}
+    //             >
+    //               <span>
+    //                 <img src={IMAGES.saveIcon} alt="save-icon" />
+    //               </span>
+    //               {statusText.buttonText}
+    //             </button>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     }
+    //   />
+    //   <CommonModal
+    //     isOpen={confirmationModal}
+    //     onRequestClose={() => setConfirmationModal(false)}
+    //     onOk={() => {
+    //       handleDiscard();
+    //     }}
+    //     message={MODAL_MESSAGES.EDIT_INVOICE_CONFIRMATION}
+    //   />
+    // </div>
   );
 };
 

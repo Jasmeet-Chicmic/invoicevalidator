@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 // Components
 import { useNavigate } from 'react-router-dom';
 import FileUploader from '../../Components/Cells/FileUploader';
-import PreviewWrapper from '../../Components/Cells/PreviewWrapper';
-import FilePreviewer from '../../Components/Atoms/FilePreviewer';
+
 import {
   useDeleteFileMutation,
   useFileUploadMutation,
@@ -21,35 +20,21 @@ import {
   FileUploadResponse,
   GetInvoiceRequest,
 } from '../../Services/Api/Constants';
-import ExtractedFields from '../../Components/Molecules/ExtractedFields';
-import CommonModal from '../../Components/Molecules/CommonModal';
+
 import useNotification from '../../Hooks/useNotification';
 
 // constants
-import {
-  BUTTON_TEXT,
-  INVOICE_STATUS,
-  MESSAGES,
-  MODAL_MESSAGES,
-  ROUTES,
-} from '../../Shared/Constants';
-import {
-  approveAllFields,
-  areAllFieldsApproved,
-  checkFileType,
-} from '../../Shared/functions';
-import IMAGES from '../../Shared/Images';
+import { MESSAGES, MODAL_MESSAGES, ROUTES } from '../../Shared/Constants';
+import { checkFileType } from '../../Shared/functions';
 import { ERRORID, STATUS } from '../../Shared/enum';
+import PreviewPageTemplate from '../../Components/Template/PreviewPageTemplate';
 
 function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [isSubmitDisable, setIsSubmitDisable] = useState<boolean>(false);
-  const [statusText, setStatusText] = useState({
-    buttonText: BUTTON_TEXT.PENDING,
-    status: INVOICE_STATUS.PENDING,
-  });
+  const [isApproved, setIsApproved] = useState<boolean>(false);
   const fileDataRef = useRef<FileUploadData>();
   const getInvoiceApiRef = useRef<(() => void) | null>(null);
 
@@ -71,19 +56,7 @@ function Home() {
 
   const notify = useNotification();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (extractedData && areAllFieldsApproved(extractedData)) {
-      setStatusText({
-        buttonText: BUTTON_TEXT.SAVE,
-        status: INVOICE_STATUS.APPROVED,
-      });
-    } else {
-      setStatusText({
-        buttonText: BUTTON_TEXT.PENDING,
-        status: INVOICE_STATUS.PENDING,
-      });
-    }
-  }, [extractedData]);
+
   useEffect(() => {
     if (wholeExtractedData) {
       setIsSubmitDisable(wholeExtractedData.data?.approved);
@@ -92,9 +65,6 @@ function Home() {
   const resetExtractedData = () => {
     setExtractedData(null);
     oldStateRef.current = null;
-  };
-  const handleBack = () => {
-    setConfirmationModal(true);
   };
 
   const handleRemove = async () => {
@@ -199,7 +169,7 @@ function Home() {
     try {
       await onSubmit({
         invoiceId: fileDataRef.current?.invoiceId,
-        isApproved: statusText.status === INVOICE_STATUS.APPROVED,
+        isApproved,
         data: extractedData!,
       });
       oldStateRef.current = JSON.parse(JSON.stringify(extractedData));
@@ -237,11 +207,8 @@ function Home() {
 
     refetchExtractedData();
   };
-  const onApproveAllFields = () => {
-    if (extractedData) {
-      const updatedState = approveAllFields(extractedData);
-      setExtractedData(updatedState);
-    }
+  const onConfirmModal = () => {
+    handleRemove();
   };
   return (
     <div className="file-uploadbx">
@@ -259,92 +226,27 @@ function Home() {
           />
         </div>
       ) : (
-        <div className="invoice_preview">
-          <PreviewWrapper
-            left={
-              <div className="file-previewbx">
-                <FilePreviewer isImage fileUrl={fileUrl} />
-              </div>
-            }
-            right={
-              <div className="extracted-filedsbx">
-                <div className="fields-top-section">
-                  <h2>File Fields</h2>
-                  <div className="top-actions">
-                    {extractedData &&
-                      statusText.status !== INVOICE_STATUS.APPROVED && (
-                        <button
-                          onClick={onApproveAllFields}
-                          className="approve-btn"
-                          type="button"
-                        >
-                          <span>
-                            <img src={IMAGES.tickIcon} alt="save-icon" />
-                          </span>
-                          Approve All
-                        </button>
-                      )}
-                  </div>
-                </div>
-                <div className="fields-data">
-                  <div className="fields">
-                    <ExtractedFields
-                      data={extractedData}
-                      setData={setExtractedData}
-                      loading={extractedFieldLoading}
-                      oldStateRef={oldStateRef}
-                      onRetry={onRetryCallback}
-                      error={!!imageDataFetchingError}
-                      invoiceId={wholeExtractedData && wholeExtractedData.id}
-                      setIsSubmitDisable={setIsSubmitDisable}
-                    />
-                  </div>
-                </div>
-                <div className="fields-bottom-section">
-                  <h3>
-                    Status:{' '}
-                    <span className={`${statusText.status}`}>
-                      {statusText.status}
-                    </span>
-                  </h3>
-
-                  <div className="bottom-actions">
-                    <button
-                      type="button"
-                      className="back-btn"
-                      onClick={handleBack}
-                    >
-                      <span>
-                        {' '}
-                        <img src={IMAGES.backIcon} alt="back-icon" />
-                      </span>{' '}
-                      Back
-                    </button>
-
-                    <button
-                      onClick={handleSave}
-                      className="draft-save-btn"
-                      type="button"
-                      disabled={isSubmitDisable}
-                    >
-                      <span>
-                        <img src={IMAGES.saveIcon} alt="save-icon" />
-                      </span>
-                      {statusText.buttonText}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            }
-          />
-        </div>
+        <PreviewPageTemplate
+          isImage
+          fileUrl={fileUrl}
+          extractedData={extractedData}
+          setExtractedData={setExtractedData}
+          oldStateRef={oldStateRef}
+          loading={extractedFieldLoading}
+          error={!!imageDataFetchingError}
+          wholeExtractedData={wholeExtractedData}
+          handleSave={handleSave}
+          confirmationModalMsg={MODAL_MESSAGES.CANCLE_INVOICE_CONFIRMATION}
+          onCloseModal={onCloseModal}
+          onConfirmModal={onConfirmModal}
+          confirmModal={confirmationModal}
+          setConfirmationModal={setConfirmationModal}
+          isSubmitDisable={isSubmitDisable}
+          setIsSubmitDisable={setIsSubmitDisable}
+          onRetry={onRetryCallback}
+          setIsApproved={setIsApproved}
+        />
       )}
-      <CommonModal
-        isOpen={confirmationModal}
-        onRequestClose={onCloseModal}
-        onOk={handleRemove}
-        message={MODAL_MESSAGES.CANCLE_INVOICE_CONFIRMATION}
-      />
     </div>
   );
 }
