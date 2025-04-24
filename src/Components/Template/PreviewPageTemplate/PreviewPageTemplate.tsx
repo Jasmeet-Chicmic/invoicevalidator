@@ -28,7 +28,7 @@ type PreviewPageTemplateProps = {
   onCloseModal: () => void;
   onConfirmModal: () => void;
   confirmModal: boolean;
-  setConfirmationModal: React.Dispatch<React.SetStateAction<boolean>>;
+  handleBack: () => void;
   isSubmitDisable: boolean;
   setIsSubmitDisable: React.Dispatch<React.SetStateAction<boolean>>;
   setIsApproved: React.Dispatch<React.SetStateAction<boolean>>;
@@ -45,7 +45,7 @@ const PreviewPageTemplate: React.FC<PreviewPageTemplateProps> = ({
   wholeExtractedData,
   handleSave,
   confirmModal,
-  setConfirmationModal,
+  handleBack,
   onCloseModal,
   onConfirmModal,
   confirmationModalMsg,
@@ -64,10 +64,6 @@ const PreviewPageTemplate: React.FC<PreviewPageTemplateProps> = ({
       const updatedState = approveAllFields(extractedData);
       setExtractedData(updatedState);
     }
-  };
-
-  const handleBack = () => {
-    setConfirmationModal(true);
   };
 
   useEffect(() => {

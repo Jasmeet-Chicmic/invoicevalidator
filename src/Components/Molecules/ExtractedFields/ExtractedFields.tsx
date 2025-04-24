@@ -46,12 +46,31 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
   );
   const [onApprove] = useOnApproveMutation();
 
-  const extractOldValue = (
-    field: DynamicField
-  ): string | null | DynamicField | undefined => {
-    return typeof field === 'object' && field !== null && 'value' in field
-      ? field.value
-      : undefined;
+  // const extractOldValue = (
+  //   field: DynamicField
+  // ): string | null | DynamicField | undefined => {
+  //   return typeof field === 'object' && field !== null && 'value' in field
+  //     ? field.value
+  //     : undefined;
+  // };
+  const extractFieldValues = (field: unknown): FieldValue | undefined => {
+    if (
+      typeof field === 'object' &&
+      field !== null &&
+      'value' in field &&
+      'confidenceScore' in field &&
+      'approved' in field
+    ) {
+      const casted = field as FieldValue;
+
+      return {
+        value: casted.value,
+        confidenceScore: casted.confidenceScore,
+        approved: casted.approved,
+      };
+    }
+
+    return undefined;
   };
 
   const handleArrayFieldChange = (
@@ -74,19 +93,26 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
 
       const targetItem = arrayItems[index];
       const prevItem = prevArrayItems?.[index];
-      const oldValue = extractOldValue(prevItem?.[fieldKey] as DynamicField);
+      const oldValues = extractFieldValues(
+        prevItem?.[fieldKey] as DynamicField
+      );
+      const oldValue = oldValues?.value;
       const fieldObj = targetItem[fieldKey] as FieldValue;
-      if (newValue !== oldValue) {
-        setIsSubmitDisable(false);
+      if (oldValues?.approved) {
+        setIsSubmitDisable(newValue === oldValue);
+      }
+      let approve = false;
+      if (oldValues?.approved) {
+        approve = newValue === oldValue;
       } else {
-        setIsSubmitDisable(true);
+        approve = false;
       }
       const updatedItem: DynamicFieldArrayItem = {
         ...targetItem,
         [fieldKey]: {
           ...fieldObj,
           value: newValue,
-          approved: newValue === oldValue,
+          approved: approve,
         },
       };
 
@@ -112,17 +138,24 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
     const oldField = (oldStateRef.current?.[sectionKey] as ExtractedData)?.[
       fieldKey
     ];
-    const oldValue = extractOldValue(oldField);
-
+    const oldValues = extractFieldValues(oldField);
+    const oldValue = oldValues?.value;
     setData((prevData) => {
       if (!prevData) return prevData;
 
       const currentSection = prevData[sectionKey] as DynamicField;
-      const currentField = (currentSection as ExtractedData)?.[fieldKey];
-      if (newValue !== oldValue) {
-        setIsSubmitDisable(false);
+      const currentField = (currentSection as ExtractedData)?.[
+        fieldKey
+      ] as FieldValue;
+      if (oldValues?.approved) {
+        setIsSubmitDisable(newValue === oldValue);
+      }
+
+      let approve = false;
+      if (oldValues?.approved) {
+        approve = newValue === oldValue;
       } else {
-        setIsSubmitDisable(true);
+        approve = false;
       }
       const updatedState = {
         ...prevData,
@@ -131,7 +164,7 @@ const ExtractedFields: React.FC<ExtractedFieldsProps> = ({
           [fieldKey]: {
             ...currentField,
             value: newValue,
-            approved: newValue === oldValue,
+            approved: approve,
           },
         } as DynamicField,
       };

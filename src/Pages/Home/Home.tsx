@@ -186,6 +186,9 @@ function Home() {
   const onCloseModal = () => {
     setConfirmationModal(false);
   };
+  const handleBack = () => {
+    setConfirmationModal(true);
+  };
   const refetchExtractedData = () => {
     if (
       fileDataRef.current &&
@@ -240,7 +243,7 @@ function Home() {
           onCloseModal={onCloseModal}
           onConfirmModal={onConfirmModal}
           confirmModal={confirmationModal}
-          setConfirmationModal={setConfirmationModal}
+          handleBack={handleBack}
           isSubmitDisable={isSubmitDisable}
           setIsSubmitDisable={setIsSubmitDisable}
           onRetry={onRetryCallback}

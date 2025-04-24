@@ -100,6 +100,9 @@ const EditPage = () => {
   const onConfirmModal = () => {
     handleDiscard();
   };
+  const handleBack = () => {
+    navigate(ROUTES.LISTING);
+  };
 
   return (
     <PreviewPageTemplate
@@ -118,7 +121,7 @@ const EditPage = () => {
       onCloseModal={onCloseModal}
       onConfirmModal={onConfirmModal}
       confirmModal={confirmationModal}
-      setConfirmationModal={setConfirmationModal}
+      handleBack={handleBack}
       isSubmitDisable={isSubmitDisable}
       setIsSubmitDisable={setIsSubmitDisable}
       setIsApproved={setIsApproved}
