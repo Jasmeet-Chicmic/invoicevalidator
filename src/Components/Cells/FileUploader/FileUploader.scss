@@ -1,28 +1,54 @@
+@import "../../../Assets/SCSS/main";
+
+.loader-box{
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: $white-color;
+    font-size: 18px;
+    font-weight: $font-regular;
+    margin: 0px;
+  }
+}
 .file-uploader {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 400px;
-    margin: auto;
+    // max-width: 500px;
+    width: 500px;
+    margin: 0 auto;
+
+    @media screen and (max-width: 768px) {
+      max-width: 100%;
+      width: 85%;
+      margin: 0 auto;
+    }
   
     .dropzone {
-      border: 2px dashed #aaa;
-      padding: 2rem;
+      width: 100%;
+      border: 1px dashed $white-color;
+      padding: 3rem 2rem;
       border-radius: 12px;
       text-align: center;
       cursor: pointer;
-      background: #f9f9f9;
+      background: transparent;
       transition: 0.2s;
   
       &:hover {
-        background-color: #f0f0f0;
-        border-color: #666;
+        background-color: $blue-color-800;
+        border-color: $white-color;
       }
   
       p {
         font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-        color: #333;
+        margin-top: 0.5rem;
+        color: $white-color;
+        font-size: 18px;
+        font-weight: $font-regular;
+        
+        @media screen and (max-width:768px) {
+          font-size: 14px;
+        }
       }
   
       span {
@@ -78,3 +104,14 @@
     }
   }
   
+
+.fileupload-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}

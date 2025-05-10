@@ -21,6 +21,9 @@ module.exports = {
   plugins: ['react', '@typescript-eslint', 'prettier'],
   ignorePatterns: ['*.config*.ts', '*.d*.ts'],
   rules: {
+    'default-case': 'off',
+    'no-param-reassign': ['off'],
+    '@typescript-eslint/no-unused-vars': ['off'],
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/accessible-emoji': 'off',
@@ -40,5 +43,9 @@ module.exports = {
     'no-restricted-exports': ['off'],
     'import/no-extraneous-dependencies': ['off'],
     'react/require-default-props': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'import/prefer-default-export': 'off',
+    'react/button-has-type': 'off',
   },
 };

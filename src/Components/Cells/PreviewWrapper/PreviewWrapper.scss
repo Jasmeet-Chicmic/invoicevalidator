@@ -1,36 +1,355 @@
+@import "../../../Assets/SCSS/main";
+
+
+$section-gapping: 22px 30px;
+
 .two-pane-wrapper {
-    .back-btn {
-      margin-bottom: 1rem;
-      background-color: #eee;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      border-radius: 4px;
+  .back-btn {
+    // background-color: $white-color;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .panes {
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+
+    @media screen and (max-width:1024px) {
+      flex-direction: column;
     }
-  
-    .panes {
+
+    .left-pane {
+      flex: 1.5;
+      flex-direction: column;
+      padding: 0rem 0rem;
+      border-radius: 0px;
       display: flex;
-      gap: 2rem;
-  
-      .left-pane {
-        flex: 1.5;
-        background: #f8f8f8;
-        padding: 1rem;
-      }
-  
-      .right-pane {
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      position: relative;
+
+      @media screen and (min-width:1024.98px) and (max-width: 1300.98px) {
+        // width: 50%;
         flex: 1;
-        background: #fff;
-        padding: 1rem;
-        border-left: 1px solid #ddd;
-  
-        input {
-          display: block;
-          width: 100%;
-          margin-bottom: 10px;
-          padding: 0.5rem;
+      }
+
+      @media screen and (max-width:1024px) {
+        width: 100%;
+        flex: 0;
+        padding-block: 50px;
+        // flex: 0.7;
+      }
+
+      .back-btn {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        font-family: $font-ubuntu;
+        padding: 9px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        color: $white-color;
+        font-weight: $font-medium;
+        background: $black-color-700;
+
+        @media screen and (max-width:1024px) {
+          top: 10px;
+          left: 10px;
+          padding: 5px 12px;
+          font-size: 14px;
+        }
+      }
+
+      .file-previewbx {
+        width: 495px;
+        height: 700px;
+        background: rgba($blue-color-700, 1);
+        border-radius: 10px;
+        box-shadow: $shadow2;
+
+        @media screen and (max-width:768px) {
+          width: 70%;
+          height: auto;
+        }
+
+        .invoice-preview {
+          margin: 10px;
+          background: $white-color;
+          border-radius: 5px;
+          height: calc(100% - 20px);
+          overflow: hidden;
+
+          img {
+            height: 100%;
+            max-height: unset !important;
+          }
+        }
+
+      }
+
+      .bottom-btn {
+        margin-top: 20px;
+
+        .draft-save-btn {
+          background: $black-color;
+          align-items: center;
+          display: flex;
+
+          span {
+            line-height: initial;
+          }
         }
       }
     }
+
+    .right-pane {
+      flex: 1;
+      max-width: 472px;
+      background: $white-color;
+      height: calc(100vh - 78px);
+      position: relative;
+      box-shadow: -4px 0px 10px rgb(0 0 0 / 1%);
+
+      @media screen and (min-width:1024.98px) {
+        // width: 50%;
+        flex: 1;
+      }
+
+      @media screen and (min-width:1301.98px) {
+        width: 50%;
+        max-width: unset;
+      }
+
+      @media screen and (min-width:1025px) and (max-width:1300.98px) {
+        // width: 50%;
+        // max-width: unset;
+      }
+
+      @media screen and (max-width:1024.98px) {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .extracted-filedsbx {
+        height: calc(100% - 142px);
+        overflow: auto;
+        margin-top: 71px;
+        padding: 0px 0 0px 0;
+
+        .field-wrapper {
+          background: transparent;
+          margin: 0px;
+
+          &__title {
+            background: none;
+            margin: 0px;
+            font-size: 16px;
+            font-weight: $font-medium;
+            padding: 16px 22px;
+            background: $grey-color-300;
+            border-top: 1px solid $grey-color-400;
+            border-bottom: 1px solid $grey-color-400;
+            margin-bottom: 15px;
+
+            @media screen and (min-width:320px) and (max-width:640px) {
+              padding-inline: 20px;
+            }
+          }
+
+          &__content {
+            padding: 11px 30px;
+            display: grid;
+            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+
+            @media screen and (min-width:320px) and (max-width:680px) {
+              padding: 11px 20px;
+              grid-template-columns: 1fr;
+            }
+          }
+        }
+
+      }
+
+
+      .loading-text {
+        position: absolute;
+        margin: auto;
+        left: 0px;
+        right: 0px;
+        text-align: center;
+        align-items: center;
+        height: 28px;
+        top: 0px;
+        bottom: 0px;
+      }
+
+      .fields-top-section {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        padding: $section-gapping;
+        background: $white-color;
+        border-bottom: 1px solid $grey-color-300;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        z-index: 1;
+        align-items: center;
+
+        @media screen and (min-width:320px) {
+          padding: 22px 20px;
+        }
+
+        h2 {
+          font-size: 22px;
+          font-weight: $font-medium;
+          color: $black-color-900;
+          margin: 0px;
+
+          @media screen and (min-width:320px) and (max-width:640px) {
+            font-size: 16px;
+          }
+        }
+
+
+        .approve-btn {
+          color: $white-color;
+          gap: 10px;
+          display: flex;
+          background: $green-color-500;
+
+          span {
+            img {
+              width: 17px;
+
+              @media screen and (min-width:320px) and (max-width:640px) {
+                width: 14px;
+              }
+            }
+          }
+
+          @media screen and (min-width:320px) and (max-width:640px) {
+            font-size: 12px;
+          }
+
+        }
+      }
+
+      .fields-bottom-section {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding: 16px 30px;
+        background: $white-color;
+        border-top: 1px solid $grey-color-300;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1;
+
+        @media screen and (min-width:320px) and (max-width:640px) {
+          padding: 20px 20px;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        h3 {
+          font-size: 14px;
+          font-weight: $font-bold;
+          color: $black-color;
+          display: inline-flex;
+          margin-bottom: 0px;
+
+          span {
+            font-weight: $font-medium;
+            margin-left: 5px;
+
+            &.Approved {
+              color: $green-color-1000;
+            }
+
+            &.Pending {
+              color: $yellow-color-900;
+            }
+          }
+
+        }
+
+        .draft-save-btn {
+          background: $blue-color-900;
+          color: $white-color;
+          border-radius: 8px;
+          font-size: 16px;
+          padding: 8px 16px;
+          font-weight: $font-medium;
+          display: flex;
+          align-items: center;
+
+          span {
+            display: inline;
+            margin-right: 8px;
+            line-height: initial;
+          }
+
+          &:hover {
+            background: $blue-color-800;
+          }
+
+          &:disabled {
+            background: rgba($blue-color-900, 0.3);
+
+            &:hover {
+              background: rgba($blue-color-900, 0.3);
+            }
+          }
+        }
+
+      }
+
+    }
   }
-  
+}
+
+.invoice_preview {
+  height: 100%;
+
+  .two-pane-wrapper,
+  .previewbx,
+  .paneWrapper {
+    height: 100%;
+  }
+
+}
+
+.fields-data {
+  &:has(.text-loader) {
+    min-height: 300px;
+  }
+}
+
+.two-pane-wrapper .panes .right-pane .extracted-filedsbx {
+  .field-wrapper__content {
+    &:has(.stepForm) {
+      grid-template-columns: 1fr;
+      margin-bottom: 15px;
+    }
+
+    .stepForm {
+      background: $white-color;
+      border: 1px solid $grey-color-400;
+      border-radius: 10px 10px;
+
+      .field-wrapper__title {
+        border-radius: 10px 10px 0 0;
+        background: $grey-color-200;
+      }
+    }
+  }
+}

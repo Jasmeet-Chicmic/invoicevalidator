@@ -1,0 +1,766 @@
+@import "../../../Assets/SCSS/main";
+
+
+.invoice-list__filters {
+  display: flex;
+  padding: 4px 5px;
+  border-radius: 5px;
+  margin-left: auto;
+  background: $white-color;
+  border: 1px solid $grey-color-300;
+  gap: 5px;
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width:768px) {
+    margin-left: 0px;
+  }
+
+  @media screen and (min-width: 769px) and (max-width:1024px) {
+    margin-left: 0px;
+  }
+
+  .filter-btn {}
+}
+
+.download-btns {
+  display: flex;
+  gap: 10px;
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width:768px) {
+    margin: 0px;
+  }
+
+  @media screen and (max-width:340px) {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-primary {
+    background: $blue-color;
+    color: $white-color;
+    padding: 7px 20px;
+    font-size: 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    &.deletebtntop {
+      background: $red-color-800;
+      border: none;
+
+      &:disabled {
+        background: rgba($red-color-800, 0.3);
+
+        &:hover {
+          background: rgba($red-color-800, 0.3);
+          border: none;
+        }
+      }
+
+
+      &:hover {
+        background: rgba($red-color-800, 0.8);
+        border: none;
+      }
+    }
+
+    &.downloadjson {
+      background: $blue-color;
+      border: none;
+
+      &:disabled {
+        background: rgba($blue-color, 0.3);
+
+        &:hover {
+          background: rgba($blue-color, 0.3);
+          border: none;
+        }
+      }
+
+
+      &:hover {
+        background: rgba($blue-color, 0.8);
+        border: none;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      width: 100%;
+      flex: 1;
+    }
+
+    @media screen and (max-width:768px) {
+      padding: 7px 10px;
+    }
+
+    .btn-icon {
+      width: 16px;
+      display: inline-flex;
+
+      img {
+        filter: brightness(0%) contrast(100) invert(1);
+        max-width: 100%;
+      }
+    }
+  }
+
+  .btn-danger {
+    background: $red-color-800;
+    color: $white-color;
+    padding: 7px 20px;
+    font-size: 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    @media screen and (max-width: 480px) {
+      width: 100%;
+      flex: 1;
+    }
+
+    @media screen and (max-width:768px) {
+      padding: 7px 10px;
+    }
+
+    .btn-icon {
+      width: 16px;
+      display: inline-flex;
+
+      img {
+        filter: brightness(0%) contrast(100) invert(1);
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+
+button {
+
+  &.filter-btn {
+    background: transparent;
+    font-size: 12px;
+    font-weight: $font-regular;
+    color: $grey-color-500;
+
+    @media screen and (max-width:768px) {
+      flex: 1;
+    }
+
+    &.active {
+      background-color: $blue-color;
+    }
+  }
+}
+
+.filter-btn {
+  cursor: pointer;
+  font-weight: 500;
+  background: $none;
+  padding: 2px 8px;
+  border-radius: 4px;
+
+  &.active {
+    background: rgba($blue-color-900, 0.1) !important;
+    color: $blue-color-900;
+    border-color: rgba($blue-color-900, 0.1);
+
+    &.Approved {
+      background: rgba($green-color-500, 0.1) !important;
+      color: $green-color-500;
+      border-color: rgba($green-color-500, 0.1);
+
+      &:hover {
+        background: rgba($green-color-500, 0.2);
+        color: $green-color-500;
+        border-color: rgba($green-color-500, 0.3);
+      }
+    }
+
+    &.Pending {
+      background: rgba($yellow-color-400, 0.1) !important;
+      color: $yellow-color-500;
+      border-color: rgba($yellow-color-400, 0.1);
+
+      &:hover {
+        background: rgba($yellow-color-400, 0.2);
+        color: $yellow-color-500;
+        border-color: rgba($yellow-color-400, 0.1);
+      }
+    }
+
+  }
+
+
+  &:hover {
+    background: rgba($blue-color-900, 0.1);
+    color: $blue-color-900;
+    border-color: rgba($blue-color-900, 0.1);
+
+    &:nth-child(2) {
+      background: rgba($yellow-color-400, 0.1);
+      color: $yellow-color-500;
+      border-color: rgba($yellow-color-400, 0.1);
+    }
+
+    &:nth-child(3) {
+      background: rgba($green-color-500, 0.1);
+      color: $green-color-500;
+      border-color: rgba($green-color-500, 0.1);
+    }
+
+    &.All {
+      background: rgba($blue-color-900, 0.1);
+      color: $blue-color-900;
+      border-color: rgba($blue-color-900, 0.1);
+    }
+
+    &.Approved {
+      background: rgba($green-color-500, 0.1);
+      color: $white-color;
+      border-color: rgba($green-color-500, 0.1);
+    }
+
+    &.Pending {
+      background: rgba($yellow-color-400, 0.1);
+      color: $white-color;
+      border-color: rgba($yellow-color-400, 0.1);
+    }
+  }
+}
+
+.invoice-list {
+  width: 100%;
+  padding: 30px;
+  border-radius: 1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    @media screen and (max-width:768px) {
+      flex-direction: column;
+      align-content: center;
+    }
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: $font-medium;
+    color: $black-color-700;
+    margin: 0;
+  }
+
+  &__add-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    &:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+  }
+
+  &__table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid $grey-color-300;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 0.6rem 1rem;
+      text-align: left;
+      font-size: 13px;
+      border-bottom: 1px solid $grey-color-300;
+    }
+
+    th {
+      background-color: $blue-color;
+      padding: 1rem 1rem;
+      color: $white-color;
+      font-weight: 600;
+      font-size: 16px;
+      font-weight: $font-bold;
+      white-space: nowrap;
+
+      &:nth-child(1) {
+        min-width: 50px;
+      }
+
+      &:nth-child(2) {
+        min-width: 100px;
+      }
+
+      &:nth-child(3) {
+        min-width: 150px;
+      }
+
+      &:nth-child(4) {
+        min-width: 150px;
+      }
+
+      &:nth-child(5) {
+        min-width: 150px;
+      }
+
+      &:nth-child(6) {
+        min-width: 130px;
+      }
+
+      &:nth-child(7) {
+        min-width: 200px;
+      }
+
+      &:nth-child(8) {
+        min-width: 200px;
+      }
+    }
+
+    tbody {
+      tr {
+        transition: background-color 0.2s ease;
+
+        &:nth-child(even) {
+          td {
+            background-color: $grey-color-200;
+            border-bottom: 1px solid $grey-color-300;
+          }
+        }
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        &:last-child {
+          td {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    // background-color: $grey-color-300;
+    border: 1px solid $grey-color-300;
+    background: rgba($white-color, 1);
+
+    &:hover {
+      background-color: $grey-color-400;
+    }
+
+    &--edit,
+    &--delete,
+    &--export,
+    &--download {
+      transform: translateY(-1px);
+      padding: 0;
+      width: 32px;
+      height: 32px;
+
+      &:hover {
+        img {
+          filter: invert(1) brightness(100);
+        }
+      }
+    }
+
+    &--edit {
+      &:hover {
+        background-color: rgba($blue-color-900, 1);
+        border-color: rgba($blue-color-900, 1);
+      }
+    }
+
+    &--delete {
+      &:hover {
+        background-color: rgba($red-color-900, 1);
+        border-color: rgba($red-color-900, 1);
+      }
+    }
+
+    &--export {
+      &:hover {
+        background-color: rgba($blue-color-900, 1);
+        border-color: rgba($blue-color-900, 1);
+      }
+    }
+
+    &--download {
+      &:hover {
+        background-color: rgba($blue-color-900, 1);
+        border-color: rgba($blue-color-900, 1);
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.status-approved {
+    background-color: rgba($green-color-600, 0.1);
+    color: $green-color-500;
+    border: 1px solid rgba($green-color-600, 0.1);
+  }
+
+  &.status-pending {
+    background-color: rgba($yellow-color-400, 0.1);
+    color: $yellow-color-500;
+    border: 1px solid rgba($yellow-color-400, 0.1);
+  }
+
+  &.status-rejected {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: rgba($red-color-800, 1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .invoice-list {
+    padding: 1rem;
+
+    &__header {
+      align-items: center;
+      gap: 1rem;
+    }
+
+    &__table {
+
+      th,
+      td {
+        padding: 0.75rem 0.5rem;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 0rem;
+  list-style: none;
+  gap: 0.5rem;
+
+  li {
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    &.active {
+      a {
+        background-color: var(--primary-color);
+        color: $white-color !important;
+        border-color: var(--primary-color);
+
+        &:hover {
+          color: $white-color !important;
+        }
+      }
+    }
+
+    a {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      line-height: 24px;
+      display: block;
+
+      @media screen and (max-width:768px) {
+        padding: 0.2rem 0.8rem;
+      }
+    }
+
+    &:hover:not(.active) {
+      a {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+}
+
+.pagination {
+  background: none;
+  margin-bottom: 0px;
+  margin-top: 15px;
+
+  li {
+    background: none;
+    color: $grey-color;
+
+    a {
+      color: $grey-color;
+
+      &[aria-disabled="true"] {
+        color: $grey-color-400;
+      }
+    }
+
+    &.active {
+      background: $blue-color;
+
+      a {
+        color: $white-color;
+      }
+    }
+  }
+}
+
+
+.hdrright-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    gap: 10px;
+  }
+
+  @media screen and (min-width: 769px) and (max-width:1024px) {
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .search-bx {
+    position: relative;
+    display: flex;
+    gap: 10px;
+
+    @media screen and (max-width: 480px) {
+      width: 100%;
+    }
+
+    @media screen and (max-width: 768px) {
+      margin-bottom: 0px;
+    }
+
+    .search-field {
+      border: 1px solid $grey-color-300;
+      color: $black-color;
+      background: white;
+      border-radius: 5px;
+      padding: 5px 20px 5px 10px;
+      height: 32px;
+      font-size: 12px;
+      flex: 0.7;
+      display: flex;
+      margin-right: 0px;
+      width: 70%;
+
+      &:focus {
+        border: 1px solid rgba($black-color, 0.2) !important;
+        outline: none;
+      }
+    }
+
+    .saerch-btn {
+      position: absolute;
+      z-index: 1;
+      border-radius: 5px;
+      background: $blue-color;
+      color: $white-color;
+      font-size: 12px;
+      height: 32px;
+      right: 0px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30%;
+    }
+  }
+}
+
+.listing-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  gap: 15px;
+
+  @media screen and (min-width:320px) and (max-width:640px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pagination {
+    margin: 0px;
+  }
+}
+
+.page-show {
+  display: flex;
+  align-items: center;
+  // padding-top: 30px;
+
+  span {
+    font-size: 14px;
+    font-weight: $font-regular;
+    color: $grey-color;
+
+    strong {
+      color: $black-color;
+      font-weight: $font-regular;
+    }
+  }
+}
+
+.no-text-outer {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 0;
+
+  .no-text {
+    font-size: 20px;
+    color: $black-color;
+    font-weight: $font-medium;
+  }
+}
+
+.invoice-list__table {
+  tr {
+    &:has(.no-text-outer) {
+      &:hover {
+        background: none;
+      }
+    }
+  }
+}
+
+
+.fields {
+  min-height: 280px;
+}
+
+
+.invoice-list__table {
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    position: relative;
+
+    .checkbox-invoice {
+      &.custom-checkbox {
+        background: rgba($white-color, 1);
+        display: block;
+        opacity: 1;
+        z-index: 10;
+        height: 16px;
+        width: 16px;
+        position: relative;
+        border-radius: 4px;
+        border: 1px solid rgba($grey-color-500, 0.3);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        input[type=checkbox] {
+          position: absolute;
+          z-index: 10;
+          opacity: 0;
+          top: 0px;
+          left: 0px;
+          cursor: pointer;
+        }
+
+        &:has(input:checked) {
+          &::before {
+            display: block;
+          }
+        }
+
+        &::before {
+          content: "";
+          height: 5px;
+          width: 9px;
+          position: absolute;
+          z-index: 10;
+          border-left: 2px solid rgba($blue-color-900, 1);
+          border-bottom: 2px solid rgba($blue-color-900, 1);
+          top: 4px;
+          left: 3px;
+          transform: rotate(-45deg);
+          display: none;
+        }
+
+      }
+    }
+
+  }
+}

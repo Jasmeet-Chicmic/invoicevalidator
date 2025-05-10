@@ -1,0 +1,9 @@
+
+.btn{
+    &-outline{
+        border: 1px solid currentColor;
+        color: $blue-color;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+}

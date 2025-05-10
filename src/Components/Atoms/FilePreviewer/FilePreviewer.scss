@@ -1,8 +1,93 @@
-.file-previewer-image{
+@import "../../../Assets/SCSS/main";
+
+.file-previewer-image {
     width: 100%;
     max-height: 400px;
-};
-.file-previewer-pdf{
+}
+
+;
+
+.file-previewer-pdf {
     width: 100%;
-    height: 400px;
+    height: 100%;
+}
+
+.file-previewbx {
+    position: relative;
+}
+
+.zoom-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+
+    .react-transform-component.transform-component-module_content__FBWxo {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.zoom-controls {
+    position: absolute;
+    margin: auto;
+    top: auto;
+    bottom: 20px;
+    align-items: center;
+    display: flex;
+    width: calc(100% - 20px);
+    justify-content: center;
+    gap: 10px;
+    z-index: 2;
+    // background: $white-color;
+    // backdrop-filter: blur(10px);
+
+    button {
+        background: $grey-color-300;
+        align-items: center;
+        justify-self: center;
+        display: flex;
+        font-size: 16px;
+        line-height: initial;
+
+        img {
+            height: 16px;
+            width: 16px;
+        }
+
+        &:disabled {
+            pointer-events: none;
+        }
+
+        &:hover {
+            background: $grey-color-400;
+            border: 1px solid rgba($grey-color-400, 0.5);
+        }
+
+        &.button-reset {
+            background: $black-color;
+            color: $white-color;
+
+            &:disabled {
+                background: rgba($black-color, 0.5);
+            }
+        }
+
+        &.button-zoomin {
+            background: rgba($blue-color-800, 1);
+            color: $white-color;
+
+            &:disabled {
+                background: rgba($blue-color-800, 0.5);
+            }
+        }
+
+        &.button-zoomout {
+            background: rgba($red-color-800, 1);
+            color: $white-color;
+
+            &:disabled {
+                background: rgba($red-color-800, 0.5);
+            }
+        }
+
+    }
 }

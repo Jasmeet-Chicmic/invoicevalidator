@@ -1,0 +1,152 @@
+@import "../../../Assets/SCSS/main";
+
+.extracted-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 26px;
+  position: relative;
+
+  @media screen and (min-width:320px) and (max-width:640px) {
+    margin-bottom: 10px;
+  }
+
+  &__title {
+    font-size: 12px;
+    font-weight: $font-regular;
+    margin-bottom: 0px;
+    text-transform: capitalize;
+    color: $black-color-700;
+    position: absolute;
+    left: 10px;
+    top: -12px;
+    z-index: 10;
+    background: $white-color;
+    padding: 3px 6px
+  }
+
+  &__input {
+    padding: 8px 45px 8px 15px;
+    font-size: 14px;
+    border: 1px solid $grey-color-300;
+    border-radius: 8px;
+    // border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+    height: 46px;
+    color: $black-color !important;
+
+    &::placeholder {
+      color: rgba($grey-color-500, 0.5) !important;
+      // color: red !important;
+    }
+
+    &.score-green {
+      border-color: $green-color-900 !important;
+
+      &:focus {
+        border-color: rgba($green-color-900, 0.9) !important;
+      }
+    }
+
+    &.score-yellow {
+      border-color: $yellow-color-600 !important;
+
+      &:focus {
+        border-color: rgba($yellow-color-600, 0.9) !important;
+      }
+    }
+
+    &.score-red {
+      border-color: $red-color-900 !important;
+
+      &:focus {
+        border-color: rgba($blue-color-900, 0.9) !important;
+      }
+    }
+    &.score-null {
+      border-color: $black-color-900 !important;
+
+      &:focus {
+        border-color: rgba($blue-color-900, 0.9) !important;
+      }
+    }
+
+    &:focus {
+      // border-color: $blue-color-900;
+    }
+  }
+
+  &__approve-btn {
+    background: $green-color-500;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    position: absolute;
+    top: 13px;
+    right: 15px;
+    bottom: auto;
+    align-items: center;
+    justify-content: center;
+    font-size: 0px;
+    border-radius: 3px;
+
+    &:hover {
+      border: none;
+    }
+
+    &:disabled {
+      background: rgba($green-color-900, 0.2);
+      pointer-events: none;
+    }
+  }
+}
+
+.form-group {
+  position: relative;
+
+  .scoreField {
+    font-size: 12px;
+    font-weight: $font-regular;
+    color: $grey-color-500;
+    position: absolute;
+    right: 10px;
+    top: 48px;
+    bottom: auto;
+    padding: 0px;
+    border-radius: 0px;
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.gap-2 {
+  gap: 20px;
+}
+
+.buttonWrap {
+  background: #e6e6e6;
+}
+
+
+.form-group {
+  &:has(.score-green) {
+    .scoreField {
+      color: $green-color-1000 !important;
+    }
+  }
+
+  &:has(.score-red) {
+    .scoreField {
+      color: $red-color-900 !important;
+    }
+  }
+
+  &:has(.score-yellow) {
+    .scoreField {
+      color: $yellow-color-900 !important;
+    }
+  }
+}
